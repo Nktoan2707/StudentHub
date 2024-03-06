@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/widgets/components/reusable_primary_button.dart';
+import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   static const String pageId = "/HomePage";
@@ -15,22 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          'StudentHub',
-          style: const TextStyle(fontSize: 25, color: Colors.black),
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.grey,
-        iconTheme: const IconThemeData(color: Colors.black),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.account_circle_rounded),
-          ),
-        ],
-      ),
+      appBar: TopNavigationBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -148,3 +134,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
