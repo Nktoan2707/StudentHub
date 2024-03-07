@@ -20,13 +20,15 @@ class PrimaryText extends StatelessWidget {
   const PrimaryText({
     super.key,
     required this.title,
+    this.textAlign
   });
 
   final String title;
-
+  final TextAlign? textAlign;
   @override
   Widget build(BuildContext context) {
     return Text(
+      textAlign: textAlign,
       title,
       style: const TextStyle(
         fontWeight: FontWeight.normal,

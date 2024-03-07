@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
@@ -13,10 +11,10 @@ class ProfileInputPage extends StatefulWidget {
   const ProfileInputPage({super.key});
 
   @override
-  State<ProfileInputPage> createState() => _HomePageState();
+  State<ProfileInputPage> createState() => _ProfileInputState();
 }
 
-class _HomePageState extends State<ProfileInputPage> {
+class _ProfileInputState extends State<ProfileInputPage> {
   EmployeeQuantityType? _employeeQuantityType = EmployeeQuantityType.onlyMe;
 
   TextEditingController companyTextController = TextEditingController();
