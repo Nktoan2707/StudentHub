@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/features/authentication/pages/home_page.dart';
 import 'package:student_hub/features/authentication/pages/login_page.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
+import 'package:student_hub/features/dashboard/pages/dashboard_main_page.dart';
 import 'package:student_hub/features/profile/pages/profileInput_page.dart';
+import 'package:student_hub/features/profile/pages/welcome_page.dart';
 import 'package:student_hub/router/app_router.dart';
 
 
@@ -39,7 +41,7 @@ class _AppViewState extends State<AppView> {
       ),
       // initialRoute: HomePage.pageId,
       // onGenerateRoute: _appRouter.onGenerateRoute,
-      home: const ProfileInputPage(),
+      home: const DashboardMainPage(),
     );
   }
 

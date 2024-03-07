@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
@@ -12,6 +13,8 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  var _currentIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +51,13 @@ class _WelcomePageState extends State<WelcomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkCustomButton(
-                      title: 'Get started!', onTap: getStartedButtonDidTap),
+                      title: 'Get started!', onTap: getStartedButtonDidTap,),
                 ],
               ),
               const SizedBox(
                 height: 50,
               ),
+
             ],
           ),
         ),
@@ -63,3 +67,4 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void getStartedButtonDidTap() {}
 }
+

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 
 class InkCustomButton extends StatelessWidget {
-  const InkCustomButton({Key? key, this.onTap, required this.title})
+  const InkCustomButton({Key? key, this.onTap, required this.title, this.width, this.height})
       : super(key: key);
 
   final Function()? onTap;
   final String title;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class InkCustomButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 40,
-          width: MediaQuery.of(context).size.width / 2,
+          height: height == 0 ? 40 : height,
+          width: width == 0 ? (MediaQuery.of(context).size.width / 2) : width,
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
