@@ -5,16 +5,16 @@ import 'package:student_hub/widgets/components/ui_extension.dart';
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
-class ProfileInputPage extends StatefulWidget {
+class CompanyNotHaveProfileInputPage extends StatefulWidget {
   static const String pageId = "/ProfileInput";
 
-  const ProfileInputPage({super.key});
+  const CompanyNotHaveProfileInputPage({super.key});
 
   @override
-  State<ProfileInputPage> createState() => _ProfileInputState();
+  State<CompanyNotHaveProfileInputPage> createState() => _CompanyNotHaveProfileInputState();
 }
 
-class _ProfileInputState extends State<ProfileInputPage> {
+class _CompanyNotHaveProfileInputState extends State<CompanyNotHaveProfileInputPage> {
   EmployeeQuantityType? _employeeQuantityType = EmployeeQuantityType.onlyMe;
 
   TextEditingController companyTextController = TextEditingController();
