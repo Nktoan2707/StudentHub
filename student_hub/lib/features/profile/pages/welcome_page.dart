@@ -36,7 +36,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 height: 40,
               ),
               Center(
-                child: Image.network('https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg'),
+                child: Image.network(
+                    'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg'),
               ),
               const SizedBox(
                 height: 20,
@@ -51,13 +52,14 @@ class _WelcomePageState extends State<WelcomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkCustomButton(
-                      title: 'Get started!', onTap: getStartedButtonDidTap,),
+                    title: 'Get started!',
+                    onTap: getStartedButtonDidTap,
+                  ),
                 ],
               ),
               const SizedBox(
                 height: 50,
               ),
-
             ],
           ),
         ),
@@ -67,4 +69,3 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void getStartedButtonDidTap() {}
 }
-

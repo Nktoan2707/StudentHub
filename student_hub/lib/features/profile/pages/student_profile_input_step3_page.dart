@@ -42,12 +42,18 @@ class StudentProfileInputStep3State
                 height: 20,
               ),
               const PrimaryText(title: 'Resume/CV (*)'),
-              FilePickerWidget(onSelectedFileWithFilePath:(filePath) => didResumeSelectedFileWithFilePath(filePath),),
+              FilePickerWidget(
+                onSelectedFileWithFilePath: (filePath) =>
+                    didResumeSelectedFileWithFilePath(filePath),
+              ),
               const SizedBox(
                 height: 30,
               ),
               const PrimaryText(title: 'Transcript (*)'),
-              FilePickerWidget(onSelectedFileWithFilePath: (filePath) => didTranscriptSelectedFileWithFilePath(filePath),),
+              FilePickerWidget(
+                onSelectedFileWithFilePath: (filePath) =>
+                    didTranscriptSelectedFileWithFilePath(filePath),
+              ),
               const SizedBox(
                 height: 30,
               ),
@@ -56,7 +62,10 @@ class StudentProfileInputStep3State
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   InkCustomButton(
-                      title: 'Continue', onTap: continueButtonDidTap),
+                    padding: 5,
+                    title: 'Continue',
+                    onTap: continueButtonDidTap,
+                  )
                 ],
               ),
             ],
@@ -66,7 +75,26 @@ class StudentProfileInputStep3State
     );
   }
 
-  void continueButtonDidTap() {}
+  void continueButtonDidTap() {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: HeaderText(title: 'Welcome'),
+        contentPadding: EdgeInsets.all(20.0),
+        children: [
+          const Text(
+              textAlign: TextAlign.center,
+              'Welcome to StudentHub, a marketplace to connect Student <> Real-world projects'),
+          SizedBox(height: 10),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Next'))
+        ],
+      ),
+    );
+  }
 
   void didResumeSelectedFileWithFilePath(String filePath) {
     print(filePath);
@@ -76,5 +104,3 @@ class StudentProfileInputStep3State
     print(filePath);
   }
 }
-
-
