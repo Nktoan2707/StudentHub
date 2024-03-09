@@ -47,7 +47,7 @@ class _AppViewState extends State<AppView> {
       ),
       // initialRoute: HomePage.pageId,
       // onGenerateRoute: _appRouter.onGenerateRoute,
-      home: const StudentProfileInputStep3Page(),
+      home: const ProfileInputStep2(),
     );
   }
 

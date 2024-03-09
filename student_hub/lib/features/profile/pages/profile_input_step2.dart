@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+class Skillset {
+  final int id;
+  final String name;
+
+  Skillset({
+    required this.id,
+    required this.name,
+  });
+}
+
 const List<String> list = <String>['FullStack Engineer'];
 class ProfileInputStep2 extends StatefulWidget {
   const ProfileInputStep2({super.key});
@@ -12,6 +22,29 @@ class ProfileInputStep2 extends StatefulWidget {
 }
 
 class _ProfileInputStep2State extends State<ProfileInputStep2> {
+  static final List<Skillset> _skillset = [
+    Skillset(id: 1, name: "NodeJS"),
+    Skillset(id: 2, name: "Swift"),
+    Skillset(id: 3, name: "Objective C"),
+    Skillset(id: 4, name: "C/C++"),
+    Skillset(id: 5, name: "Java"),
+    Skillset(id: 6, name: "Python"),
+    Skillset(id: 7, name: "Golang"),
+    Skillset(id: 8, name: "React"),
+    Skillset(id: 9, name: "React Native"),
+    Skillset(id: 10, name: "Flutter"),
+    Skillset(id: 11, name: "MySQL"),
+    Skillset(id: 12, name: "SQLite"),
+    Skillset(id: 13, name: "PostgreSQL"),
+    Skillset(id: 14, name: "AWS")
+  ];
+
+  final _items = _skillset
+      .map((animal) => MultiSelectItem<Skillset>(animal, animal.name))
+      .toList();
+
+  List<Skillset> _selectedSkillset = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +106,44 @@ class _ProfileInputStep2State extends State<ProfileInputStep2> {
                     SizedBox(height: 5,),
                     Row(
                       children: [
-                      Multi_select_skillset(),
+                       SizedBox(
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(100, 21, 18, 18),
+                        width: 2,
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        MultiSelectBottomSheetField(
+                          initialChildSize: 0.4,
+                          listType: MultiSelectListType.CHIP,
+                          searchable: true,
+                          buttonText: const Text("List of selected Skillsets"),
+                          title: const Text("Skillset"),
+                          items: _items,
+                          onConfirm: (values) {
+                            _selectedSkillset = values.cast();
+                          },
+                          chipDisplay: MultiSelectChipDisplay(
+                            onTap: (value) {
+                              setState(() {
+                                _selectedSkillset.remove(value);
+                              });
+                            },
+                          ),
+                        ),
+                        _selectedSkillset == null || _selectedSkillset.isEmpty
+                            ? Container(
+                                padding: const EdgeInsets.all(10),
+                                )
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                ),
                       ],
                     ),
                   ]
