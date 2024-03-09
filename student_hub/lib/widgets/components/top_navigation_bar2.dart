@@ -9,9 +9,9 @@ class TopNavigationBar2 extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: Text(
+      title: const Text(
         'StudentHub',
-        style: const TextStyle(fontSize: 25, color: Colors.black),
+        style: TextStyle(fontSize: 25, color: Colors.black),
       ),
       centerTitle: false,
       backgroundColor: Colors.grey,
@@ -19,7 +19,7 @@ class TopNavigationBar2 extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.search),
+          icon: const Icon(Icons.search),
         ),
       ],
     );

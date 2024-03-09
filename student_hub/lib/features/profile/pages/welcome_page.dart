@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:student_hub/features/dashboard/pages/dashboard_main_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class WelcomePage extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+  static const String pageId = "/WelcomePage";
 
   const WelcomePage({super.key});
 
@@ -13,7 +13,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  var _currentIndex = 1;
+  final _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   InkCustomButton(
                     title: 'Get started!',
                     onTap: getStartedButtonDidTap,
+                    padding: 10,
                   ),
                 ],
               ),
@@ -67,5 +68,8 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  void getStartedButtonDidTap() {}
+  void getStartedButtonDidTap() {
+    Navigator.of(context).pushReplacementNamed(DashboardMainPage.pageId);
+
+  }
 }

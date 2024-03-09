@@ -1,12 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/profile/pages/welcome_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
 class CompanyNotHaveProfileInputPage extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+  static const String pageId = "/CompanyNotHaveProfileInputPage";
 
   const CompanyNotHaveProfileInputPage({super.key});
 
@@ -93,7 +94,7 @@ class _CompanyNotHaveProfileInputState extends State<CompanyNotHaveProfileInputP
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   InkCustomButton(
-                      title: 'Continue', onTap: continueButtonDidTap),
+                      title: 'Continue', onTap: continueButtonDidTap, padding: 10,),
                 ],
               ),
               const SizedBox(
@@ -107,6 +108,8 @@ class _CompanyNotHaveProfileInputState extends State<CompanyNotHaveProfileInputP
   }
 
   void continueButtonDidTap() {
+    Navigator.of(context).pushReplacementNamed(WelcomePage.pageId);
+
   }
   
   Column getEmployeeTypeRadioList() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 
 class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget{
   const TopNavigationBar({
@@ -9,17 +10,20 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: Text(
+      title: const Text(
         'StudentHub',
-        style: const TextStyle(fontSize: 25, color: Colors.black),
+        style: TextStyle(fontSize: 25, color: Colors.black),
       ),
       centerTitle: false,
       backgroundColor: Colors.grey,
       iconTheme: const IconThemeData(color: Colors.black),
       actions: [
         IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.account_circle_rounded),
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(SwitchAccountPage.pageId);
+
+          },
+          icon: const Icon(Icons.account_circle_rounded),
         ),
       ],
     );

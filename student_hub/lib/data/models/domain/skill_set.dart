@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 
-class Skillset {
+class SkillSet {
   final int id;
   final String name;
 
-  Skillset({
+  SkillSet({
     required this.id,
     required this.name,
   });

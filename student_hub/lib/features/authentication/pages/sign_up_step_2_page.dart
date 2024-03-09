@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class SignUpStep2Page extends StatefulWidget {
+  static const String pageId = "/SignUpStep2Page";
+
   const SignUpStep2Page({super.key});
 
   @override
@@ -12,43 +14,43 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            Center(
+            const Center(
               child: Text(
                 "Sign up as Company",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            _Fullname(),
-            SizedBox(
+            const _Fullname(),
+            const SizedBox(
               height: 10,
             ),
-            _WorkEmailAddress(),
-            SizedBox(
+            const _WorkEmailAddress(),
+            const SizedBox(
               height: 10,
             ),
-            _PassWordLimit(),
-            SizedBox(
+            const _PassWordLimit(),
+            const SizedBox(
               height: 10,
             ),
-            Row(
+            const Row(
               children: [
                 _CheckBox(),
-                const Text("Yes, I understand and agree to StudentHub")
+                Text("Yes, I understand and agree to StudentHub")
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Column(
@@ -79,7 +81,7 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
 }
 
 class _Fullname extends StatefulWidget {
-  const _Fullname({super.key});
+  const _Fullname();
 
   @override
   State<_Fullname> createState() => _FullnameState();
@@ -107,7 +109,7 @@ class _FullnameState extends State<_Fullname> {
 }
 
 class _WorkEmailAddress extends StatefulWidget {
-  const _WorkEmailAddress({super.key});
+  const _WorkEmailAddress();
 
   @override
   State<_WorkEmailAddress> createState() => _WorkEmailAddressState();
@@ -135,7 +137,7 @@ class _WorkEmailAddressState extends State<_WorkEmailAddress> {
 }
 
 class _PassWordLimit extends StatefulWidget {
-  const _PassWordLimit({super.key});
+  const _PassWordLimit();
 
   @override
   State<_PassWordLimit> createState() => _PassWordLimitState();
@@ -180,7 +182,7 @@ class _PassWordLimitState extends State<_PassWordLimit> {
 }
 
 class _CheckBox extends StatefulWidget {
-  const _CheckBox({super.key});
+  const _CheckBox();
 
   @override
   State<_CheckBox> createState() => _CheckBoxState();
@@ -228,8 +230,8 @@ class _CreateAccountButton extends StatelessWidget {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),

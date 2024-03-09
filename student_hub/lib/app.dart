@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/authentication/pages/home_page.dart';
-import 'package:student_hub/features/authentication/pages/login_page.dart';
-import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
-import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
-import 'package:student_hub/features/authentication/pages/switchacc_page.dart';
-import 'package:student_hub/features/profile/pages/profile_input_haveacc.dart';
-import 'package:student_hub/features/profile/pages/profile_input_step1.dart';
-import 'package:student_hub/features/profile/pages/profile_input_step2.dart';
-import 'package:student_hub/features/dashboard/pages/dashboard_main_page.dart';
-import 'package:student_hub/features/profile/pages/company_not_have_profile_input_page.dart';
-import 'package:student_hub/features/profile/pages/student_profile_input_step3_page.dart';
-import 'package:student_hub/features/profile/pages/welcome_page.dart';
+import 'package:student_hub/features/profile/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/router/app_router.dart';
 
 
@@ -45,9 +35,8 @@ class _AppViewState extends State<AppView> {
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      // initialRoute: HomePage.pageId,
-      // onGenerateRoute: _appRouter.onGenerateRoute,
-      home: const ProfileInputStep2(),
+      initialRoute: HomePage.pageId,
+      onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
 

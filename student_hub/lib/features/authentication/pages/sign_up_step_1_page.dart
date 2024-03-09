@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/authentication/pages/login_page.dart';
+import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class SignUpStep1Page extends StatefulWidget {
+  static const String pageId = "/SignUpStep1Page";
+
   const SignUpStep1Page({super.key});
 
   @override
@@ -12,22 +16,22 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            Center(
+            const Center(
               child: Text(
                 "Join as company or Student",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -38,27 +42,27 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
                   style: BorderStyle.solid,
                 ),
               ),
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    leading: Icon(Icons.account_box_rounded),
+                    leading: const Icon(Icons.account_box_rounded),
                     trailing: Checkbox(
-                      shape: CircleBorder(),
+                      shape: const CircleBorder(),
                       value: false,
                       onChanged: (value) {
 
                       },
                     ),
-                    visualDensity: VisualDensity(horizontal: -0, vertical: -4),
-                    contentPadding: EdgeInsets.only(left: 0, right: 0),
+                    visualDensity: const VisualDensity(horizontal: -0, vertical: -4),
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
                   ),
-                  Text("I am a company, find engineer for project")
+                  const Text("I am a company, find engineer for project")
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -69,27 +73,27 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
                   style: BorderStyle.solid,
                 ),
               ),
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    leading: Icon(Icons.account_box_rounded),
+                    leading: const Icon(Icons.account_box_rounded),
                     trailing: Checkbox(
-                      shape: CircleBorder(),
+                      shape: const CircleBorder(),
                       value: false,
                       onChanged: (value) {
 
                       },
                     ),
-                    visualDensity: VisualDensity(horizontal: -0, vertical: -4),
-                    contentPadding: EdgeInsets.only(left: 0, right: 0),
+                    visualDensity: const VisualDensity(horizontal: -0, vertical: -4),
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
                   ),
-                  Text("I am a student, find project to experience")
+                  const Text("I am a student, find project to experience")
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Column(
@@ -101,7 +105,7 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
                     const Text("Already have an account?"),
                     TextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, '/signup');
+                        Navigator.pushReplacementNamed(context, LoginPage.pageId);
                       },
                       child: const Text(
                         "Log in",
@@ -131,12 +135,14 @@ class _CreateAccountButton extends StatelessWidget {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {} : null,
+            onPressed: true ? () {
+              Navigator.of(context).pushReplacementNamed(SignUpStep2Page.pageId);
+            } : null,
             child: const Text('Create account'),
           );
   }

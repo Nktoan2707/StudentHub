@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String pageId = "/LoginPage";
+
   const LoginPage({super.key});
 
   @override
@@ -13,16 +15,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            Center(
+            const Center(
               child: Text(
                 "Login with StudentHub",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -42,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                     const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, '/signup');
+                        Navigator.pushReplacementNamed(context, SignUpStep1Page.pageId);
                       },
                       child: const Text(
                         "Signup",
@@ -134,8 +136,8 @@ class _LoginButton extends StatelessWidget {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size(200, 40),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size(200, 40),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),

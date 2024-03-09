@@ -7,7 +7,7 @@ class InkCustomButton extends StatelessWidget {
       required this.title,
       this.width,
       this.height,
-      this.padding})
+      this.padding = 0})
       : super(key: key);
 
   final Function()? onTap;

@@ -4,7 +4,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class DashboardMainPage extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+  static const String pageId = "/DashboardMainPage";
 
   const DashboardMainPage({super.key});
 

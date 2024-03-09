@@ -1,50 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-class ProfileHaveAccPage extends StatefulWidget {
-  const ProfileHaveAccPage({super.key});
+class CompanyAlreadyHaveProfileInputPage extends StatefulWidget {
+  static const String pageId = "/CompanyAlreadyHaveProfileInputPage";
+
+  const CompanyAlreadyHaveProfileInputPage({super.key});
 
   @override
-  State<ProfileHaveAccPage> createState() => _ProfileHaveAccPageState();
+  State<CompanyAlreadyHaveProfileInputPage> createState() => _CompanyAlreadyHaveProfileInputPageState();
 }
 
-class _ProfileHaveAccPageState extends State<ProfileHaveAccPage> {
+class _CompanyAlreadyHaveProfileInputPageState extends State<CompanyAlreadyHaveProfileInputPage> {
   bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 10,),
-            Center(
+            const SizedBox(height: 10,),
+            const Center(
               child: Text('Welcome to Student Hub'),
             ),
-            SizedBox(height: 20,),
-            Column(
+            const SizedBox(height: 20,),
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Company name"),
+                Text("Company name"),
                 _TextBox(),
             ],),
-            SizedBox(height: 20,),
-            Column(
+            const SizedBox(height: 20,),
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Website"),
+                Text("Website"),
                 _TextBox(),
             ],),
-            SizedBox(height: 20,),
-            Column(
+            const SizedBox(height: 20,),
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Description"),
+                Text("Description"),
                 _TextBox(),
             ],),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -59,7 +61,7 @@ class _ProfileHaveAccPageState extends State<ProfileHaveAccPage> {
                         });
                       },
                     ),
-                    Text("It's just me"),
+                    const Text("It's just me"),
                   ],
                 ),
               ],
@@ -71,34 +73,34 @@ class _ProfileHaveAccPageState extends State<ProfileHaveAccPage> {
                   onPressed: () {
                     // Xử lý khi nút "Cancel" được nhấn
                   },
-                  child: Text('Cancel'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     elevation: 5,
                     shadowColor: Colors.black,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
+                      side: const BorderSide(width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  child: const Text('Cancel'),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
                     // Xử lý khi nút "Edit" được nhấn
                   },
-                  child: Text('Edit'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                     elevation: 5,
                     shadowColor: Colors.black,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 2),
+                      side: const BorderSide(width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  child: const Text('Edit'),
                 ),
               ],
             ),
@@ -110,7 +112,7 @@ class _ProfileHaveAccPageState extends State<ProfileHaveAccPage> {
 }
 
 class _TextBox extends StatefulWidget {
-  const _TextBox({super.key});
+  const _TextBox();
 
   @override
   State<_TextBox> createState() => _TextBoxState();
@@ -131,7 +133,7 @@ class _TextBoxState extends State<_TextBox> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ), 
-        contentPadding: EdgeInsets.symmetric(vertical: 20),
+        contentPadding: const EdgeInsets.symmetric(vertical: 20),
       ),
     );
   }

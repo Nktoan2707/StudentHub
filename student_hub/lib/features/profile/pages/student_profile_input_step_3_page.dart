@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentProfileInputStep3Page extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+  static const String pageId = "/StudentProfileInputStep3Page";
 
   const StudentProfileInputStep3Page({super.key});
 
@@ -79,13 +79,13 @@ class StudentProfileInputStep3State
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-        title: HeaderText(title: 'Welcome'),
-        contentPadding: EdgeInsets.all(20.0),
+        title: const HeaderText(title: 'Welcome'),
+        contentPadding: const EdgeInsets.all(20.0),
         children: [
           const Text(
               textAlign: TextAlign.center,
               'Welcome to StudentHub, a marketplace to connect Student <> Real-world projects'),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
