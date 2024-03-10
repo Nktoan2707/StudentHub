@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/authentication/pages/home_page.dart';
+import 'package:student_hub/features/profile/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/router/app_router.dart';
 
 
@@ -33,7 +35,7 @@ class _AppViewState extends State<AppView> {
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      // initialRoute: HomePage.pageId,
+      initialRoute: HomePage.pageId,
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
