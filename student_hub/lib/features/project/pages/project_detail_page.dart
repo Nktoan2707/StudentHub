@@ -228,5 +228,47 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
     );
   }
 
-  void messageButtonDidTap(int id) {}
+  void messageButtonDidTap(int id) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.view_list),
+                title: Text('View Proposals'),
+              ),
+              ListTile(
+                leading: Icon(Icons.message),
+                title: Text('View messages'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person_2),
+                title: Text('View hired'),
+              ),
+              const Divider(color: Colors.black, height: 10, thickness: 1),
+              ListTile(
+                leading: Icon(Icons.task),
+                title: Text('View job posting'),
+              ),
+              ListTile(
+                leading: Icon(Icons.edit),
+                title: Text('Edit posting'),
+              ),
+              ListTile(
+                leading: Icon(Icons.remove),
+                title: Text('Remove posting'),
+              ),
+              const Divider(color: Colors.black, height: 10, thickness: 1),
+              ListTile(
+                leading: Icon(Icons.start),
+                title: Text('Start working this project'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
