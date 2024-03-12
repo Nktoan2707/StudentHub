@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/dashboard/pages/dashboard_main_page.dart';
+import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
