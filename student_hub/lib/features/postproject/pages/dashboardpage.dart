@@ -1,20 +1,18 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
-class DashboardMainPage extends StatefulWidget {
+class DashboardPage extends StatefulWidget {
   static const String pageId = "/ProfileInput";
 
-  const DashboardMainPage({super.key});
+  const DashboardPage({super.key});
 
   @override
-  State<DashboardMainPage> createState() => _DashboardMainPageState();
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardMainPageState extends State<DashboardMainPage> {
+class _DashboardPageState extends State<DashboardPage> {
   var _currentIndex = 1;
 
   @override
@@ -41,45 +39,50 @@ class _DashboardMainPageState extends State<DashboardMainPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const PrimaryText(title: 'Your jobs'),
+                  const PrimaryText(title: 'Your projects'),
                   InkCustomButton(title: 'Post a jobs', onTap: postJobButtonDidTap, height: 30, width: 120,)
                 ],
               ),
+              SizedBox(height: 20,),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 70,
+                      color: Colors.white,
+                      child: Center(child: Text('All projects')),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 70,
+                      color: Colors.white,
+                      child: Center(child: Text('Working')),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 70,
+                      color: Colors.white,
+                      child: Center(child: Text('Archieved')),
+                    ),
+                  ],
+                ),
+              ),
+              
               const SizedBox(
                 height: 40,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white10,
-                      ),
-                    ),
-                  ),
-                  const VerticalDivider(
-                    width: 20,
-                    thickness: 1,
-                    indent: 20,
-                    endIndent: 0,
-                    color: Colors.grey,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white10,
-                      ),
-                    ),
-                  ),
-                ],
               ),
               const PrimaryText(textAlign: TextAlign.center, title: 'Welcome! \n You have no jobs'),
               const SizedBox(
                 height: 50,
               ),
-
+              
             ],
           ),
         ),
@@ -123,7 +126,5 @@ class _DashboardMainPageState extends State<DashboardMainPage> {
       );
   }
 
-  void postJobButtonDidTap() {
-    
-  }
+  void postJobButtonDidTap() {}
 }
