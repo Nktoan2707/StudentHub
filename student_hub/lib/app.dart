@@ -3,6 +3,7 @@ import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
 import 'package:student_hub/features/project/pages/project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 import 'package:student_hub/router/app_router.dart';
 
 

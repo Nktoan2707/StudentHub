@@ -4,18 +4,18 @@ import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 
-class StudentSavedProjectDetailPage extends StatefulWidget {
-  static const String pageId = "/StudentSavedProjectDetailPage";
+class StudentSavedProjectListPage extends StatefulWidget {
+  static const String pageId = "/StudentSavedProjectListPage";
 
-  const StudentSavedProjectDetailPage({super.key});
+  const StudentSavedProjectListPage({super.key});
 
   @override
-  State<StudentSavedProjectDetailPage> createState() =>
-      _StudentSavedProjectDetailPageState();
+  State<StudentSavedProjectListPage> createState() =>
+      _StudentSavedProjectListPageState();
 }
 
-class _StudentSavedProjectDetailPageState
-    extends State<StudentSavedProjectDetailPage> {
+class _StudentSavedProjectListPageState
+    extends State<StudentSavedProjectListPage> {
   List<Project> projectList = List.from({
     Project(
         createdAt: "3 days ago",

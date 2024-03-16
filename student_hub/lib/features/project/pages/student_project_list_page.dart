@@ -5,6 +5,7 @@ import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class StudentProjectListPage extends StatefulWidget {
@@ -128,7 +129,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                   ),
                   IconButton(
                       onPressed: () {
-                        _searchItem();
+                        _goToSavedProjectPage();
                       },
                       icon: FaIcon(
                         FontAwesomeIcons.gratipay,
@@ -168,8 +169,11 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
   }
 
   void _searchItem() {
-    Navigator.of(context)
-        .pushNamed(StudentSavedProjectDetailPage.pageId);
+    Navigator.of(context).pushNamed(StudentSearchedProjectListPage.pageId);
+  }
+
+  void _goToSavedProjectPage() {
+    Navigator.of(context).pushNamed(StudentSavedProjectListPage.pageId);
   }
 }
 

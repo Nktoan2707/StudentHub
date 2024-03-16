@@ -15,6 +15,7 @@ import 'package:student_hub/features/project/pages/project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 
 class AppRouter {
   // final HomeBloc _homeBloc = HomeBloc(taskRepository: TaskRepository());
@@ -73,9 +74,13 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => const StudentProjectDetailPage(), settings: settings);
 
-      case StudentSavedProjectDetailPage.pageId:
+      case StudentSavedProjectListPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentSavedProjectDetailPage());
+            builder: (_) => const StudentSavedProjectListPage());
+
+      case StudentSearchedProjectListPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const StudentSearchedProjectListPage());
 
       default:
         return null;

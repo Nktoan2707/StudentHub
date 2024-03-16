@@ -14,7 +14,7 @@ class StudentProjectDetailPage extends StatefulWidget {
 }
 
 class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
-  late final Project project;
+  late Project project;
 
   @override
   Widget build(BuildContext context) {
