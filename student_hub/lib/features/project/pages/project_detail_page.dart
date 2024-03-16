@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class ProjectDetailPage extends StatefulWidget {
@@ -32,12 +29,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
         child: Column(
           children: [
-            HeaderText(title: 'Senior Frontend Developer (Fintech)'),
+            const HeaderText(title: 'Senior Frontend Developer (Fintech)'),
             TabBar(
               controller: _tabController,
               tabs: const <Widget>[
@@ -62,12 +59,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                           children: [
                             ListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text('Hung Le'),
-                              subtitle: Text('4th year student'),
+                              title: const Text('Hung Le'),
+                              subtitle: const Text('4th year student'),
                               leading: Image.network(
                                   'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg'),
                             ),
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -75,12 +72,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                                 Text('Excellent')
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            Text(
+                            const Text(
                                 'I have gone through your project and it seem like a great project. I will commit for your project...'),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Row(
@@ -112,14 +109,14 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                       );
                     },
                   ),
-                  Column(
+                  const Column(
                     children: [
-                      const Divider(
+                      Divider(
                           color: Colors.black, height: 50, thickness: 2),
                       PrimaryText(
                           title:
                               "Students are looking for\n\t - Clear expectation about your project or deliverables\n\t - The skills required for your project\n\t - Detail about your project"),
-                      const Divider(
+                      Divider(
                           color: Colors.black, height: 50, thickness: 2),
                       Row(
                         children: [
@@ -135,7 +132,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Project scope:',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14)),
                               Text(
@@ -164,7 +161,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                             children: [
                               Text(
                                 'Student required:',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 14),
                               ),
                               Text('\t- 6 students', textAlign: TextAlign.left)
@@ -176,7 +173,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                           child: Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 24),
                                 child: InkCustomButton(
                                   title: 'Post job',
                                   height: 40,
@@ -185,8 +182,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                               ))),
                     ],
                   ), // Detail content
-                  Center(child: Text('Message')), // Message content
-                  Center(child: Text('Hired')), // Hired content
+                  const Center(child: Text('Message')), // Message content
+                  const Center(child: Text('Hired')), // Hired content
                 ],
               ),
             ),
@@ -232,7 +229,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return SingleChildScrollView(
+        return const SingleChildScrollView(
           child: Wrap(
             children: [
               ListTile(
@@ -247,7 +244,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                 leading: Icon(Icons.person_2),
                 title: Text('View hired'),
               ),
-              const Divider(color: Colors.black, height: 10, thickness: 1),
+              Divider(color: Colors.black, height: 10, thickness: 1),
               ListTile(
                 leading: Icon(Icons.task),
                 title: Text('View job posting'),
@@ -260,7 +257,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage>
                 leading: Icon(Icons.remove),
                 title: Text('Remove posting'),
               ),
-              const Divider(color: Colors.black, height: 10, thickness: 1),
+              Divider(color: Colors.black, height: 10, thickness: 1),
               ListTile(
                 leading: Icon(Icons.start),
                 title: Text('Start working this project'),

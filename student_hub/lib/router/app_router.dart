@@ -12,6 +12,10 @@ import 'package:student_hub/features/profile/pages/student_profile_input_step_2_
 import 'package:student_hub/features/profile/pages/student_profile_input_step_3_page.dart';
 import 'package:student_hub/features/profile/pages/welcome_page.dart';
 import 'package:student_hub/features/project/pages/project_detail_page.dart';
+import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
+import 'package:student_hub/features/project/pages/student_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 
 class AppRouter {
   // final HomeBloc _homeBloc = HomeBloc(taskRepository: TaskRepository());
@@ -60,8 +64,24 @@ class AppRouter {
             builder: (_) => const StudentProfileInputStep3Page());
 
       case ProjectDetailPage.pageId:
+        return MaterialPageRoute(builder: (_) => const ProjectDetailPage());
+
+      case StudentProjectListPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const ProjectDetailPage());
+            builder: (_) => const StudentProjectListPage());
+
+      case StudentProjectDetailPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const StudentProjectDetailPage(), settings: settings);
+
+      case StudentSavedProjectListPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const StudentSavedProjectListPage());
+
+      case StudentSearchedProjectListPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const StudentSearchedProjectListPage());
+
       default:
         return null;
     }

@@ -39,6 +39,8 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   file_picker: ^6.2.0
   multi_select_flutter: ^4.1.3
+  font_awesome_flutter: ^10.7.0
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

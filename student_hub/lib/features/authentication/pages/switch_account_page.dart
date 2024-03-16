@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/profile/pages/company_not_have_profile_input_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_1_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar2.dart';
 
