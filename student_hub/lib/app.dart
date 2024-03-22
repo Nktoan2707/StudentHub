@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
 import 'package:student_hub/features/project/pages/project_detail_page.dart';
+import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 import 'package:student_hub/router/app_router.dart';
-
-
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -20,7 +19,6 @@ class App extends StatelessWidget {
 class AppView extends StatefulWidget {
   const AppView({super.key});
 
-
   @override
   State<AppView> createState() => _AppViewState();
 }
@@ -28,17 +26,16 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   final AppRouter _appRouter = AppRouter();
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "TODO List",
+      title: "Student Hub",
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      initialRoute: StudentProjectListPage.pageId,
+      initialRoute: StudentDashboardPage.pageId,
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
@@ -49,4 +46,3 @@ class _AppViewState extends State<AppView> {
     super.dispose();
   }
 }
-

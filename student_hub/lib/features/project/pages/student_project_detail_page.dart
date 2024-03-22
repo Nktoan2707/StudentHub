@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/app.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/project/pages/student_submit_proposal_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 
 class StudentProjectDetailPage extends StatefulWidget {
@@ -41,7 +42,9 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             InkCustomButton(
-              onTap: () {},
+              onTap: () {
+                _onApplyButtonClicked();
+              },
               title: "Apply Now",
               height: 50,
               width: (MediaQuery.of(context).size.width / 3),
@@ -94,5 +97,9 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
         ),
       ),
     );
+  }
+
+  void _onApplyButtonClicked() {
+    Navigator.of(context).pushNamed(StudentSubmitProposalPage.pageId);
   }
 }
