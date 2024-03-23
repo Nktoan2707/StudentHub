@@ -15,10 +15,12 @@ import 'package:student_hub/features/profile/pages/student_profile_input_step_2_
 import 'package:student_hub/features/profile/pages/student_profile_input_step_3_page.dart';
 import 'package:student_hub/features/profile/pages/welcome_page.dart';
 import 'package:student_hub/features/project/pages/project_detail_page.dart';
+import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
+import 'package:student_hub/features/project/pages/student_submit_proposal_page.dart';
 
 class AppRouter {
   // final HomeBloc _homeBloc = HomeBloc(taskRepository: TaskRepository());
@@ -89,6 +91,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TabMessagePage());
       case TabMessageDetailPage.pageId:
         return MaterialPageRoute(builder: (_) => TabMessageDetailPage());
+
+      case StudentSubmitProposalPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const StudentSubmitProposalPage());
+
+      case StudentDashboardPage.pageId:
+        return MaterialPageRoute(builder: (_) => const StudentDashboardPage());
 
       default:
         return null;
