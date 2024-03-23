@@ -1,48 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
-class StudentProjectListPage extends StatefulWidget {
-  static const String pageId = "/StudentProjectListPage";
+class TabMessagePage extends StatefulWidget {
+  static const String pageId = "/TabMessagePage";
 
-  const StudentProjectListPage({super.key});
+  const TabMessagePage({super.key});
 
   @override
-  State<StudentProjectListPage> createState() => _StudentProjectListPageState();
+  State<TabMessagePage> createState() => _TabMessagePageState();
 }
 
-class _StudentProjectListPageState extends State<StudentProjectListPage> {
-  List<Project> projectList = List.from({
-    Project(
-        createdAt: "3 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 6,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 4),
-    Project(
-        createdAt: "5 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 4,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 2),
-    Project(
-        createdAt: "6 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 7,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 8),
-  }, growable: true);
+class _TabMessagePageState extends State<TabMessagePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +26,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
       },
       child: Scaffold(
         appBar: const TopNavigationBar(),
-        bottomNavigationBar: const HUBBottomNavigationBar(currentIndex: 1,),
+        bottomNavigationBar: const HUBBottomNavigationBar(currentIndex: 2,),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -125,15 +99,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                         );
                       },
                     ),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        _goToSavedProjectPage();
-                      },
-                      icon: FaIcon(
-                        FontAwesomeIcons.gratipay,
-                        size: 35,
-                      ))
+                  )
                 ],
               ),
               const SizedBox(
@@ -147,11 +113,9 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: projectList.length,
+                itemCount: 4,
                 itemBuilder: (context, index) {
-                  return StudentProjectListItemView(
-                    project: projectList[index],
-                  );
+                  return TabMessageListItemView();
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider(
@@ -175,4 +139,3 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
     Navigator.of(context).pushNamed(StudentSavedProjectListPage.pageId);
   }
 }
-

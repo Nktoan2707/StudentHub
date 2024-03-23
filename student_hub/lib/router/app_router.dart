@@ -4,6 +4,9 @@ import 'package:student_hub/features/authentication/pages/login_page.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
+import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
+import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
+import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
 import 'package:student_hub/features/profile/pages/company_already_have_profile_input_page.dart';
 import 'package:student_hub/features/profile/pages/company_not_have_profile_input_page.dart';
@@ -72,7 +75,8 @@ class AppRouter {
 
       case StudentProjectDetailPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentProjectDetailPage(), settings: settings);
+            builder: (_) => const StudentProjectDetailPage(),
+            settings: settings);
 
       case StudentSavedProjectListPage.pageId:
         return MaterialPageRoute(
@@ -81,6 +85,10 @@ class AppRouter {
       case StudentSearchedProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSearchedProjectListPage());
+      case TabMessagePage.pageId:
+        return MaterialPageRoute(builder: (_) => const TabMessagePage());
+      case TabMessageDetailPage.pageId:
+        return MaterialPageRoute(builder: (_) => TabMessageDetailPage());
 
       default:
         return null;

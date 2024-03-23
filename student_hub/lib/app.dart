@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
 import 'package:student_hub/features/project/pages/project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
@@ -38,7 +39,7 @@ class _AppViewState extends State<AppView> {
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      initialRoute: StudentProjectListPage.pageId,
+      initialRoute: TabMessagePage.pageId,
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
