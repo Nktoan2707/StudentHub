@@ -257,10 +257,20 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
               height: 40,
             ),
             Text(
-              "Project Length",
+              "Title",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(
-              height: 20,
+              height: 12,
+            ),
+            TextField(
+              style: const TextStyle(color: Colors.black),
+              cursorColor: Colors.black,
+              decoration: const InputDecoration(
+                constraints: BoxConstraints(maxHeight: 30),
+                hintStyle: TextStyle(color: Colors.black),
+                border: OutlineInputBorder(),
+              ),
             ),
             ListTile(
               title: const Text('Less than one month'),
@@ -347,15 +357,7 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
             SizedBox(
               height: 10,
             ),
-            TextField(
-              style: const TextStyle(color: Colors.black),
-              cursorColor: Colors.black,
-              decoration: const InputDecoration(
-                constraints: BoxConstraints(maxHeight: 30),
-                hintStyle: TextStyle(color: Colors.black),
-                border: OutlineInputBorder(),
-              ),
-            ),
+            
             SizedBox(
               height: 20,
             ),
