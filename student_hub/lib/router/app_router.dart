@@ -7,14 +7,16 @@ import 'package:student_hub/features/authentication/pages/switch_account_page.da
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
-import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
+import 'package:student_hub/features/message/pages/video_call_page.dart';
+import 'package:student_hub/features/notification/pages/notification_page.dart';
+import 'package:student_hub/features/project/pages/company_dashboard_page.dart';
 import 'package:student_hub/features/profile/pages/company_already_have_profile_input_page.dart';
-import 'package:student_hub/features/profile/pages/company_not_have_profile_input_page.dart';
+import 'package:student_hub/features/profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_1_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_3_page.dart';
 import 'package:student_hub/features/profile/pages/welcome_page.dart';
-import 'package:student_hub/features/project/pages/project_detail_page.dart';
+import 'package:student_hub/features/project/pages/company_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
@@ -42,9 +44,9 @@ class AppRouter {
       case SwitchAccountPage.pageId:
         return MaterialPageRoute(builder: (_) => const SwitchAccountPage());
 
-      case CompanyNotHaveProfileInputPage.pageId:
+      case CompanyProfileInputPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const CompanyNotHaveProfileInputPage());
+            builder: (_) => const CompanyProfileInputPage());
 
       case CompanyAlreadyHaveProfileInputPage.pageId:
         return MaterialPageRoute(
@@ -53,8 +55,8 @@ class AppRouter {
       case WelcomePage.pageId:
         return MaterialPageRoute(builder: (_) => const WelcomePage());
 
-      case DashboardMainPage.pageId:
-        return MaterialPageRoute(builder: (_) => const DashboardMainPage());
+      case CompanyDashboardPage.pageId:
+        return MaterialPageRoute(builder: (_) => const CompanyDashboardPage());
 
       case StudentProfileInputStep1Page.pageId:
         return MaterialPageRoute(
@@ -68,8 +70,9 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => const StudentProfileInputStep3Page());
 
-      case ProjectDetailPage.pageId:
-        return MaterialPageRoute(builder: (_) => const ProjectDetailPage());
+      case CompanyProjectDetailPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyProjectDetailPage());
 
       case StudentProjectListPage.pageId:
         return MaterialPageRoute(
@@ -99,6 +102,11 @@ class AppRouter {
       case StudentDashboardPage.pageId:
         return MaterialPageRoute(builder: (_) => const StudentDashboardPage());
 
+      case NotificationPage.pageId:
+        return MaterialPageRoute(builder: (_) => const NotificationPage());
+
+      case VideoCallPage.pageId:
+        return MaterialPageRoute(builder: (_) => const VideoCallPage());
       default:
         return null;
     }

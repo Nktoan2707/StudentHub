@@ -33,21 +33,18 @@ class _HUBBottomNavigationBarState extends State<HUBBottomNavigationBar> {
           selectedColor: Colors.purple,
         ),
 
-        /// Likes
         SalomonBottomBarItem(
           icon: const Icon(Icons.space_dashboard),
           title: const Text("Dashboard"),
           selectedColor: Colors.pink,
         ),
 
-        /// Search
         SalomonBottomBarItem(
           icon: const Icon(Icons.message),
           title: const Text("Message"),
           selectedColor: Colors.orange,
         ),
 
-        /// Profile
         SalomonBottomBarItem(
           icon: const Icon(Icons.notifications),
           title: const Text("Alerts"),

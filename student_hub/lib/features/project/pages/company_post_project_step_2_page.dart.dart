@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
-class Page14 extends StatefulWidget {
-  const Page14({super.key});
+
+class CompanyPostProjectStep2Page extends StatefulWidget {
+  static const String pageId = "/CompanyPostProjectStep2Page";
+  const CompanyPostProjectStep2Page({super.key});
 
   @override
-  State<Page14> createState() => _Page14State();
+  State<CompanyPostProjectStep2Page> createState() => _CompanyPostProjectStep2PageState();
 }
 
-class _Page14State extends State<Page14> {
+class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,23 +27,48 @@ class _Page14State extends State<Page14> {
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                        text: "1/4   Let's start with a strong title",
+                        text: "2/4   Next, estimate the scope of your job",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
-                const Text("This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
-                _title(),
+                SizedBox(height: 10,),
+                const Text("Consider the size of your project and the timeline"),
                 SizedBox(height: 15,),
                 RichText(
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                        text: "Example titles",
+                        text: "How long will your project take?",
                         style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 15,),  
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      WidgetSpan(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: CircularCheckBox(),
+                        ),
+                      ),
+                      TextSpan(
+                        text: '1 to 3 months\n',
+                      ),
+                      WidgetSpan(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: CircularCheckBox(),
+                        ),
+                      ),
+                      TextSpan(
+                        text: '3 to 6 months\n',
                       ),
                     ],
                   ),
@@ -52,29 +78,17 @@ class _Page14State extends State<Page14> {
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
-                      WidgetSpan(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 5, bottom: 5),
-                          child: Icon(Icons.fiber_manual_record, size: 5),
-                        ),
-                      ),
                       TextSpan(
-                        text: 'Build responsive WordPress site with booking/payment functionality\n',
-                      ),
-                      WidgetSpan(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 5, bottom: 5),
-                          child: Icon(Icons.fiber_manual_record, size: 5),
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Facebook ad specialist need for product launch\n',
+                        text: "How long will your project take?",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
-                NextScope(),
+                SizedBox(height: 15,),
+                _number(),
+                SizedBox(height: 25,),
+                NextDescription(),
               ],
             ),
           ],
@@ -84,21 +98,21 @@ class _Page14State extends State<Page14> {
   }
 }
 
-class _title extends StatefulWidget {
-  const _title({super.key});
+class _number extends StatefulWidget {
+  const _number({super.key});
 
   @override
-  State<_title> createState() => _titleState();
+  State<_number> createState() => _numberState();
 }
 
-class _titleState extends State<_title> {
+class _numberState extends State<_number> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      key: const Key('signup_fullnameInput_textField'),
+      key: const Key('Projectpost_number_textField'),
       onChanged: (title){},
       decoration: InputDecoration(
-        labelText: "write a title for jour post",
+        labelText: "number of students",
         errorText: false ?'invalid title': null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -111,14 +125,14 @@ class _titleState extends State<_title> {
   }
 }
 
-class NextScope extends StatefulWidget {
-  const NextScope({super.key});
+class NextDescription extends StatefulWidget {
+  const NextDescription({super.key});
 
   @override
-  State<NextScope> createState() => _NextScopeState();
+  State<NextDescription> createState() => _NextDescriptionState();
 }
 
-class _NextScopeState extends State<NextScope> {
+class _NextDescriptionState extends State<NextDescription> {
   @override
   Widget build(BuildContext context) {
     return false
@@ -138,5 +152,41 @@ class _NextScopeState extends State<NextScope> {
             onPressed: true ? () {} : null,
             child: const Text('Next Scope'),
           );
+  }
+}
+
+class CircularCheckBox extends StatefulWidget {
+  const CircularCheckBox({super.key});
+
+  @override
+  State<CircularCheckBox> createState() => _CircularCheckBoxState();
+}
+
+class _CircularCheckBoxState extends State<CircularCheckBox> {
+  bool _isChecked = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isChecked = !_isChecked;
+        });
+      },
+      child: Container(
+        width: 14,
+        height: 14,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.black),
+        ),
+        child: _isChecked
+            ? Icon(
+                Icons.check,
+                size: 10,
+                color: Colors.black,
+              )
+            : null,
+      ),
+    );
   }
 }

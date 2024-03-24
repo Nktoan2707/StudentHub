@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
-import 'package:student_hub/features/project/pages/dashboard_main_page.dart';
-import 'package:student_hub/features/project/pages/project_detail_page.dart';
+import 'package:student_hub/features/message/pages/video_call_page.dart';
+import 'package:student_hub/features/notification/pages/notification_page.dart';
+import 'package:student_hub/features/project/pages/company_dashboard_page.dart';
+import 'package:student_hub/features/project/pages/company_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
@@ -36,7 +38,7 @@ class _AppViewState extends State<AppView> {
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      initialRoute: TabMessagePage.pageId,
+      initialRoute: VideoCallPage.pageId,
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }

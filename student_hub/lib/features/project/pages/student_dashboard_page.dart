@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/components/custom_bottom_navigation_bar.dart';
 import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/text_custom.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
+import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentDashboardPage extends StatefulWidget {
   static const String pageId = "/StudentDashboardPage";
@@ -66,7 +66,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
       },
       child: Scaffold(
         appBar: const TopNavigationBar(),
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: HUBBottomNavigationBar(currentIndex: 1,),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
           child: Column(

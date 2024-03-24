@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/components/custom_bottom_navigation_bar.dart';
 import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/video_call_navigation.dart';
 
-class  VideoCall extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+class  VideoCallPage extends StatefulWidget {
+  static const String pageId = "/VideoCallPage";
 
-  const  VideoCall({super.key});
+  const  VideoCallPage({super.key});
 
   @override
-  State< VideoCall> createState() => _VideoCallState();
+  State< VideoCallPage> createState() => _VideoCallPageState();
 }
 
-class _VideoCallState extends State< VideoCall> {
+class _VideoCallPageState extends State<VideoCallPage> {
   bool _isMicMuted = false;
   bool _isCameraOff = false;
 

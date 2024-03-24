@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
-class ProjectDetailPage extends StatefulWidget {
+class CompanyProjectDetailPage extends StatefulWidget {
   static const String pageId = "/ProjectDetailPage";
 
-  const ProjectDetailPage({super.key});
+  const CompanyProjectDetailPage({super.key});
 
   @override
-  State<ProjectDetailPage> createState() => _ProjectDetailPageState();
+  State<CompanyProjectDetailPage> createState() => _CompanyProjectDetailPageState();
 }
 
-class _ProjectDetailPageState extends State<ProjectDetailPage>
+class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 

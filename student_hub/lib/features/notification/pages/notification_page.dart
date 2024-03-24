@@ -4,22 +4,22 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-class NotificationFlow extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+class NotificationPage extends StatefulWidget {
+  static const String pageId = "/NotificationPage";
 
-  const NotificationFlow({super.key});
+  const NotificationPage({super.key});
 
   @override
-  State<NotificationFlow> createState() => _NotificationFlowState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _NotificationFlowState extends State<NotificationFlow> {
-  var _currentIndex = 1;
+class _NotificationPageState extends State<NotificationPage> {
+  var _currentIndex = 3;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: getBottomNavigationBar(),
+      bottomNavigationBar: HUBBottomNavigationBar(currentIndex: 3,),
       appBar: const TopNavigationBar(),
       body: _currentIndex == 3 // Check if currentIndex is 3 (corresponding to Alerts)
         ? SingleChildScrollView(
@@ -150,42 +150,7 @@ class _NotificationFlowState extends State<NotificationFlow> {
       ),
     );
   }
-
-  SalomonBottomBar getBottomNavigationBar() {
-    return SalomonBottomBar(
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          /// Home
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.list),
-            title: const Text("Projects"),
-            selectedColor: Colors.purple,
-          ),
-
-          /// Likes
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.space_dashboard),
-            title: const Text("Dashboard"),
-            selectedColor: Colors.pink,
-          ),
-
-          /// Search
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.message),
-            title: const Text("Message"),
-            selectedColor: Colors.orange,
-          ),
-
-          /// Profile
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.notifications),
-            title: const Text("Alerts"),
-            selectedColor: Colors.teal,
-          ),
-        ],
-      );
-  }
+  
 
   void postJobButtonDidTap() {}
 }

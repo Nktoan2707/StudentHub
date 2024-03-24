@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-class Page44 extends StatefulWidget {
-  const Page44({super.key});
+class CompanyPostProjectStep4Page extends StatefulWidget {
+  static const String pageId = "/CompanyPostProjectStep4Page";
+  const CompanyPostProjectStep4Page({super.key});
 
   @override
-  State<Page44> createState() => _Page44State();
+  State<CompanyPostProjectStep4Page> createState() => _CompanyPostProjectStep4PageState();
 }
 
-class _Page44State extends State<Page44> {
+class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

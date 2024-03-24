@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
-
-class Page24 extends StatefulWidget {
-  const Page24({super.key});
+class CompanyPostProjectStep1Page extends StatefulWidget {
+  static const String pageId = "/CompanyPostProjectStep1Page";
+  const CompanyPostProjectStep1Page({super.key});
 
   @override
-  State<Page24> createState() => _Page24State();
+  State<CompanyPostProjectStep1Page> createState() => _CompanyPostProjectStep1PageState();
 }
 
-class _Page24State extends State<Page24> {
+class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,68 +27,55 @@ class _Page24State extends State<Page24> {
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                        text: "2/4   Next, estimate the scope of your job",
+                        text: "1/4   Let's start with a strong title",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
-                const Text("Consider the size of your project and the timeline"),
+                SizedBox(height: 20,),
+                const Text("This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
+                _title(),
                 SizedBox(height: 15,),
                 RichText(
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                        text: "How long will your project take?",
+                        text: "Example titles",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),  
+                SizedBox(height: 15,),
                 RichText(
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          child: CircularCheckBox(),
+                          padding: EdgeInsets.only(right: 5, bottom: 5),
+                          child: Icon(Icons.fiber_manual_record, size: 5),
                         ),
                       ),
                       TextSpan(
-                        text: '1 to 3 months\n',
+                        text: 'Build responsive WordPress site with booking/payment functionality\n',
                       ),
                       WidgetSpan(
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          child: CircularCheckBox(),
+                          padding: EdgeInsets.only(right: 5, bottom: 5),
+                          child: Icon(Icons.fiber_manual_record, size: 5),
                         ),
                       ),
                       TextSpan(
-                        text: '3 to 6 months\n',
+                        text: 'Facebook ad specialist need for product launch\n',
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: "How long will your project take?",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15,),
-                _number(),
-                SizedBox(height: 25,),
-                NextDescription(),
+                SizedBox(height: 20,),
+                NextScope(),
               ],
             ),
           ],
@@ -97,21 +85,21 @@ class _Page24State extends State<Page24> {
   }
 }
 
-class _number extends StatefulWidget {
-  const _number({super.key});
+class _title extends StatefulWidget {
+  const _title({super.key});
 
   @override
-  State<_number> createState() => _numberState();
+  State<_title> createState() => _titleState();
 }
 
-class _numberState extends State<_number> {
+class _titleState extends State<_title> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      key: const Key('Projectpost_number_textField'),
+      key: const Key('signup_fullnameInput_textField'),
       onChanged: (title){},
       decoration: InputDecoration(
-        labelText: "number of students",
+        labelText: "write a title for jour post",
         errorText: false ?'invalid title': null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -124,14 +112,14 @@ class _numberState extends State<_number> {
   }
 }
 
-class NextDescription extends StatefulWidget {
-  const NextDescription({super.key});
+class NextScope extends StatefulWidget {
+  const NextScope({super.key});
 
   @override
-  State<NextDescription> createState() => _NextDescriptionState();
+  State<NextScope> createState() => _NextScopeState();
 }
 
-class _NextDescriptionState extends State<NextDescription> {
+class _NextScopeState extends State<NextScope> {
   @override
   Widget build(BuildContext context) {
     return false
@@ -151,41 +139,5 @@ class _NextDescriptionState extends State<NextDescription> {
             onPressed: true ? () {} : null,
             child: const Text('Next Scope'),
           );
-  }
-}
-
-class CircularCheckBox extends StatefulWidget {
-  const CircularCheckBox({super.key});
-
-  @override
-  State<CircularCheckBox> createState() => _CircularCheckBoxState();
-}
-
-class _CircularCheckBoxState extends State<CircularCheckBox> {
-  bool _isChecked = false;
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _isChecked = !_isChecked;
-        });
-      },
-      child: Container(
-        width: 14,
-        height: 14,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.black),
-        ),
-        child: _isChecked
-            ? Icon(
-                Icons.check,
-                size: 10,
-                color: Colors.black,
-              )
-            : null,
-      ),
-    );
   }
 }

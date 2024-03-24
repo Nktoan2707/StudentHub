@@ -3,17 +3,18 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
-class DashboardPage extends StatefulWidget {
-  static const String pageId = "/ProfileInput";
+class CompanyDashboardPage extends StatefulWidget {
+  static const String pageId = "/CompanyDashboardPage";
 
-  const DashboardPage({super.key});
+  const CompanyDashboardPage({super.key});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<CompanyDashboardPage> createState() => _CompanyDashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
   var _currentIndex = 1;
+  int itemCount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               const SizedBox(
                 height: 20,
               ),
@@ -40,7 +41,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const PrimaryText(title: 'Your projects'),
-                  InkCustomButton(title: 'Post a jobs', onTap: postJobButtonDidTap, height: 30, width: 120,)
+                  InkCustomButton(title: 'Post a project', onTap: postJobButtonDidTap, height: 30, width: 120,)
                 ],
               ),
               SizedBox(height: 20,),
@@ -60,25 +61,70 @@ class _DashboardPageState extends State<DashboardPage> {
                       child: Center(child: Text('All projects')),
                     ),
                     Container(
-                      width: 100,
+                      width: 150,
                       height: 70,
                       color: Colors.white,
-                      child: Center(child: Text('Working')),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 70,
-                      color: Colors.white,
-                      child: Center(child: Text('Archieved')),
+                      child: Center(child: Text('Archieved projects')),
                     ),
                   ],
                 ),
               ),
-              
               const SizedBox(
                 height: 40,
               ),
-              const PrimaryText(textAlign: TextAlign.center, title: 'Welcome! \n You have no jobs'),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: itemCount,
+                itemBuilder: (context, index) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Senior frontend developer (Fintech)'),
+                          Spacer(), 
+                          Icon(Icons.more_horiz),
+                        ],
+                      ),
+                      SizedBox(height: 8,),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: "Students are looking for\n",
+                            ),
+                            WidgetSpan(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 5, left: 15, bottom: 5),
+                                child: Icon(Icons.fiber_manual_record, size: 5),
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Clear expectation about your project or deliverables\n',
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 8,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('0 Proposals'),
+                          Text('8 Messages'),
+                          Text('2 Hired'),
+                        ],
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ), 
+                    ],
+                  );
+                },
+              ),
+
               const SizedBox(
                 height: 50,
               ),
