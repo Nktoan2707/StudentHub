@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/authentication/pages/login_page.dart';
-import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
+import 'package:student_hub/features/login/pages/login_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_step_2_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class SignUpStep1Page extends StatefulWidget {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_1_page.dart';
@@ -62,11 +64,9 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                       Navigator.of(context).pushReplacementNamed(
                           StudentProfileInputStep1Page.pageId);
                     } else {
-                      Navigator.of(context).pushReplacementNamed(
-                          CompanyProfileInputPage.pageId);
+                      Navigator.of(context)
+                          .pushReplacementNamed(CompanyProfileInputPage.pageId);
                     }
-                    // Navigator.of(context).pushReplacementNamed(CompanyNotHaveProfileInputPage.pageId);
-                    // Navigator.of(context).pushReplacementNamed(CompanyNotHaveProfileInputPage.pageId);
                   },
                 ),
                 ListTile(
@@ -77,7 +77,11 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                 ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text("Log out"),
-                  onTap: () {},
+                  onTap: () {
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(AuthenticationLoggedOut());
+                  },
                 ),
               ],
             ),

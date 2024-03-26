@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/authentication/pages/home_page.dart';
-import 'package:student_hub/features/authentication/pages/login_page.dart';
-import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
-import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/data/data_providers/authentication_repository.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
+import 'package:student_hub/features/login/bloc/login_bloc.dart';
+import 'package:student_hub/features/login/pages/home_page.dart';
+import 'package:student_hub/features/login/pages/login_page.dart';
+import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
+import 'package:student_hub/features/signup/pages/sign_up_step_1_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_step_2_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
@@ -30,39 +35,48 @@ import 'package:student_hub/features/project/pages/student_searched_project_list
 import 'package:student_hub/features/project/pages/student_submit_proposal_page.dart';
 
 class AppRouter {
-  // final HomeBloc _homeBloc = HomeBloc(taskRepository: TaskRepository());
+  final LoginBloc _loginBloc;
+  final SignupBloc _signupBloc;
+
+  AppRouter(AuthenticationRepository authenticationRepository)
+      : _loginBloc =
+            LoginBloc(authenticationRepository: authenticationRepository),
+        _signupBloc =
+            SignupBloc(authenticationRepository: authenticationRepository);
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      //Feature Authentication
+      case SwitchAccountPage.pageId:
+        return MaterialPageRoute(builder: (_) => const SwitchAccountPage());
+
+      //Feature Login
       case HomePage.pageId:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+            builder: (_) =>
+                BlocProvider.value(value: _loginBloc, child: const HomePage()));
 
       case LoginPage.pageId:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _loginBloc, child: const LoginPage()));
+
+      //Feature Signup
 
       case SignUpStep1Page.pageId:
-        return MaterialPageRoute(builder: (_) => const SignUpStep1Page());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _signupBloc, child: const SignUpStep1Page()));
 
       case SignUpStep2Page.pageId:
-        return MaterialPageRoute(builder: (_) => const SignUpStep2Page());
-
-      case SwitchAccountPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const SwitchAccountPage());
+            builder: (_) => BlocProvider.value(
+                value: _signupBloc, child: const SignUpStep2Page()));
 
+      // Feature Profile
       case CompanyProfileInputPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const CompanyProfileInputPage());
-
-      case CompanyAlreadyHaveProfileInputPage.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyAlreadyHaveProfileInputPage());
-
-      case WelcomePage.pageId:
-        return MaterialPageRoute(builder: (_) => const WelcomePage());
-
-      case CompanyDashboardPage.pageId:
-        return MaterialPageRoute(builder: (_) => const CompanyDashboardPage());
 
       case StudentProfileInputStep1Page.pageId:
         return MaterialPageRoute(
@@ -76,46 +90,36 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => const StudentProfileInputStep3Page());
 
+      case WelcomePage.pageId:
+        return MaterialPageRoute(builder: (_) => const WelcomePage());
+
+      //Feature Project
+      case MainTabBarPage.pageId:
+        return MaterialPageRoute(builder: (_) => const MainTabBarPage());
+
+      case CompanyDashboardPage.pageId:
+        return MaterialPageRoute(builder: (_) => const CompanyDashboardPage());
       case CompanyProjectDetailPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const CompanyProjectDetailPage());
-
       case StudentProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProjectListPage());
-
       case StudentProjectDetailPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProjectDetailPage(),
             settings: settings);
-
       case StudentSavedProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSavedProjectListPage());
-
       case StudentSearchedProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSearchedProjectListPage());
-      case TabMessagePage.pageId:
-        return MaterialPageRoute(builder: (_) => const TabMessagePage());
-      case TabMessageDetailPage.pageId:
-        return MaterialPageRoute(builder: (_) => TabMessageDetailPage());
-
       case StudentSubmitProposalPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSubmitProposalPage());
-
       case StudentDashboardPage.pageId:
         return MaterialPageRoute(builder: (_) => const StudentDashboardPage());
-
-      case NotificationPage.pageId:
-        return MaterialPageRoute(builder: (_) => const NotificationPage());
-
-      case VideoCallPage.pageId:
-        return MaterialPageRoute(builder: (_) => const VideoCallPage());
-
-      case MainTabBarPage.pageId:
-        return MaterialPageRoute(builder: (_) => const MainTabBarPage());
 
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(
@@ -129,12 +133,25 @@ class AppRouter {
       case CompanyPostProjectStep4Page.pageId:
         return MaterialPageRoute(
             builder: (_) => const CompanyPostProjectStep4Page());
+
+      //Feature Message
+      case TabMessagePage.pageId:
+        return MaterialPageRoute(builder: (_) => const TabMessagePage());
+      case TabMessageDetailPage.pageId:
+        return MaterialPageRoute(builder: (_) => TabMessageDetailPage());
+      case VideoCallPage.pageId:
+        return MaterialPageRoute(builder: (_) => const VideoCallPage());
+
+      //Feature Notification
+      case NotificationPage.pageId:
+        return MaterialPageRoute(builder: (_) => const NotificationPage());
       default:
         return null;
     }
   }
 
   void dispose() {
-    // _homeBloc.close();
+    _signupBloc.close();
+    _loginBloc.close();
   }
 }
