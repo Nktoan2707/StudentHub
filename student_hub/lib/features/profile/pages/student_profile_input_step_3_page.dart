@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentProfileInputStep3Page extends StatefulWidget {
@@ -88,7 +89,8 @@ class StudentProfileInputStep3State
           const SizedBox(height: 10),
           TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    MainTabBarPage.pageId, (Route<dynamic> route) => false);
               },
               child: const Text('Next'))
         ],

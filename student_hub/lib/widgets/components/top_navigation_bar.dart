@@ -20,8 +20,7 @@ class TopNavigationBar extends StatelessWidget implements PreferredSizeWidget{
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.of(context).pushReplacementNamed(SwitchAccountPage.pageId);
-
+          Navigator.of(context).pushNamed(SwitchAccountPage.pageId);
           },
           icon: const Icon(Icons.account_circle_rounded),
         ),

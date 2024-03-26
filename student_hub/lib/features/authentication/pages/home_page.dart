@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/authentication/pages/login_page.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
+                   MainTabBarPage.userType = UserType.company;
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
                 },
                 child: Container(
@@ -98,6 +100,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
+                  MainTabBarPage.userType = UserType.student;
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
 
                 },

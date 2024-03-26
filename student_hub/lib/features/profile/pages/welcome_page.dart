@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/dashboard/pages/dashboard_main_page.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
+import 'package:student_hub/features/project/pages/company_dashboard_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
@@ -69,7 +70,8 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   void getStartedButtonDidTap() {
-    Navigator.of(context).pushReplacementNamed(DashboardMainPage.pageId);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+                    MainTabBarPage.pageId, (Route<dynamic> route) => false);
 
   }
 }

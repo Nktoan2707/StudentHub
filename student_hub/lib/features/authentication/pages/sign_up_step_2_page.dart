@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class SignUpStep2Page extends StatefulWidget {
@@ -13,6 +14,7 @@ class SignUpStep2Page extends StatefulWidget {
 class _SignUpStep2PageState extends State<SignUpStep2Page> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
@@ -23,9 +25,9 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
             const SizedBox(
               height: 40,
             ),
-            const Center(
+            Center(
               child: Text(
-                "Sign up as Company",
+                'Sign up as Company',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
@@ -62,7 +64,7 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
                     const Text("Looking for a project?"),
                     TextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, '/signup');
+                         Navigator.of(context).pushReplacementNamed(MainTabBarPage.pageId);
                       },
                       child: const Text(
                         "Apply as student",
@@ -235,7 +237,9 @@ class _CreateAccountButton extends StatelessWidget {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {} : null,
+            onPressed: true ? () {
+              Navigator.of(context).pushReplacementNamed(MainTabBarPage.pageId);
+            } : null,
             child: const Text('Create my account'),
           );
   }
