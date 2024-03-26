@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/data/models/domain/schedule_detail.dart';
+import 'package:student_hub/features/message/pages/video_call_page.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -118,7 +119,9 @@ class MessageSchedule extends StatelessWidget {
                     width: 150,
                     padding: 0,
                     height: 40,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(VideoCallPage.pageId);
+                    },
                   ),
                   IconButton(
                     onPressed: () {},

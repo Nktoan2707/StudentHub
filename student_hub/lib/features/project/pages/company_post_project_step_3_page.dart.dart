@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
+import 'company_post_project_step_4_page.dart';
+
 class CompanyPostProjectStep3Page extends StatefulWidget {
   static const String pageId = "/CompanyPostProjectStep3Page";
   const CompanyPostProjectStep3Page({super.key});
@@ -146,7 +148,7 @@ class _ReviewPostState extends State<ReviewPost> {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {} : null,
+            onPressed: true ? () {Navigator.of(context).pushNamed(CompanyPostProjectStep4Page.pageId);} : null,
             child: const Text('Review your post'),
           );
   }

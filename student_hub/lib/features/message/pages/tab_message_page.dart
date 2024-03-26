@@ -25,8 +25,6 @@ class _TabMessagePageState extends State<TabMessagePage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        appBar: const TopNavigationBar(),
-        bottomNavigationBar: const HUBBottomNavigationBar(currentIndex: 2,),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -133,9 +131,5 @@ class _TabMessagePageState extends State<TabMessagePage> {
 
   void _searchItem() {
     Navigator.of(context).pushNamed(StudentSearchedProjectListPage.pageId);
-  }
-
-  void _goToSavedProjectPage() {
-    Navigator.of(context).pushNamed(StudentSavedProjectListPage.pageId);
   }
 }

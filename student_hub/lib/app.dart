@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/features/authentication/pages/home_page.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/message/pages/video_call_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
@@ -9,6 +10,8 @@ import 'package:student_hub/features/project/pages/student_project_detail_page.d
 import 'package:student_hub/features/project/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project/pages/student_searched_project_list_page.dart';
 import 'package:student_hub/router/app_router.dart';
+
+import 'features/main_tab_bar_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -38,7 +41,7 @@ class _AppViewState extends State<AppView> {
           seedColor: const Color.fromRGBO(32, 63, 129, 1.0),
         ),
       ),
-      initialRoute: VideoCallPage.pageId,
+      initialRoute: HomePage.pageId,
       onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }

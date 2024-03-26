@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -141,7 +142,9 @@ class _LoginButton extends StatelessWidget {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {} : null,
+            onPressed: true ? () {
+              Navigator.pushReplacementNamed(context, MainTabBarPage.pageId);
+            } : null,
             child: const Text('Sign In'),
           );
   }

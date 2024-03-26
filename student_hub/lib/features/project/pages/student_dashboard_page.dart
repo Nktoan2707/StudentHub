@@ -65,8 +65,6 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        appBar: const TopNavigationBar(),
-        bottomNavigationBar: HUBBottomNavigationBar(currentIndex: 1,),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
           child: Column(

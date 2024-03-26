@@ -14,18 +14,12 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  var _currentIndex = 3;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: HUBBottomNavigationBar(currentIndex: 3,),
-      appBar: const TopNavigationBar(),
-      body: _currentIndex == 3 // Check if currentIndex is 3 (corresponding to Alerts)
-        ? SingleChildScrollView(
+      body:  SingleChildScrollView(
             child: _buildAlertsScreen(),
-          )
-        : Container(),
+          ),
     );
   }
 

@@ -51,8 +51,6 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        appBar: const TopNavigationBar(),
-        bottomNavigationBar: const HUBBottomNavigationBar(currentIndex: 1,),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
+
+import 'company_post_project_step_2_page.dart.dart';
 class CompanyPostProjectStep1Page extends StatefulWidget {
   static const String pageId = "/CompanyPostProjectStep1Page";
   const CompanyPostProjectStep1Page({super.key});
@@ -136,7 +138,9 @@ class _NextScopeState extends State<NextScope> {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {} : null,
+            onPressed: true ? () {
+              Navigator.of(context).pushNamed(CompanyPostProjectStep2Page.pageId);
+            } : null,
             child: const Text('Next Scope'),
           );
   }

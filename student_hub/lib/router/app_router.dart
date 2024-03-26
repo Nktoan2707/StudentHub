@@ -4,6 +4,7 @@ import 'package:student_hub/features/authentication/pages/login_page.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_1_page.dart';
 import 'package:student_hub/features/authentication/pages/sign_up_step_2_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
@@ -16,6 +17,10 @@ import 'package:student_hub/features/profile/pages/student_profile_input_step_1_
 import 'package:student_hub/features/profile/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_3_page.dart';
 import 'package:student_hub/features/profile/pages/welcome_page.dart';
+import 'package:student_hub/features/project/pages/company_post_project_step_1_page.dart';
+import 'package:student_hub/features/project/pages/company_post_project_step_2_page.dart.dart';
+import 'package:student_hub/features/project/pages/company_post_project_step_3_page.dart.dart';
+import 'package:student_hub/features/project/pages/company_post_project_step_4_page.dart';
 import 'package:student_hub/features/project/pages/company_project_detail_page.dart';
 import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
@@ -42,7 +47,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignUpStep2Page());
 
       case SwitchAccountPage.pageId:
-        return MaterialPageRoute(builder: (_) => const SwitchAccountPage());
+        return MaterialPageRoute(
+            builder: (_) => const SwitchAccountPage());
 
       case CompanyProfileInputPage.pageId:
         return MaterialPageRoute(
@@ -107,6 +113,22 @@ class AppRouter {
 
       case VideoCallPage.pageId:
         return MaterialPageRoute(builder: (_) => const VideoCallPage());
+
+      case MainTabBarPage.pageId:
+        return MaterialPageRoute(builder: (_) => const MainTabBarPage());
+
+      case CompanyPostProjectStep1Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep1Page());
+      case CompanyPostProjectStep2Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep2Page());
+      case CompanyPostProjectStep3Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep3Page());
+      case CompanyPostProjectStep4Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep4Page());
       default:
         return null;
     }

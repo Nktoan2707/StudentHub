@@ -109,7 +109,6 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
 
   void continueButtonDidTap() {
     Navigator.of(context).pushReplacementNamed(WelcomePage.pageId);
-
   }
   
   Column getEmployeeTypeRadioList() {
