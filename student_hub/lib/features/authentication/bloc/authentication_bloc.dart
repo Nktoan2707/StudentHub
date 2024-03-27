@@ -25,7 +25,7 @@ class AuthenticationBloc
         _userRepository = userRepository,
         super(AuthenticationInitial()) {
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
-    on<AuthenticationLoggedOut>(_onAuthenticationLogoutRequested);
+    on<AuthenticationLoggedOut>(_onAuthenticationLoggedOut);
     _authenticationStateSubscription =
         _authenticationRepository.authenticationStatus.listen(
       (status) {
@@ -54,7 +54,7 @@ class AuthenticationBloc
     }
   }
 
-  void _onAuthenticationLogoutRequested(
+  void _onAuthenticationLoggedOut(
     AuthenticationLoggedOut event,
     Emitter<AuthenticationState> emit,
   ) {
