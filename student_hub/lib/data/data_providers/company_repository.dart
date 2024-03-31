@@ -1,18 +1,34 @@
+import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/data/models/domain/company.dart';
-import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class CompanyRepository {
-  Company? _company;
+  Future<Company?> getCompanyProfile(int id) async {
+    final response = await http
+        .get(Uri.parse('${Constant.apiBaseURL}/api/profile/company/$id'));
 
-  Future<Company?> getCompany() async {
-    if (_company != null) return _company;
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-          () => _company = Company(
-          id: const Uuid().v4(),
-          email: 'test@gmail.com',
-          password: "testpassword"),
-    );
+    if (response.statusCode == 200) {
+      return Company.fromJson(jsonDecode(response.body) as String);
+    } else {
+      throw Exception('[FAIL - NETWORK]Get company profile');
+    }
+  }
+
+  Future<Object?> updateCompanyProfile(Company companyProfile) async {
+    final response =
+        await http.post(Uri.parse('${Constant.apiBaseURL}/api/profile/company'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: companyProfile.toJson());
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('[FAIL - NETWORK]Update company profile');
+    }
   }
 }

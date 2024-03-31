@@ -41,10 +41,11 @@ class PrimaryText extends StatelessWidget {
 
 class TextFieldBox extends StatelessWidget {
   const TextFieldBox(
-      {super.key, required this.heightBox, required this.textController});
+      {super.key, required this.heightBox, required this.textController, this.onChanged});
 
   final double heightBox;
   final TextEditingController textController;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,11 @@ class TextFieldBox extends StatelessWidget {
           maxLines: null,
           expands: true,
           keyboardType: TextInputType.multiline,
+          onChanged: (value) {
+            if (onChanged is Function) {
+              onChanged!(value);
+            } 
+          },
         ),
       ),
     );

@@ -9,10 +9,17 @@ class StudentRepository {
     if (_student != null) return _student;
     return Future.delayed(
       const Duration(milliseconds: 300),
-          () => _student = Student(
-          id: const Uuid().v4(),
-          email: 'test@gmail.com',
-          password: "testpassword"),
+      () => _student = Student(
+        id: const Uuid().v4(),
+        userId: const Uuid().v4(), 
+        fullname: 'Test Student', 
+        techStack: TechStack(id: const Uuid().v4(), name: 'Tech Stack'), 
+        skillSet: [], 
+        language: [], 
+        education: [], 
+        transcript: Transcript(),
+        resume: Resume(),
+      ),
     );
   }
 }

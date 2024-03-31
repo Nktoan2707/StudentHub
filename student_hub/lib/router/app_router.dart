@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
+import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
+import 'package:student_hub/features/profile/bloc/company/company_profile_bloc.dart';
 import 'package:student_hub/features/profile/bloc/profile_bloc.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_step_1_page.dart';
@@ -39,14 +41,14 @@ import 'package:student_hub/features/project/pages/student_submit_proposal_page.
 class AppRouter {
   final LoginBloc _loginBloc;
   final SignupBloc _signupBloc;
-  final ProfileBloc _profileBloc;
+  final CompanyProfileBloc _companyProfileBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
             LoginBloc(authenticationRepository: authenticationRepository),
         _signupBloc =
             SignupBloc(authenticationRepository: authenticationRepository),
-  _profileBloc = ProfileBloc(studentRepository: StudentRepository());
+  _companyProfileBloc = CompanyProfileBloc(companyRepository: CompanyRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -79,9 +81,9 @@ class AppRouter {
 
       // Feature Profile
       case CompanyProfileInputPage.pageId:
-        return MaterialPageRoute(
+         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _profileBloc, child: const CompanyProfileInputPage()));
+                value: _companyProfileBloc, child: const CompanyProfileInputPage()));
 
       case StudentProfileInputStep1Page.pageId:
         return MaterialPageRoute(
@@ -158,6 +160,6 @@ class AppRouter {
   void dispose() {
     _signupBloc.close();
     _loginBloc.close();
-    _profileBloc.close();
+    _companyProfileBloc.close();
   }
 }
