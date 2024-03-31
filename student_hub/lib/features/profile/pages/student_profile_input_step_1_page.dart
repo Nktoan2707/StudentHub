@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/features/profile/bloc/profile_bloc.dart';
 import 'package:student_hub/features/profile/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -54,160 +56,175 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopNavigationBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const Center(
-            child: Text('Welcome to Student Hub'),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Text(
-                "Tell us about your self and you will be on your way connect with real-world project"),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          const Column(children: [
-            Row(
-              children: [
-                Text("Techstack"),
-              ],
-            ),
-            Row(
-              children: [
-                DropdownMenuExample(),
-              ],
-            ),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          Column(children: [
-            const Row(
-              children: [
-                Text("Skillset"),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 50,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(100, 21, 18, 18),
-                        width: 2,
-                      ),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        MultiSelectBottomSheetField(
-                          initialChildSize: 0.4,
-                          listType: MultiSelectListType.CHIP,
-                          searchable: true,
-                          buttonText: const Text("List of selected Skillsets"),
-                          title: const Text("Skillset"),
-                          items: _items,
-                          onConfirm: (values) {
-                            _selectedSkillset = values.cast();
-                          },
-                          chipDisplay: MultiSelectChipDisplay(
-                            onTap: (value) {
-                              setState(() {
-                                _selectedSkillset.remove(value);
-                              });
-                            },
-                          ),
-                        ),
-                        _selectedSkillset.isEmpty
-                            ? Container(
-                                padding: const EdgeInsets.all(10),
-                                )
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          const Column(children: [
-            Row(
-              children: [
-                Text("Language"),
-                Spacer(),
-                Icon(Icons.add),
-                Icon(Icons.edit),
-              ],
-            ),
-            Row(
-              children: [
-                Text("English: Native or Bilingual"),
-              ],
-            ),
-            SizedBox(
+      body: BlocListener<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileUpdateInProgress) {
+          } else if (state is ProfileUpdateSuccess) {
+            Navigator.of(context).pushReplacementNamed(StudentProfileInputStep2Page.pageId);
+          } else if (state is ProfileUpdateFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to update profile'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            const SizedBox(
               height: 10,
             ),
-            Row(
-              children: [
-                Text("Education"),
-                Spacer(),
-                Icon(Icons.add),
-              ],
+            const Center(
+              child: Text('Welcome to Student Hub'),
             ),
-            SizedBox(
-              height: 5,
+            const SizedBox(
+              height: 20,
             ),
-            Row(
-              children: [
-                Text("Le Hong Phong High School"),
-                Spacer(),
-                Icon(Icons.edit),
-                Icon(Icons.delete_sharp),
-              ],
+            const Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Text(
+                  "Tell us about your self and you will be on your way connect with real-world project"),
+            ]),
+            const SizedBox(
+              height: 10,
             ),
-            Row(
-              children: [
-                Text("2008-2010"),
-              ],
+            const Column(children: [
+              Row(
+                children: [
+                  Text("Techstack"),
+                ],
+              ),
+              Row(
+                children: [
+                  DropdownMenuExample(),
+                ],
+              ),
+            ]),
+            const SizedBox(
+              height: 10,
             ),
-            SizedBox(
-              height: 5,
+            Column(children: [
+              const Row(
+                children: [
+                  Text("Skillset"),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(100, 21, 18, 18),
+                          width: 2,
+                        ),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          MultiSelectBottomSheetField(
+                            initialChildSize: 0.4,
+                            listType: MultiSelectListType.CHIP,
+                            searchable: true,
+                            buttonText: const Text("List of selected Skillsets"),
+                            title: const Text("Skillset"),
+                            items: _items,
+                            onConfirm: (values) {
+                              _selectedSkillset = values.cast();
+                            },
+                            chipDisplay: MultiSelectChipDisplay(
+                              onTap: (value) {
+                                setState(() {
+                                  _selectedSkillset.remove(value);
+                                });
+                              },
+                            ),
+                          ),
+                          _selectedSkillset.isEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.all(10),
+                                  )
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ]),
+            const SizedBox(
+              height: 10,
             ),
-            Row(
-              children: [
-                Text("Ho Chi Minh University of Sciences"),
-                Spacer(),
-                Icon(Icons.edit),
-                Icon(Icons.delete_sharp),
-              ],
-            ),
-            Row(
-              children: [
-                Text("2010-2014"),
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: nextButton(),
-                ),
-              ],
-            ),
+            const Column(children: [
+              Row(
+                children: [
+                  Text("Language"),
+                  Spacer(),
+                  Icon(Icons.add),
+                  Icon(Icons.edit),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("English: Native or Bilingual"),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text("Education"),
+                  Spacer(),
+                  Icon(Icons.add),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  Text("Le Hong Phong High School"),
+                  Spacer(),
+                  Icon(Icons.edit),
+                  Icon(Icons.delete_sharp),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("2008-2010"),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  Text("Ho Chi Minh University of Sciences"),
+                  Spacer(),
+                  Icon(Icons.edit),
+                  Icon(Icons.delete_sharp),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("2010-2014"),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: nextButton(),
+                  ),
+                ],
+              ),
+            ]),
           ]),
-        ]),
+        ),
       ),
     );
   }
