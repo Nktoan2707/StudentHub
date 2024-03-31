@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/app.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/pages/student_submit_proposal_page.dart';
+import 'package:student_hub/features/project_student/pages/student_submit_proposal_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 
 class StudentProjectDetailPage extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/profile/pages/company_profile_input_page.dart';
-import 'package:student_hub/features/profile/pages/student_profile_input_step_1_page.dart';
+import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
+import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar2.dart';
 
 import '../../../widgets/components/top_navigation_bar.dart';

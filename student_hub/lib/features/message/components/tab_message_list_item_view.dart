@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
-import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
+import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 import 'package:student_hub/widgets/components/text_custom.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 

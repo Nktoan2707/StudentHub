@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
+import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/text_custom.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';

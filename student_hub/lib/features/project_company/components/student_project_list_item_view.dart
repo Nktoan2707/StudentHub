@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
+import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 
 class StudentProjectListItemView extends StatelessWidget {
   const StudentProjectListItemView({super.key, required this.project});

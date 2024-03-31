@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:student_hub/data/models/domain/project.dart';
-import 'package:student_hub/features/project/components/student_project_list_item_view.dart';
-import 'package:student_hub/features/project/pages/student_project_detail_page.dart';
-import 'package:student_hub/features/project/pages/student_saved_project_list_page.dart';
+import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
+import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
+import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 

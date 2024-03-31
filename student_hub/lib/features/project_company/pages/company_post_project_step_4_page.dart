@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/project/pages/company_dashboard_page.dart';
+import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class CompanyPostProjectStep4Page extends StatefulWidget {

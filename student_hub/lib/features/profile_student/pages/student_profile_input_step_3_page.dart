@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/profile/bloc/profile_bloc.dart';
-import 'package:student_hub/features/project/pages/student_project_list_page.dart';
+import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
+import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentProfileInputStep3Page extends StatefulWidget {
@@ -25,12 +25,12 @@ class StudentProfileInputStep3State
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopNavigationBar(),
-      body: BlocListener<ProfileBloc, ProfileState>(
+      body: BlocListener<StudentProfileBloc, StudentProfileState>(
         listener: (context, state) {
-          if (state is ProfileUpdateInProgress) {
-          } else if (state is ProfileUpdateSuccess) {
+          if (state is StudentProfileUpdateInProgress) {
+          } else if (state is StudentProfileUpdateSuccess) {
             Navigator.of(context).pushReplacementNamed(StudentProjectListPage.pageId);
-          } else if (state is ProfileUpdateFailure) {
+          } else if (state is StudentProfileUpdateFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Failed to update profile'),

@@ -8,36 +8,36 @@ import 'package:student_hub/data/data_providers/student_repository.dart';
 
 import '../../../data/models/domain/student.dart';
 
-part 'profile_event.dart';
+part 'student_profile_event.dart';
 
-part 'profile_state.dart';
+part 'student_profile_state.dart';
 
-class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+class StudentProfileBloc extends Bloc<StudentProfileEvent, StudentProfileState> {
   final StudentRepository _studentRepository;
 
-  ProfileBloc({
+  StudentProfileBloc({
     required StudentRepository studentRepository,
   })  : _studentRepository = studentRepository,
-        super(ProfileInitial());
+        super(StudentProfileInitial());
 
   @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is ProfileUpdated) {
+  Stream<StudentProfileState> mapEventToState(StudentProfileEvent event) async* {
+    if (event is StudentProfileUpdated) {
       yield* _mapProfileUpdatedToState(event);
     }
   }
 
-  Stream<ProfileState> _mapProfileUpdatedToState(ProfileUpdated event) async* {
-    yield ProfileUpdateInProgress();
+  Stream<StudentProfileState> _mapProfileUpdatedToState(StudentProfileUpdated event) async* {
+    yield StudentProfileUpdateInProgress();
     try {
       final student = await _studentRepository.getStudent();
       if (student != null) {
-        yield ProfileUpdateSuccess(student: student);
+        yield StudentProfileUpdateSuccess(student: student);
       } else {
-        yield ProfileUpdateFailure();
+        yield StudentProfileUpdateFailure();
       }
     } catch (e) {
-      yield ProfileUpdateFailure();
+      yield StudentProfileUpdateFailure();
     }
   }
 }

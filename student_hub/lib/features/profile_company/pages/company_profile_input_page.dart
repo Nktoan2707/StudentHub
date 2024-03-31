@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/company.dart';
-import 'package:student_hub/features/profile/bloc/company/company_profile_bloc.dart';
-import 'package:student_hub/features/profile/pages/welcome_page.dart';
+import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
+import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 

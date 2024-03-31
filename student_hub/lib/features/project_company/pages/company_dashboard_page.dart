@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:student_hub/features/project/pages/company_post_project_step_1_page.dart';
-import 'package:student_hub/features/project/pages/company_project_detail_page.dart';
+import 'package:student_hub/features/project_company/pages/company_post_project_step_1_page.dart';
+import 'package:student_hub/features/project_company/pages/company_project_detail_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 

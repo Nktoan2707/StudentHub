@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
-import 'package:student_hub/features/project/pages/company_dashboard_page.dart';
-import 'package:student_hub/features/project/pages/student_dashboard_page.dart';
-import 'package:student_hub/features/project/pages/student_project_list_page.dart';
+import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
+import 'package:student_hub/features/project_student/pages/student_dashboard_page.dart';
+import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
