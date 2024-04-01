@@ -4,19 +4,19 @@ import 'package:formz/formz.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
-import 'package:student_hub/features/signup/pages/sign_up_step_1_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-class SignUpStep2Page extends StatefulWidget {
-  static const String pageId = "/SignUpStep2Page";
+class SignUpAsStudentPage extends StatefulWidget {
+  static const String pageId = "/SignUpAsStudentPage";
 
-  const SignUpStep2Page({super.key});
+  const SignUpAsStudentPage({super.key});
 
   @override
-  State<SignUpStep2Page> createState() => _SignUpStep2PageState();
+  State<SignUpAsStudentPage> createState() => _SignUpAsStudentPageState();
 }
 
-class _SignUpStep2PageState extends State<SignUpStep2Page> {
+class _SignUpAsStudentPageState extends State<SignUpAsStudentPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
@@ -47,14 +47,14 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
               ),
               Center(
                 child: Text(
-                  'Sign up as Company',
+                  'Sign up as Student',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
               const SizedBox(
                 height: 30,
               ),
-              const _FullNameInput(),
+              const _UsernameInput(),
               const SizedBox(
                 height: 10,
               ),
@@ -81,14 +81,14 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Looking for a project?"),
+                      const Text("Looking for a student to hire?"),
                       TextButton(
                         onPressed: () {
                           Navigator.of(context)
-                              .pushReplacementNamed(SignUpStep1Page.pageId);
+                              .pushReplacementNamed(SignUpChooseRolePage.pageId);
                         },
                         child: const Text(
-                          "Apply as student",
+                          "Apply as company",
                           style:
                               TextStyle(decoration: TextDecoration.underline),
                         ),
@@ -105,24 +105,24 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
   }
 }
 
-class _FullNameInput extends StatefulWidget {
-  const _FullNameInput();
+class _UsernameInput extends StatefulWidget {
+  const _UsernameInput();
 
   @override
-  State<_FullNameInput> createState() => _FullNameInputState();
+  State<_UsernameInput> createState() => _UsernameInputState();
 }
 
-class _FullNameInputState extends State<_FullNameInput> {
+class _UsernameInputState extends State<_UsernameInput> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('signup_fullNameInput_textField'),
+          key: const Key('signUpAsStudentPage_usernameInput_textField'),
           onChanged: (fullName) {},
           decoration: InputDecoration(
-            labelText: "Full name",
+            labelText: "Username",
             errorText:
                 state.username.displayError != null ? 'invalid username' : null,
             prefixIcon: const Icon(Icons.person_outline),
@@ -153,7 +153,7 @@ class _WorkEmailAddressInputState extends State<_WorkEmailAddressInput> {
       // buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          key: const Key('signup_WorkEmailAddressInput_textField'),
+          key: const Key('signUpAsStudentPage_workEmailAddressInput_textField'),
           onChanged: (fullName) {},
           decoration: InputDecoration(
             labelText: "Work Email Address",
@@ -188,7 +188,7 @@ class _PasswordInputState extends State<_PasswordInput> {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          key: const Key('signup_passwordInput_textField'),
+          key: const Key('signUpAsStudentPage_passwordInput_textField'),
           obscureText: _obscurePassword,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
@@ -263,7 +263,7 @@ class _CreateAccountButton extends StatelessWidget {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
-                key: const Key('signUpPageStep2_continue_raisedButton'),
+                key: const Key('signUpAsStudentPage_continue_raisedButton'),
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
                   shadowColor: Colors.black,

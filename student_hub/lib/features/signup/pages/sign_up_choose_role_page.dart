@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
-import 'package:student_hub/features/signup/pages/sign_up_step_2_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_as_company_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-class SignUpStep1Page extends StatefulWidget {
-  static const String pageId = "/SignUpStep1Page";
+class SignUpChooseRolePage extends StatefulWidget {
+  static const String pageId = "/SignUpChooseRolePage";
 
-  const SignUpStep1Page({super.key});
+  const SignUpChooseRolePage({super.key});
 
   @override
-  State<SignUpStep1Page> createState() => _SignUpStep1PageState();
+  State<SignUpChooseRolePage> createState() => _SignUpChooseRolePageState();
 }
 
-class _SignUpStep1PageState extends State<SignUpStep1Page> {
+class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,7 +141,7 @@ class _CreateAccountButton extends StatelessWidget {
               ),
             ),
             onPressed: true ? () {
-              Navigator.of(context).pushReplacementNamed(SignUpStep2Page.pageId);
+              Navigator.of(context).pushReplacementNamed(SignUpAsCompanyPage.pageId);
             } : null,
             child: const Text('Create account'),
           );

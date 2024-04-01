@@ -12,8 +12,8 @@ import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.d
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
-import 'package:student_hub/features/signup/pages/sign_up_step_1_page.dart';
-import 'package:student_hub/features/signup/pages/sign_up_step_2_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_as_company_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
@@ -68,15 +68,15 @@ class AppRouter {
 
       //Feature Signup
 
-      case SignUpStep1Page.pageId:
+      case SignUpChooseRolePage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _signupBloc, child: const SignUpStep1Page()));
+                value: _signupBloc, child: const SignUpChooseRolePage()));
 
-      case SignUpStep2Page.pageId:
+      case SignUpAsCompanyPage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _signupBloc, child: const SignUpStep2Page()));
+                value: _signupBloc, child: const SignUpAsCompanyPage()));
 
       // Feature Profile
       case CompanyProfileInputPage.pageId:

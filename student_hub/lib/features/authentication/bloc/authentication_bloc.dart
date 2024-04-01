@@ -45,7 +45,7 @@ class AuthenticationBloc
         final user = await _tryGetUser();
         return emit(
           user != null
-              ? AuthenticationAuthenticateSuccess(user)
+              ? AuthenticationAuthenticateSuccess(user: user, userRole: UserRole.student)
               : AuthenticationAuthenticateFailure(),
         );
       default:

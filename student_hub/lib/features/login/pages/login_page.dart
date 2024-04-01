@@ -4,7 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
-import 'package:student_hub/features/signup/pages/sign_up_step_1_page.dart';
+import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, SignUpStep1Page.pageId);
+                              context, SignUpChooseRolePage.pageId);
                         },
                         child: const Text(
                           "Signup",
