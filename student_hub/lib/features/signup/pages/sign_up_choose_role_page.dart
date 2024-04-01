@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
-import 'package:student_hub/features/signup/pages/sign_up_as_company_page.dart';
+import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
+import 'package:student_hub/features/signup/pages/sign_up_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class SignUpChooseRolePage extends StatefulWidget {
@@ -43,23 +48,33 @@ class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
                 ),
               ),
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.account_box_rounded),
-                    trailing: Checkbox(
-                      shape: const CircleBorder(),
-                      value: false,
-                      onChanged: (value) {
-
-                      },
-                    ),
-                    visualDensity: const VisualDensity(horizontal: -0, vertical: -4),
-                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
-                  ),
-                  const Text("I am a company, find engineer for project")
-                ],
+              child: BlocBuilder<SignupBloc, SignupState>(
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.account_box_rounded),
+                        trailing: Checkbox(
+                          shape: const CircleBorder(),
+                          value: state.userRole == UserRole.company,
+                          onChanged: (value) {
+                            if (value == true) {
+                              context
+                                  .read<SignupBloc>()
+                                  .add(SignupUserRoleChosen(UserRole.company));
+                            }
+                          },
+                        ),
+                        visualDensity:
+                            const VisualDensity(horizontal: -0, vertical: -4),
+                        contentPadding:
+                            const EdgeInsets.only(left: 0, right: 0),
+                      ),
+                      const Text("I am a company, find engineer for project")
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -74,23 +89,31 @@ class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
                 ),
               ),
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    leading: const Icon(Icons.account_box_rounded),
-                    trailing: Checkbox(
-                      shape: const CircleBorder(),
-                      value: false,
-                      onChanged: (value) {
-
-                      },
-                    ),
-                    visualDensity: const VisualDensity(horizontal: -0, vertical: -4),
-                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
-                  ),
-                  const Text("I am a student, find project to experience")
-                ],
+              child: BlocBuilder<SignupBloc, SignupState>(
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.account_box_rounded),
+                        trailing: Checkbox(
+                          shape: const CircleBorder(),
+                          value: state.userRole == UserRole.student,
+                          onChanged: (value) {
+                            context
+                                .read<SignupBloc>()
+                                .add(SignupUserRoleChosen(UserRole.student));
+                          },
+                        ),
+                        visualDensity:
+                            const VisualDensity(horizontal: -0, vertical: -4),
+                        contentPadding:
+                            const EdgeInsets.only(left: 0, right: 0),
+                      ),
+                      const Text("I am a student, find project to experience")
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(
@@ -98,14 +121,17 @@ class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
             ),
             Column(
               children: [
-                _CreateAccountButton(),
+                _CreateAccountButton(onPressed: () {
+                  _onCreateButtonPressed();
+                }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Already have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, LoginPage.pageId);
+                        Navigator.pushReplacementNamed(
+                            context, LoginPage.pageId);
                       },
                       child: const Text(
                         "Log in",
@@ -121,9 +147,17 @@ class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
       ),
     );
   }
+
+  void _onCreateButtonPressed() {
+    Navigator.of(context).pushReplacementNamed(SignUpPage.pageId);
+  }
 }
 
 class _CreateAccountButton extends StatelessWidget {
+  final Function onPressed;
+
+  const _CreateAccountButton({super.key, required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     return false
@@ -140,9 +174,11 @@ class _CreateAccountButton extends StatelessWidget {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {
-              Navigator.of(context).pushReplacementNamed(SignUpAsCompanyPage.pageId);
-            } : null,
+            onPressed: true
+                ? () async {
+                    onPressed();
+                  }
+                : null,
             child: const Text('Create account'),
           );
   }

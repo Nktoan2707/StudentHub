@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
+import 'package:intl/intl.dart';
 
-class SignUpAsStudentPage extends StatefulWidget {
-  static const String pageId = "/SignUpAsStudentPage";
+class SignUpPage extends StatefulWidget {
+  static const String pageId = "/SignUpPage";
 
-  const SignUpAsStudentPage({super.key});
+  const SignUpPage({super.key});
 
   @override
-  State<SignUpAsStudentPage> createState() => _SignUpAsStudentPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpAsStudentPageState extends State<SignUpAsStudentPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status.isFailure) {
           ScaffoldMessenger.of(context)
@@ -45,11 +48,16 @@ class _SignUpAsStudentPageState extends State<SignUpAsStudentPage> {
               const SizedBox(
                 height: 40,
               ),
-              Center(
-                child: Text(
-                  'Sign up as Student',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
+              BlocBuilder<SignupBloc, SignupState>(
+                builder: (context, state) {
+                  return Center(
+                    child: Text(
+                      'Sign up as ${toBeginningOfSentenceCase(state.userRole.name)}',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 height: 30,
@@ -66,7 +74,7 @@ class _SignUpAsStudentPageState extends State<SignUpAsStudentPage> {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 children: [
                   _CheckBox(),
                   Text("Yes, I understand and agree to StudentHub")
@@ -78,22 +86,44 @@ class _SignUpAsStudentPageState extends State<SignUpAsStudentPage> {
               Column(
                 children: [
                   _CreateAccountButton(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Looking for a student to hire?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(SignUpChooseRolePage.pageId);
-                        },
-                        child: const Text(
-                          "Apply as company",
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
+                  BlocBuilder<SignupBloc, SignupState>(
+                    builder: (context, state) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          switch (state.userRole) {
+                            UserRole.student =>
+                              const Text("Looking for a student to hire?"),
+                            UserRole.company =>
+                              const Text("Looking for a project?"),
+                          },
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pushReplacementNamed(
+                                  SignUpChooseRolePage.pageId);
+                            },
+                            child: Builder(
+                              builder: (context) {
+                                switch (state.userRole) {
+                                  case UserRole.student:
+                                    return Text(
+                                      "Apply as Company",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline),
+                                    );
+                                  case UserRole.company:
+                                    return Text(
+                                      "Apply as Student",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline),
+                                    );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -119,8 +149,10 @@ class _UsernameInputState extends State<_UsernameInput> {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('signUpAsStudentPage_usernameInput_textField'),
-          onChanged: (fullName) {},
+          key: const Key('signUpPage_usernameInput_textField'),
+          onChanged: (username) {
+            context.read<SignupBloc>().add(SignupUsernameChanged(username));
+          },
           decoration: InputDecoration(
             labelText: "Username",
             errorText:
@@ -153,11 +185,17 @@ class _WorkEmailAddressInputState extends State<_WorkEmailAddressInput> {
       // buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          key: const Key('signUpAsStudentPage_workEmailAddressInput_textField'),
-          onChanged: (fullName) {},
+          key: const Key('signUpPage_workEmailAddressInput_textField'),
+          onChanged: (emailAddress) {
+            context
+                .read<SignupBloc>()
+                .add(SignupEmailAddressChanged(emailAddress));
+          },
           decoration: InputDecoration(
             labelText: "Work Email Address",
-            errorText: false ? 'invalid email address' : null,
+            errorText: state.emailAddress.displayError != null
+                ? 'invalid email address'
+                : null,
             prefixIcon: const Icon(Icons.email_outlined),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -188,7 +226,10 @@ class _PasswordInputState extends State<_PasswordInput> {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
-          key: const Key('signUpAsStudentPage_passwordInput_textField'),
+          key: const Key('signUpPage_passwordInput_textField'),
+          onChanged: (password) {
+            context.read<SignupBloc>().add(SignupPasswordChanged(password));
+          },
           obscureText: _obscurePassword,
           keyboardType: TextInputType.visiblePassword,
           decoration: InputDecoration(
@@ -218,16 +259,7 @@ class _PasswordInputState extends State<_PasswordInput> {
   }
 }
 
-class _CheckBox extends StatefulWidget {
-  const _CheckBox();
-
-  @override
-  State<_CheckBox> createState() => _CheckBoxState();
-}
-
-class _CheckBoxState extends State<_CheckBox> {
-  bool isChecked = false;
-
+class _CheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -242,14 +274,18 @@ class _CheckBoxState extends State<_CheckBox> {
       return Colors.white;
     }
 
-    return Checkbox(
-      checkColor: Colors.white,
-      fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
-      onChanged: (bool? value) {
-        setState(() {
-          isChecked = value!;
-        });
+    return BlocBuilder<SignupBloc, SignupState>(
+      builder: (context, state) {
+        return Checkbox(
+          checkColor: Colors.white,
+          fillColor: MaterialStateProperty.resolveWith(getColor),
+          value: state.agreeToTerm,
+          onChanged: (bool? agreeToTerm) {
+            context
+                .read<SignupBloc>()
+                .add(SignupAgreeToTermChanged(agreeToTerm!));
+          },
+        );
       },
     );
   }
@@ -263,7 +299,7 @@ class _CreateAccountButton extends StatelessWidget {
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
-                key: const Key('signUpAsStudentPage_continue_raisedButton'),
+                key: const Key('signUpPage_continue_raisedButton'),
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
                   shadowColor: Colors.black,

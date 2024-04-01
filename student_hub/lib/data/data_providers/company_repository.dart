@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class CompanyRepository {
   Future<Company?> getCompanyProfile(int id) async {
     final response = await http
-        .get(Uri.parse('${Constant.apiBaseURL}/api/profile/company/$id'));
+        .get(Uri.parse('${Constants.apiBaseURL}/api/profile/company/$id'));
 
     if (response.statusCode == 200) {
       return Company.fromJson(jsonDecode(response.body) as String);
@@ -19,7 +19,7 @@ class CompanyRepository {
 
   Future<Object?> updateCompanyProfile(Company companyProfile) async {
     final response =
-        await http.post(Uri.parse('${Constant.apiBaseURL}/api/profile/company'),
+        await http.post(Uri.parse('${Constants.apiBaseURL}/api/profile/company'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },

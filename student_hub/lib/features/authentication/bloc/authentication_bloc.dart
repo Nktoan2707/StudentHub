@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
@@ -42,10 +44,18 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return emit(AuthenticationAuthenticateFailure());
       case AuthenticationStatus.authenticated:
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        UserRole userRole = prefs.getString(Constants.chosenUserRole) != null
+            ? UserRole.values.firstWhere(
+                (e) => e.name == prefs.getString(Constants.chosenUserRole))
+            : UserRole.student;
+
         final user = await _tryGetUser();
         return emit(
           user != null
-              ? AuthenticationAuthenticateSuccess(user: user, userRole: UserRole.student)
+              ? AuthenticationAuthenticateSuccess(
+                  user: user, userRole: UserRole.student)
               : AuthenticationAuthenticateFailure(),
         );
       default:

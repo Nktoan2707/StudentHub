@@ -12,8 +12,8 @@ import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.d
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
+import 'package:student_hub/features/signup/pages/sign_up_page.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
-import 'package:student_hub/features/signup/pages/sign_up_as_company_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
@@ -47,7 +47,8 @@ class AppRouter {
             LoginBloc(authenticationRepository: authenticationRepository),
         _signupBloc =
             SignupBloc(authenticationRepository: authenticationRepository),
-  _companyProfileBloc = CompanyProfileBloc(companyRepository: CompanyRepository());
+        _companyProfileBloc =
+            CompanyProfileBloc(companyRepository: CompanyRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -67,47 +68,59 @@ class AppRouter {
                 value: _loginBloc, child: const LoginPage()));
 
       //Feature Signup
-
       case SignUpChooseRolePage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _signupBloc, child: const SignUpChooseRolePage()));
 
-      case SignUpAsCompanyPage.pageId:
+      case SignUpPage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _signupBloc, child: const SignUpAsCompanyPage()));
+                value: _signupBloc, child: const SignUpPage()),
+            settings: settings);
 
-      // Feature Profile
+      // Feature Profile Company
       case CompanyProfileInputPage.pageId:
-         return MaterialPageRoute(
+        return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _companyProfileBloc, child: const CompanyProfileInputPage()));
+                value: _companyProfileBloc,
+                child: const CompanyProfileInputPage()));
 
+      // Feature Profile Student
       case StudentProfileInputStep1Page.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProfileInputStep1Page());
-
       case StudentProfileInputStep2Page.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProfileInputStep2Page());
-
       case StudentProfileInputStep3Page.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProfileInputStep3Page());
-
       case WelcomePage.pageId:
         return MaterialPageRoute(builder: (_) => const WelcomePage());
 
-      //Feature Project
+      //Feature Project Company
       case MainTabBarPage.pageId:
         return MaterialPageRoute(builder: (_) => const MainTabBarPage());
-
       case CompanyDashboardPage.pageId:
         return MaterialPageRoute(builder: (_) => const CompanyDashboardPage());
       case CompanyProjectDetailPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const CompanyProjectDetailPage());
+      case CompanyPostProjectStep1Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep1Page());
+      case CompanyPostProjectStep2Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep2Page());
+      case CompanyPostProjectStep3Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep3Page());
+      case CompanyPostProjectStep4Page.pageId:
+        return MaterialPageRoute(
+            builder: (_) => const CompanyPostProjectStep4Page());
+
+      //Feature Project Student
       case StudentProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProjectListPage());
@@ -126,19 +139,6 @@ class AppRouter {
             builder: (_) => const StudentSubmitProposalPage());
       case StudentDashboardPage.pageId:
         return MaterialPageRoute(builder: (_) => const StudentDashboardPage());
-
-      case CompanyPostProjectStep1Page.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep1Page());
-      case CompanyPostProjectStep2Page.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep2Page());
-      case CompanyPostProjectStep3Page.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep3Page());
-      case CompanyPostProjectStep4Page.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep4Page());
 
       //Feature Message
       case TabMessagePage.pageId:
