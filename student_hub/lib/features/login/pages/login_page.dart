@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status.isFailure) {
           ScaffoldMessenger.of(context)

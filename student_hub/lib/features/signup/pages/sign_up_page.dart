@@ -222,6 +222,8 @@ class _PasswordInputState extends State<_PasswordInput> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<SignupBloc>().add(SignupPasswordChanged(""));
+
     return BlocBuilder<SignupBloc, SignupState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {

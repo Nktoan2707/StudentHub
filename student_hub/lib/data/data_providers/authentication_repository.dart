@@ -11,7 +11,21 @@ class AuthenticationRepository {
   final StreamController<AuthenticationStatus> _authenticationStatusController =
       StreamController<AuthenticationStatus>();
 
-  Stream<AuthenticationStatus> get authenticationStatus async* {
+  UserRole currentUserRole = UserRole.student;
+
+  AuthenticationRepository() {
+    SharedPreferences.getInstance()
+        .then((prefs) => prefs.getString(Constants.chosenUserRole))
+        .then((value) => UserRole.values.firstWhere(
+              (element) => element.name == value,
+              orElse: () => UserRole.student,
+            ))
+        .then((value) => currentUserRole = value);
+  }
+
+  Future<void> init() async {}
+
+  get authenticationStatus async* {
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _authenticationStatusController.stream;
@@ -37,8 +51,6 @@ class AuthenticationRepository {
       );
 
       if (response.statusCode == 201) {
-        // final SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setString(Constants.chosenUserRole, userRole.name);
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
         throw Exception(json.decode(response.body));
@@ -79,6 +91,7 @@ class AuthenticationRepository {
               }));
 
       if (response.statusCode == 200) {
+        currentUserRole = userRole;
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(Constants.chosenUserRole, userRole.name);
       } else if (response.statusCode == 400) {
