@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
-import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 import 'package:student_hub/widgets/components/text_custom.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
@@ -30,12 +28,12 @@ class TabMessageListItemView extends StatelessWidget {
                           height: 48,
                           width: 48,
                           'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg'),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.sizeOf(context).width - 48 - 60,
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

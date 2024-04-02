@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/video_call_navigation.dart';
 
 class  VideoCallPage extends StatefulWidget {
@@ -28,7 +27,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _buildUserTile(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildUserTile(),
                 ],
               ),
@@ -90,16 +89,16 @@ class _VideoCallPageState extends State<VideoCallPage> {
     return Container(
       width: double.infinity,
       color: Colors.grey,
-      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+      padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.person,
             size: 48,
             color: Colors.black,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           _buildMicIcon(),
         ],
       ),

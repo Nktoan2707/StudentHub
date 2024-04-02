@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/data/models/domain/schedule_detail.dart';
 import 'package:student_hub/features/message/components/message_buble.dart';
-import 'package:student_hub/widgets/components/text_custom.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 import '../components/Avatar.dart';
@@ -14,6 +12,8 @@ import 'package:intl/intl.dart';
 
 class TabMessageDetailPage extends StatefulWidget {
   static const String pageId = "/TabMessageDetailPage";
+
+  const TabMessageDetailPage({super.key});
 
   @override
   State<TabMessageDetailPage> createState() => _TabMessageDetailPageState();
@@ -80,7 +80,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
         centerTitle: true,
         title: Column(
           children: [
-            Avatar(
+            const Avatar(
               imageUrl:
                   'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg',
               radius: 18,
@@ -97,7 +97,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
             onPressed: () {
               settingButtonDidTap();
             },
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
           ),
           const SizedBox(width: 8.0),
         ],
@@ -166,17 +166,16 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                                       ? MainAxisAlignment.start
                                       : MainAxisAlignment.end,
                                   children: [
-                                    Avatar(
+                                    const Avatar(
                                       imageUrl:
                                           'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg',
                                       radius: 12,
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(width: 8),
                                     Text(message.senderName.length > 20
-                                        ? message.senderName.substring(0, 20) +
-                                            '...'
+                                        ? '${message.senderName.substring(0, 20)}...'
                                         : message.senderName),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Text(DateFormat('hh:mm:ss dd/MM/yyyy')
                                         .format(message.date)),
                                   ],
@@ -192,13 +191,12 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                                   children: [
                                     Text(DateFormat('hh:mm:ss dd/MM/yyyy')
                                         .format(message.date)),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Text(message.senderName.length > 20
-                                        ? message.senderName.substring(0, 20) +
-                                            '...'
+                                        ? '${message.senderName.substring(0, 20)}...'
                                         : message.senderName),
-                                    SizedBox(width: 8),
-                                    Avatar(
+                                    const SizedBox(width: 8),
+                                    const Avatar(
                                       imageUrl:
                                           'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg',
                                       radius: 12,
@@ -226,17 +224,16 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                                       ? MainAxisAlignment.start
                                       : MainAxisAlignment.end,
                                   children: [
-                                    Avatar(
+                                    const Avatar(
                                       imageUrl:
                                           'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg',
                                       radius: 12,
                                     ),
-                                    SizedBox(width: 8),
+                                    const SizedBox(width: 8),
                                     Text(message.senderName.length > 20
-                                        ? message.senderName.substring(0, 20) +
-                                            '...'
+                                        ? '${message.senderName.substring(0, 20)}...'
                                         : message.senderName),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Text(DateFormat('hh:mm:ss dd/MM/yyyy')
                                         .format(message.date)),
                                   ],
@@ -252,10 +249,10 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                                   children: [
                                     Text(DateFormat('hh:mm:ss dd/MM/yyyy')
                                         .format(message.date)),
-                                    SizedBox(width: 16),
-                                    Text('Hai pham'),
-                                    SizedBox(width: 8),
-                                    Avatar(
+                                    const SizedBox(width: 16),
+                                    const Text('Hai pham'),
+                                    const SizedBox(width: 8),
+                                    const Avatar(
                                       imageUrl:
                                           'https://i.pinimg.com/originals/f9/64/2a/f9642a97146f7c952c3f929d8e557655.jpg',
                                       radius: 12,
@@ -267,10 +264,11 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                           );
                         }
                       }
+                      return null;
                     },
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 100,
                   child: Row(
                     children: [
@@ -278,7 +276,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                         onPressed: () {
                           // TODO: Send an image
                         },
-                        icon: Icon(Icons.attach_file),
+                        icon: const Icon(Icons.attach_file),
                       ),
                       Expanded(
                         child: TextFormField(
@@ -298,7 +296,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                               onPressed: () {
                                 _sendMessage();
                               },
-                              icon: Icon(Icons.send),
+                              icon: const Icon(Icons.send),
                             ),
                           ),
                         ),
@@ -306,7 +304,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 )
               ],
@@ -325,16 +323,16 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
           child: Wrap(
             children: [
               ListTile(
-                leading: Icon(Icons.view_list),
-                title: Text('Schedule on interview'),
+                leading: const Icon(Icons.view_list),
+                title: const Text('Schedule on interview'),
                 onTap: () {
                   Navigator.pop(context);
                   scheduleButtonDidTap();
                 },
               ),
               ListTile(
-                leading: Icon(Icons.cancel),
-                title: Text('Cancel'),
+                leading: const Icon(Icons.cancel),
+                title: const Text('Cancel'),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -355,7 +353,7 @@ class _ScheduleFloatingPanel extends StatefulWidget {
   final PanelController panelController;
 
   const _ScheduleFloatingPanel(
-      {super.key, required this.panelController, required this.messages});
+      {required this.panelController, required this.messages});
   final List messages;
   @override
   State<_ScheduleFloatingPanel> createState() => _ScheduleFloatingPanelState();
@@ -371,7 +369,7 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 0,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -380,21 +378,21 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
               onPressed: () {
                 widget.panelController.close();
               },
-              icon: FaIcon(FontAwesomeIcons.circleXmark),
-              constraints: BoxConstraints(),
+              icon: const FaIcon(FontAwesomeIcons.circleXmark),
+              constraints: const BoxConstraints(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            HeaderText(title: 'Schedule a video call interview'),
-            Divider(
+            const HeaderText(title: 'Schedule a video call interview'),
+            const Divider(
               thickness: 3,
               height: 40,
             ),
-            PrimaryText(
+            const PrimaryText(
               title: "Title",
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             TextField(
@@ -407,13 +405,13 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
               ),
               controller: titleController,
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
-            PrimaryText(
+            const PrimaryText(
               title: "Start time",
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Row(
@@ -432,17 +430,17 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                   onPressed: () {
                     dateTimePickerWidget(context, startTimeController);
                   },
-                  icon: Icon(Icons.calendar_month),
+                  icon: const Icon(Icons.calendar_month),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
-            PrimaryText(
+            const PrimaryText(
               title: "End time",
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Row(
@@ -461,14 +459,14 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                   onPressed: () {
                     dateTimePickerWidget(context, endTimeController);
                   },
-                  icon: Icon(Icons.calendar_month),
+                  icon: const Icon(Icons.calendar_month),
                 ),
               ],
             ),
-            Text(
+            const Text(
               "Duration: 60 minutes",
             ),
-            SizedBox(
+            const SizedBox(
               height: 36,
             ),
             Row(

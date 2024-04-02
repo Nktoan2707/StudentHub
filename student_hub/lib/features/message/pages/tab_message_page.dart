@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
-import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
-import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
-import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class TabMessagePage extends StatefulWidget {
   static const String pageId = "/TabMessagePage";
@@ -63,7 +58,7 @@ class _TabMessagePageState extends State<TabMessagePage> {
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return Divider(
+                              return const Divider(
                                 thickness: 3,
                                 height: 20,
                               );
@@ -103,17 +98,17 @@ class _TabMessagePageState extends State<TabMessagePage> {
               const SizedBox(
                 height: 20,
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 3,
               ),
               ListView.separated(
                 scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: 4,
                 itemBuilder: (context, index) {
-                  return TabMessageListItemView();
+                  return const TabMessageListItemView();
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider(

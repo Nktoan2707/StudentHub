@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 
-import '../../../data/models/domain/student.dart';
+import '../../../data/models/domain/student_profile.dart';
 
 part 'student_profile_event.dart';
 

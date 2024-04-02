@@ -9,5 +9,5 @@ void main() {
 
   Bloc.observer = AppBlocObserver();
 
-  runApp(App());
+  runApp(const App());
 }

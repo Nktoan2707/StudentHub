@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
-import 'package:student_hub/data/data_providers/student_repository.dart';
-import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
-import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
@@ -16,7 +13,6 @@ import 'package:student_hub/features/signup/pages/sign_up_page.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/message/pages/video_call_page.dart';
@@ -144,7 +140,7 @@ class AppRouter {
       case TabMessagePage.pageId:
         return MaterialPageRoute(builder: (_) => const TabMessagePage());
       case TabMessageDetailPage.pageId:
-        return MaterialPageRoute(builder: (_) => TabMessageDetailPage());
+        return MaterialPageRoute(builder: (_) => const TabMessageDetailPage());
       case VideoCallPage.pageId:
         return MaterialPageRoute(builder: (_) => const VideoCallPage());
 

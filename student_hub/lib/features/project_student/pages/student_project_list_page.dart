@@ -4,8 +4,6 @@ import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar.dart';
-import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentProjectListPage extends StatefulWidget {
   static const String pageId = "/StudentProjectListPage";
@@ -18,7 +16,7 @@ class StudentProjectListPage extends StatefulWidget {
 
 class _StudentProjectListPageState extends State<StudentProjectListPage> {
   List<Project> projectList = List.from({
-    Project(
+    const Project(
         createdAt: "3 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -26,7 +24,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 4),
-    Project(
+    const Project(
         createdAt: "5 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -34,7 +32,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 2),
-    Project(
+    const Project(
         createdAt: "6 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -89,7 +87,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return Divider(
+                              return const Divider(
                                 thickness: 3,
                                 height: 20,
                               );
@@ -128,7 +126,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                       onPressed: () {
                         _goToSavedProjectPage();
                       },
-                      icon: FaIcon(
+                      icon: const FaIcon(
                         FontAwesomeIcons.gratipay,
                         size: 35,
                       ))
@@ -137,13 +135,13 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
               const SizedBox(
                 height: 20,
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 3,
               ),
               ListView.separated(
                 scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: projectList.length,
                 itemBuilder: (context, index) {

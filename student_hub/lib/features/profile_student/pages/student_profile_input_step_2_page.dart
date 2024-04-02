@@ -61,7 +61,7 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
             Navigator.of(context).pushReplacementNamed(StudentProfileInputStep3Page.pageId);
           } else if (state is StudentProfileUpdateFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Failed to update profile'),
                 backgroundColor: Colors.red,
               ),

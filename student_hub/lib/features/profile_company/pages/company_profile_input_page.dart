@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
-import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 

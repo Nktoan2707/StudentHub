@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:student_hub/common/enums.dart';
-import 'package:student_hub/features/login/pages/login_page.dart';
-import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -54,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Text(
                       'Sign up as ${toBeginningOfSentenceCase(state.userRole.name)}',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   );
                 },
@@ -77,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 children: [
                   _CheckBox(),
-                  Text("Yes, I understand and agree to StudentHub")
+                  const Text("Yes, I understand and agree to StudentHub")
                 ],
               ),
               const SizedBox(
@@ -106,13 +104,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               builder: (context) {
                                 switch (state.userRole) {
                                   case UserRole.student:
-                                    return Text(
+                                    return const Text(
                                       "Apply as Company",
                                       style: TextStyle(
                                           decoration: TextDecoration.underline),
                                     );
                                   case UserRole.company:
-                                    return Text(
+                                    return const Text(
                                       "Apply as Student",
                                       style: TextStyle(
                                           decoration: TextDecoration.underline),

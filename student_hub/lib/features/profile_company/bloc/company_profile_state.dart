@@ -18,7 +18,7 @@ class CompanyProfileStateInProgress extends CompanyProfileState {
 class CompanyProfileStateSuccess extends CompanyProfileState {
   CompanyProfile? newestCompanyProfile;
   CompanyProfileStateSuccess({
-    this.newestCompanyProfile = null,
+    this.newestCompanyProfile,
   });
 
    @override

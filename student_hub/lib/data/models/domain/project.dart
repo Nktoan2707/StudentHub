@@ -18,12 +18,12 @@ class Project {
 
   Map<String, dynamic> toMap() {
     return {
-      'createdAt': this.createdAt,
-      'jobTitle': this.jobTitle,
-      'jobDescription': this.jobDescription,
-      'numberOfRequiredStudents': this.numberOfRequiredStudents,
-      'numberOfProposals': this.numberOfProposals,
-      'projectDuration': this.projectDuration,
+      'createdAt': createdAt,
+      'jobTitle': jobTitle,
+      'jobDescription': jobDescription,
+      'numberOfRequiredStudents': numberOfRequiredStudents,
+      'numberOfProposals': numberOfProposals,
+      'projectDuration': projectDuration,
     };
   }
 

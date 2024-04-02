@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
-import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
-import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class LoginPage extends StatefulWidget {

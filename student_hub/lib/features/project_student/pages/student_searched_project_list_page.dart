@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
-import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
-import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class StudentSearchedProjectListPage extends StatefulWidget {
   static const String pageId = "/StudentSearchedProjectListPage";
@@ -23,7 +18,7 @@ class StudentSearchedProjectListPage extends StatefulWidget {
 class _StudentSearchedProjectListPageState
     extends State<StudentSearchedProjectListPage> {
   List<Project> projectList = List.from({
-    Project(
+    const Project(
         createdAt: "3 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -31,7 +26,7 @@ class _StudentSearchedProjectListPageState
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 4),
-    Project(
+    const Project(
         createdAt: "5 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -39,7 +34,7 @@ class _StudentSearchedProjectListPageState
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 2),
-    Project(
+    const Project(
         createdAt: "6 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -63,7 +58,7 @@ class _StudentSearchedProjectListPageState
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
           ),
           elevation: 0,
@@ -128,7 +123,7 @@ class _StudentSearchedProjectListPageState
                                     );
                                   },
                                   separatorBuilder: (context, index) {
-                                    return Divider(
+                                    return const Divider(
                                       thickness: 3,
                                       height: 20,
                                     );
@@ -167,7 +162,7 @@ class _StudentSearchedProjectListPageState
                             onPressed: () {
                               _filterPanelToggle(true);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.filter_alt,
                               size: 35,
                             ))
@@ -176,13 +171,13 @@ class _StudentSearchedProjectListPageState
                     const SizedBox(
                       height: 20,
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.grey,
                       thickness: 3,
                     ),
                     ListView.separated(
                       scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: projectList.length,
                       itemBuilder: (context, index) {
@@ -218,7 +213,7 @@ class _StudentSearchedProjectListPageState
 class _FilterFloatingPanel extends StatefulWidget {
   final PanelController panelController;
 
-  const _FilterFloatingPanel({super.key, required this.panelController});
+  const _FilterFloatingPanel({required this.panelController});
 
   @override
   State<_FilterFloatingPanel> createState() => _FilterFloatingPanelState();
@@ -233,7 +228,7 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 0,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -242,31 +237,31 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
               onPressed: () {
                 widget.panelController.close();
               },
-              icon: FaIcon(FontAwesomeIcons.circleXmark),
-              constraints: BoxConstraints(),
+              icon: const FaIcon(FontAwesomeIcons.circleXmark),
+              constraints: const BoxConstraints(),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Filter By",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Divider(
+            const Divider(
               thickness: 3,
               height: 40,
             ),
-            Text(
+            const Text(
               "Title",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
-            TextField(
-              style: const TextStyle(color: Colors.black),
+            const TextField(
+              style: TextStyle(color: Colors.black),
               cursorColor: Colors.black,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 constraints: BoxConstraints(maxHeight: 30),
                 hintStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder(),
@@ -348,29 +343,29 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               "Students needed",
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               "Students needed",
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            TextField(
-              style: const TextStyle(color: Colors.black),
+            const TextField(
+              style: TextStyle(color: Colors.black),
               cursorColor: Colors.black,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 constraints: BoxConstraints(maxHeight: 30),
                 hintStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder(),

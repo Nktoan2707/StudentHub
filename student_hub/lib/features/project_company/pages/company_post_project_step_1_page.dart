@@ -15,17 +15,17 @@ class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Pag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -35,12 +35,12 @@ class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 const Text("This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
-                _title(),
-                SizedBox(height: 15,),
+                const _title(),
+                const SizedBox(height: 15,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -50,9 +50,9 @@ class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
+                const SizedBox(height: 15,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
@@ -76,8 +76,8 @@ class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
-                NextScope(),
+                const SizedBox(height: 20,),
+                const NextScope(),
               ],
             ),
           ],
@@ -88,7 +88,7 @@ class _CompanyPostProjectStep1PageState extends State<CompanyPostProjectStep1Pag
 }
 
 class _title extends StatefulWidget {
-  const _title({super.key});
+  const _title();
 
   @override
   State<_title> createState() => _titleState();
@@ -133,8 +133,8 @@ class _NextScopeState extends State<NextScope> {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),

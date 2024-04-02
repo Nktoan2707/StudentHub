@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
-import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/text_custom.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class StudentDashboardPage extends StatefulWidget {
@@ -20,7 +18,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
   late final TabController _tabController;
 
   List<Project> projectList = List.from({
-    Project(
+    const Project(
         createdAt: "3 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -28,7 +26,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 4),
-    Project(
+    const Project(
         createdAt: "5 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -36,7 +34,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 2),
-    Project(
+    const Project(
         createdAt: "6 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
         projectDuration: "6 months",
@@ -71,7 +69,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderText(title: 'Your Projects'),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -86,7 +84,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                   unselectedLabelColor: Colors.redAccent,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                           colors: [Colors.redAccent, Colors.orangeAccent]),
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.redAccent),
@@ -98,7 +96,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Expanded(
@@ -109,19 +107,25 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                       child: Column(
                         children: [
                           Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black, style: BorderStyle.solid),
+                            ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Active Proposal (0)",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 20),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 ListView.separated(
                                   scrollDirection: Axis.vertical,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: 1,
                                   itemBuilder: (context, index) {
@@ -139,32 +143,32 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                   },
                                 ),
                               ],
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                            ),
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black, style: BorderStyle.solid),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
 
                           Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black, style: BorderStyle.solid),
+                            ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Active Proposal (0)",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 20),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 ListView.separated(
                                   scrollDirection: Axis.vertical,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: projectList.length,
                                   itemBuilder: (context, index) {
@@ -182,12 +186,6 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                   },
                                 ),
                               ],
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                            ),
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.black, style: BorderStyle.solid),
                             ),
                           ),
                         ],
@@ -195,7 +193,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                     ),
                     ListView.separated(
                       scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: projectList.length,
                       itemBuilder: (context, index) {

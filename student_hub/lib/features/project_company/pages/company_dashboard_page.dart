@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:student_hub/features/project_company/pages/company_post_project_step_1_page.dart';
 import 'package:student_hub/features/project_company/pages/company_project_detail_page.dart';
 
@@ -48,14 +47,14 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,13 +63,13 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                       width: 100,
                       height: 40,
                       color: Colors.white,
-                      child: Center(child: Text('All projects')),
+                      child: const Center(child: Text('All projects')),
                     ),
                     Container(
                       width: 150,
                       height: 40,
                       color: Colors.white,
-                      child: Center(child: Text('Archieved projects')),
+                      child: const Center(child: Text('Archieved projects')),
                     ),
                   ],
                 ),
@@ -92,21 +91,21 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Senior frontend developer (Fintech)'),
-                            Spacer(),
+                            const Text('Senior frontend developer (Fintech)'),
+                            const Spacer(),
                             IconButton(
-                              icon: Icon(Icons.more_horiz),
+                              icon: const Icon(Icons.more_horiz),
                               onPressed: () {
                                 actionMenuButtonDidTap(index);
                               },
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                             style: TextStyle(color: Colors.black),
                             children: [
                               TextSpan(
@@ -126,10 +125,10 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('0 Proposals'),
@@ -137,7 +136,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                             Text('2 Hired'),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           thickness: 2,
                           color: Colors.black,
                         ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar2.dart';
 
 import '../../../widgets/components/top_navigation_bar.dart';
 
@@ -18,39 +19,23 @@ class SwitchAccountPage extends StatefulWidget {
 }
 
 class _SwitchAccountPageState extends State<SwitchAccountPage> {
+  UserRole currentUserRole = UserRole.student;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
+            _buildSwitchProfile(),
+            const Divider(
+              thickness: 3,
               height: 10,
             ),
-            const Row(
-              children: [
-                Icon(Icons.person),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Hai Pham"),
-                    Text("Company"),
-                  ],
-                ),
-                Icon(Icons.arrow_drop_up_outlined)
-              ],
-            ),
-            const SizedBox(height: 10),
 
-            const Divider(
-              thickness: 2,
-              color: Colors.black,
-            ),
-            const SizedBox(height: 10),
             // Vertical List
             ListView(
               shrinkWrap: true,
@@ -88,6 +73,65 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSwitchProfile() {
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        // UserRole currentUserRole = (state as AuthenticationAuthenticateSuccess).userRole;
+
+        List<UserRole> switchRoleFieldItems = UserRole.values.toList()
+          ..remove(currentUserRole);
+
+        return Column(
+          children: [
+            Ink(
+              child: ListTile(
+                leading: const Icon(Icons.account_box),
+                title: const Text('Hai Pham'),
+                subtitle: Text(
+                  toBeginningOfSentenceCase(currentUserRole.name),
+                ),
+                onTap: () {},
+              ),
+            ),
+            const Divider(
+              thickness: 3,
+              height: 10,
+            ),
+            ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: switchRoleFieldItems.length,
+              itemBuilder: (context, index) {
+                return Ink(
+                  child: ListTile(
+                    leading: const Icon(Icons.switch_account),
+                    title: const Text('Hai Pham'),
+                    subtitle: Text(
+                      toBeginningOfSentenceCase(
+                          switchRoleFieldItems[index].name),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        currentUserRole = switchRoleFieldItems[index];
+                      });
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  thickness: 3,
+                  height: 10,
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

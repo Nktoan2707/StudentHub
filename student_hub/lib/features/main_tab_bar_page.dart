@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
 import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
@@ -40,15 +39,15 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
         index: _currentIndex,
         children: [
           if (MainTabBarPage.userType == UserType.company) ...[
-            StudentProjectListPage(),
-            CompanyDashboardPage(),
-            TabMessagePage(),
-            NotificationPage(),
+            const StudentProjectListPage(),
+            const CompanyDashboardPage(),
+            const TabMessagePage(),
+            const NotificationPage(),
           ] else ...[
-            StudentProjectListPage(),
-            StudentDashboardPage(),
-            TabMessagePage(),
-            NotificationPage(),
+            const StudentProjectListPage(),
+            const StudentDashboardPage(),
+            const TabMessagePage(),
+            const NotificationPage(),
           ],
         ],
       ),

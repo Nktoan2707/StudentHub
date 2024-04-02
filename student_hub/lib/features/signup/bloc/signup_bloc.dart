@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/models/domain/email_address.dart';

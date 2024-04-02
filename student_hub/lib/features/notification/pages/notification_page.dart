@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-import 'package:student_hub/widgets/components/ui_extension.dart';
-import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class NotificationPage extends StatefulWidget {
   static const String pageId = "/NotificationPage";
@@ -29,8 +26,8 @@ class _NotificationPageState extends State<NotificationPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10,),
-          Row(
+          const SizedBox(height: 10,),
+          const Row(
             children: [
               Icon(Icons.accessibility),
               SizedBox(width: 10),
@@ -54,60 +51,60 @@ class _NotificationPageState extends State<NotificationPage> {
               ),
             ],
           ),
-          Divider(),
-          SizedBox(height: 10),
+          const Divider(),
+          const SizedBox(height: 10),
           Row(
             children: [
-              Icon(Icons.settings),
-              SizedBox(width: 10),
+              const Icon(Icons.settings),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "You have invited to interview for project 'Javis - AI Copilot' at 14:00 March 20, Thursday ",
                       style: TextStyle(fontSize: 18),
                     ),
-                    SizedBox(height: 5),
-                    Text(
+                    const SizedBox(height: 5),
+                    const Text(
                       "6/6/2024",
                       style: TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                       },
-                      child: Text("Join"),
+                      child: const Text("Join"),
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          Divider(),
-          SizedBox(height: 10),
+          const Divider(),
+          const SizedBox(height: 10),
           Row(
             children: [
-              Icon(Icons.settings),
-              SizedBox(width: 10),
+              const Icon(Icons.settings),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "You have offder to join project 'Javis - AI Copilot'",
                       style: TextStyle(fontSize: 18 ),
                     ),
-                    SizedBox(height: 5),
-                    Text(
+                    const SizedBox(height: 5),
+                    const Text(
                       "6/6/2024",
                       style: TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
                       },
-                      child: Text("View offer"),
+                      child: const Text("View offer"),
                     ),
                   ],
                 ),
@@ -115,8 +112,8 @@ class _NotificationPageState extends State<NotificationPage> {
               
             ],
           ),
-          Divider(),
-          Row(
+          const Divider(),
+          const Row(
             children: [
               Icon(Icons.accessibility),
               SizedBox(width: 10),

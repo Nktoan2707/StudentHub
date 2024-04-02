@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/data/models/domain/student.dart';
+import 'package:student_hub/data/models/domain/student_profile.dart';
 
 class User extends Equatable {
   final String id;
@@ -28,13 +28,13 @@ class User extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'userName': this.userName,
-      'email': this.email,
-      'password': this.password,
-      'token': this.token,
-      'companyProfile': this.companyProfile,
-      'studentProfile': this.studentProfile,
+      'id': id,
+      'userName': userName,
+      'email': email,
+      'password': password,
+      'token': token,
+      'companyProfile': companyProfile,
+      'studentProfile': studentProfile,
     };
   }
 

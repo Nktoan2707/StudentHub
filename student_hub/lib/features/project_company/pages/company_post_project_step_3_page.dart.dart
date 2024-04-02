@@ -15,17 +15,17 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -35,10 +35,10 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 const Text("Student are looking for"),  
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
@@ -71,9 +71,9 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
+                const SizedBox(height: 15,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -83,21 +83,21 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
-                _Describe(),
-                SizedBox(height: 15,),
-                ReviewPost(),
+                const SizedBox(height: 15,),
+                const _Describe(),
+                const SizedBox(height: 15,),
+                const ReviewPost(),
               ],
             ),
           ],
         ),
       ),
-    );;
+    );
   }
 }
 
 class _Describe extends StatefulWidget {
-  const _Describe({super.key});
+  const _Describe();
 
   @override
   State<_Describe> createState() => _DescribeState();
@@ -118,7 +118,7 @@ class _DescribeState extends State<_Describe> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ), 
-        contentPadding: EdgeInsets.symmetric(vertical: 40),
+        contentPadding: const EdgeInsets.symmetric(vertical: 40),
       ),
     );
   }
@@ -143,8 +143,8 @@ class _ReviewPostState extends State<ReviewPost> {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),

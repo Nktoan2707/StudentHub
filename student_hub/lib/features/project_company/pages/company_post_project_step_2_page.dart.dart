@@ -15,17 +15,17 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -35,11 +35,11 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 const Text("Consider the size of your project and the timeline"),
-                SizedBox(height: 15,),
+                const SizedBox(height: 15,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -49,9 +49,9 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),  
+                const SizedBox(height: 15,),  
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
@@ -75,9 +75,9 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
+                const SizedBox(height: 15,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -87,10 +87,10 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 15,),
-                _number(),
-                SizedBox(height: 25,),
-                NextDescription(),
+                const SizedBox(height: 15,),
+                const _number(),
+                const SizedBox(height: 25,),
+                const NextDescription(),
               ],
             ),
           ],
@@ -101,7 +101,7 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
 }
 
 class _number extends StatefulWidget {
-  const _number({super.key});
+  const _number();
 
   @override
   State<_number> createState() => _numberState();
@@ -146,8 +146,8 @@ class _NextDescriptionState extends State<NextDescription> {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),
@@ -184,7 +184,7 @@ class _CircularCheckBoxState extends State<CircularCheckBox> {
           border: Border.all(color: Colors.black),
         ),
         child: _isChecked
-            ? Icon(
+            ? const Icon(
                 Icons.check,
                 size: 10,
                 color: Colors.black,

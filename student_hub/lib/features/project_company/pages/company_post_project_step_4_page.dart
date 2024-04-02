@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 class CompanyPostProjectStep4Page extends StatefulWidget {
@@ -15,17 +13,17 @@ class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Pag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopNavigationBar(),
+      appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -35,9 +33,9 @@ class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -47,15 +45,15 @@ class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 10,), 
-                Divider(
+                const SizedBox(height: 10,), 
+                const Divider(
                   thickness: 2,
                   color: Colors.black,
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 const Text("Students are looking for "),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
@@ -88,14 +86,14 @@ class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Pag
                     ],
                   ),
                 ),
-                SizedBox(height: 10,),
-                Divider(
+                const SizedBox(height: 10,),
+                const Divider(
                   thickness: 2,
                   color: Colors.black,
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
@@ -119,7 +117,7 @@ class _CompanyPostProjectStep4PageState extends State<CompanyPostProjectStep4Pag
                     ],
                   ),
                 ),
-                PostJob(),
+                const PostJob(),
               ]
             )
           ]
@@ -148,8 +146,8 @@ class _PostJobState extends State<PostJob> {
               shadowColor: Colors.black,
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              minimumSize: Size.fromHeight(30),
-              shape: RoundedRectangleBorder(
+              minimumSize: const Size.fromHeight(30),
+              shape: const RoundedRectangleBorder(
                 side: BorderSide(width: 2),
               ),
             ),

@@ -54,7 +54,7 @@ class AuthenticationRepository {
         throw Exception(json.decode(response.body));
       }
     } catch (e) {
-      print(e);
+      // print(e);
       rethrow;
     }
   }

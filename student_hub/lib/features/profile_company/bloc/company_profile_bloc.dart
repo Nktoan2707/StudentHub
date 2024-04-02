@@ -2,12 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
-import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
-import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 
 part 'company_profile_event.dart';
 

@@ -94,7 +94,7 @@ class MessageSchedule extends StatelessWidget {
                   Text(scheduleDetail.duration)
                 ],
               ),
-              Text(
+              const Text(
                 'Start time:',
               ),
               Text(
@@ -102,7 +102,7 @@ class MessageSchedule extends StatelessWidget {
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
-              Text(
+              const Text(
                 'End time:',
               ),
               Text(
@@ -125,7 +125,7 @@ class MessageSchedule extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     padding: EdgeInsets.zero,
                   )
                 ],

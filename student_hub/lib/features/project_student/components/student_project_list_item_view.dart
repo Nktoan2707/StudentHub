@@ -20,15 +20,15 @@ class StudentProjectListItemView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Created ${project.createdAt}"),
-                Text("${project.jobTitle}"),
+                Text(project.jobTitle),
                 Text("Time: ${project.projectDuration}"),
-                Text("${project.jobDescription}"),
+                Text(project.jobDescription),
                 Text(
                     "Proposals: ${project.numberOfProposals >= 5 ? project.numberOfProposals : "Less than 5"}"),
               ],
             ),
           ),
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
         ],
       ),
     );

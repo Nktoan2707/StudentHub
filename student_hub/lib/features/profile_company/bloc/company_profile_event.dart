@@ -26,6 +26,6 @@ class CompanyProfileFetch extends CompanyProfileEvent {
   
   @override
   String toString() {
-    return "[EVENT] CompanyProfileFetch ${id}";
+    return "[EVENT] CompanyProfileFetch $id";
   }
 }

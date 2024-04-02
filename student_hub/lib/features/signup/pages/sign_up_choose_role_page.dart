@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/common/enums.dart';
-import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_page.dart';
@@ -156,7 +154,7 @@ class _SignUpChooseRolePageState extends State<SignUpChooseRolePage> {
 class _CreateAccountButton extends StatelessWidget {
   final Function onPressed;
 
-  const _CreateAccountButton({super.key, required this.onPressed});
+  const _CreateAccountButton({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

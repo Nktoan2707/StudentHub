@@ -11,7 +11,7 @@ class StudentSubmitProposalPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         elevation: 0,
@@ -24,28 +24,28 @@ class StudentSubmitProposalPage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Container(
-        margin: EdgeInsets.all(30),
+        margin: const EdgeInsets.all(30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Cover letter",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text("Describe why do you fit to this project"),
-            SizedBox(
+            const Text("Describe why do you fit to this project"),
+            const SizedBox(
               height: 20,
             ),
-            TextField(
+            const TextField(
               minLines: 1,
               maxLines: 10,
               style: TextStyle(fontSize: 20),
               decoration: InputDecoration(border: OutlineInputBorder()),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(

@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:student_hub/data/models/domain/user.dart';
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
