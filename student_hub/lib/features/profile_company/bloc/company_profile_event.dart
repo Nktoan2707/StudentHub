@@ -7,7 +7,7 @@ abstract class CompanyProfileEvent extends Equatable {
 }
 
 class CompanyProfileUpdate extends CompanyProfileEvent {
-  final Company updateProfile;
+  final CompanyProfile updateProfile;
   CompanyProfileUpdate({
     required this.updateProfile,
   });

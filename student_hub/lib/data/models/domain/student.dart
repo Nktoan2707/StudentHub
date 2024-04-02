@@ -5,10 +5,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Student extends Equatable {
-  final String id;
-  final String userId;
-  final String fullname;
+class StudentProfile extends Equatable {
   final TechStack techStack;
   final List<SkillSet> skillSet;
   final List<String> language;
@@ -16,23 +13,8 @@ class Student extends Equatable {
   final Transcript transcript;
   final Resume resume;
 
-  Student({
-    required this.id,
-    required this.userId,
-    required this.fullname,
-    required this.techStack,
-    required this.skillSet,
-    required this.language,
-    required this.education,
-    required this.transcript,
-    required this.resume,
-  });
-
   @override
   List<Object?> get props => [
-        id,
-        userId,
-        fullname,
         techStack,
         skillSet,
         language,
@@ -40,6 +22,15 @@ class Student extends Equatable {
         transcript,
         resume,
       ];
+
+  const StudentProfile({
+    required this.techStack,
+    required this.skillSet,
+    required this.language,
+    required this.education,
+    required this.transcript,
+    required this.resume,
+  });
 }
 
 class SkillSet {

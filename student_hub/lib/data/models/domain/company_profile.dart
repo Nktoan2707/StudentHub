@@ -8,12 +8,12 @@ import 'package:student_hub/data/models/domain/user.dart';
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
-class Company extends Equatable {
+class CompanyProfile extends Equatable {
   String companyName;
   EmployeeQuantityType employeeQuantityType;
   String websiteName;
   String description;
-  Company({
+  CompanyProfile({
     required this.companyName,
     required this.employeeQuantityType,
     required this.websiteName,
@@ -23,13 +23,13 @@ class Company extends Equatable {
   @override
   List<Object> get props => [companyName, employeeQuantityType, websiteName, description];
 
-  Company copyWith({
+  CompanyProfile copyWith({
     String? companyName,
     EmployeeQuantityType? employeeQuantityType,
     String? websiteName,
     String? description,
   }) {
-    return Company(
+    return CompanyProfile(
       companyName: companyName ?? this.companyName,
       employeeQuantityType: employeeQuantityType ?? this.employeeQuantityType,
       websiteName: websiteName ?? this.websiteName,
@@ -46,9 +46,9 @@ class Company extends Equatable {
     };
   }
 
-  factory Company.fromMap(Map<String, dynamic> map) {
+  factory CompanyProfile.fromMap(Map<String, dynamic> map) {
     int val = map['messageType'];
-    return Company(
+    return CompanyProfile(
       companyName: map['companyName'] as String,
       employeeQuantityType: EmployeeQuantityType.values[val],
       websiteName: map['website'] as String,
@@ -58,7 +58,7 @@ class Company extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  factory Company.fromJson(String source) => Company.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CompanyProfile.fromJson(String source) => CompanyProfile.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool get stringify => true;

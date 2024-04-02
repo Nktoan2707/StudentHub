@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:student_hub/data/models/domain/company.dart';
+import 'package:student_hub/data/models/domain/company_profile.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 
@@ -18,7 +19,7 @@ class CompanyProfileInputPage extends StatefulWidget {
 }
 
 class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
-  Company companyProfile = Company(
+  CompanyProfile companyProfile = CompanyProfile(
       companyName: "",
       employeeQuantityType: EmployeeQuantityType.small,
       websiteName: "",
@@ -89,9 +90,12 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
                       height: 20,
                     ),
                     TextFieldBox(
-                        heightBox: 50, textController: companyTextController, onChanged: (companyName) {
-                          companyProfile.companyName = companyName;
-                        },),
+                      heightBox: 50,
+                      textController: companyTextController,
+                      onChanged: (companyName) {
+                        companyProfile.companyName = companyName;
+                      },
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -102,7 +106,9 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
                       height: 20,
                     ),
                     TextFieldBox(
-                        heightBox: 50, textController: websiteTextController, onChanged: (website) {
+                        heightBox: 50,
+                        textController: websiteTextController,
+                        onChanged: (website) {
                           companyProfile.websiteName = website;
                         }),
                     const SizedBox(
@@ -116,7 +122,8 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
                     ),
                     TextFieldBox(
                         heightBox: 140,
-                        textController: descriptionTextController, onChanged: (description) {
+                        textController: descriptionTextController,
+                        onChanged: (description) {
                           companyProfile.description = description;
                         }),
                     const SizedBox(
@@ -147,7 +154,9 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
   }
 
   void continueButtonDidTap() {
-    context.read<CompanyProfileBloc>().add(CompanyProfileUpdate(updateProfile: companyProfile));
+    context
+        .read<CompanyProfileBloc>()
+        .add(CompanyProfileUpdate(updateProfile: companyProfile));
   }
 
   Column getEmployeeTypeRadioList() {

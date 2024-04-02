@@ -23,9 +23,7 @@ class AuthenticationRepository {
         .then((value) => currentUserRole = value);
   }
 
-  Future<void> init() async {}
-
-  get authenticationStatus async* {
+  Stream<AuthenticationStatus> get authenticationStatus async* {
     await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _authenticationStatusController.stream;

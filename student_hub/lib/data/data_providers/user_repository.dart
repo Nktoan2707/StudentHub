@@ -13,7 +13,9 @@ class UserRepository {
       () => _user = User(
           id: const Uuid().v4(),
           email: 'test@gmail.com',
-          password: "testpassword"),
+          password: "testpassword",
+          token: '',
+          userName: ''),
     );
   }
 }

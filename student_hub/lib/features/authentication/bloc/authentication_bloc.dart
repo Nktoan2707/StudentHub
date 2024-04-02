@@ -28,6 +28,8 @@ class AuthenticationBloc
         super(AuthenticationInitial()) {
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLoggedOut>(_onAuthenticationLoggedOut);
+
+
     _authenticationStateSubscription =
         _authenticationRepository.authenticationStatus.listen(
       (status) {

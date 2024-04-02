@@ -12,7 +12,7 @@ class StudentProfileInitial extends StudentProfileState {}
 class StudentProfileUpdateInProgress extends StudentProfileState {}
 
 class StudentProfileUpdateSuccess extends StudentProfileState {
-  final Student student;
+  final StudentProfile student;
 
   const StudentProfileUpdateSuccess({required this.student});
 
