@@ -33,30 +33,33 @@ class AuthenticationRepository {
     required String emailAddress,
     required String password,
   }) async {
-    try {
-      // doing register with backend
-      final http.Response response = await http.post(
-        Uri.parse('${Constants.apiBaseURL}/api/auth/sign-in'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode(
-          {
-            "email": emailAddress,
-            "password": password,
-          },
-        ),
-      );
+    _authenticationStatusController.add(AuthenticationStatus.authenticated);
 
-      if (response.statusCode == 201) {
-        _authenticationStatusController.add(AuthenticationStatus.authenticated);
-      } else if (response.statusCode == 422) {
-        throw Exception(json.decode(response.body));
-      }
-    } catch (e) {
-      // print(e);
-      rethrow;
-    }
+
+    // try {
+    //   // doing register with backend
+    //   final http.Response response = await http.post(
+    //     Uri.parse('${Constants.apiBaseURL}/api/auth/sign-in'),
+    //     headers: <String, String>{
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //     body: json.encode(
+    //       {
+    //         "email": emailAddress,
+    //         "password": password,
+    //       },
+    //     ),
+    //   );
+    //
+    //   if (response.statusCode == 201) {
+    //     _authenticationStatusController.add(AuthenticationStatus.authenticated);
+    //   } else if (response.statusCode == 422) {
+    //     throw Exception(json.decode(response.body));
+    //   }
+    // } catch (e) {
+    //   print(e);
+    //   rethrow;
+    // }
   }
 
   void logOut() {

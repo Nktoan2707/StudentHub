@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
@@ -47,6 +49,8 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProjectStudentBloc>().add(ProjectStudentFetched());
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -142,21 +146,31 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                 color: Colors.grey,
                 thickness: 3,
               ),
-              ListView.separated(
-                scrollDirection: Axis.vertical,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: projectList.length,
-                itemBuilder: (context, index) {
-                  return StudentProjectListItemView(
-                    project: projectList[index],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    color: Colors.grey,
-                    thickness: 3,
-                  );
+              BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
+                builder: (context, state) {
+                  if (state is ProjectStudentFetchInProgress) {
+                    return CircularProgressIndicator();
+                  } else if (state is ProjectStudentFetchSuccess) {
+                    return ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: state.projectList.length,
+                      itemBuilder: (context, index) {
+                        return StudentProjectListItemView(
+                          project: state.projectList[index],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: Colors.grey,
+                          thickness: 3,
+                        );
+                      },
+                    );
+                  }
+
+                  return Placeholder();
                 },
               ),
             ],

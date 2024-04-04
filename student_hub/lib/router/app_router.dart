@@ -11,6 +11,7 @@ import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.d
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
+import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_page.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
@@ -42,6 +43,7 @@ class AppRouter {
   final SignupBloc _signupBloc;
   final CompanyProfileBloc _companyProfileBloc;
   final CompanyProjectBloc _companyProjectBloc;
+  final ProjectStudentBloc _projectStudentBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -52,6 +54,8 @@ class AppRouter {
             CompanyProfileBloc(companyRepository: CompanyRepository()),
         _companyProjectBloc =
             CompanyProjectBloc(projectRepository: ProjectRepository());
+        _projectStudentBloc =
+            ProjectStudentBloc(projectRepository: ProjectRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -104,7 +108,12 @@ class AppRouter {
 
       //Feature Project Company
       case MainTabBarPage.pageId:
-        return MaterialPageRoute(builder: (_) => const MainTabBarPage());
+        return MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(
+                    value: _projectStudentBloc,
+                  ),
+                ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:
        return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
@@ -143,14 +152,18 @@ class AppRouter {
       //Feature Project Student
       case StudentProjectListPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentProjectListPage());
+            builder: (_) => BlocProvider.value(
+                value: _projectStudentBloc,
+                child: const StudentProjectListPage()));
       case StudentProjectDetailPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentProjectDetailPage(),
             settings: settings);
       case StudentSavedProjectListPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentSavedProjectListPage());
+            builder: (_) => BlocProvider.value(
+                value: _projectStudentBloc,
+                child: const StudentSavedProjectListPage()));
       case StudentSearchedProjectListPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSearchedProjectListPage());

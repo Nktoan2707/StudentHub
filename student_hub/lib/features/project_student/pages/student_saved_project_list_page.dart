@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
 
 class StudentSavedProjectListPage extends StatefulWidget {
@@ -46,11 +48,17 @@ class _StudentSavedProjectListPageState
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProjectStudentBloc>().add(ProjectStudentFavoriteFetched());
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            context.read<ProjectStudentBloc>().add(ProjectStudentFetched());
+
+            Navigator.of(context).pop();
+          },
         ),
         elevation: 0,
         title: const Text(
@@ -68,21 +76,30 @@ class _StudentSavedProjectListPageState
             const SizedBox(
               height: 20,
             ),
-            ListView.separated(
-              scrollDirection: Axis.vertical,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: projectList.length,
-              itemBuilder: (context, index) {
-                return StudentProjectListItemView(
-                  project: projectList[index],
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  color: Colors.grey,
-                  thickness: 3,
-                );
+            BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
+              builder: (context, state) {
+                if (state is ProjectStudentFetchFavoriteInProgress) {
+                  return CircularProgressIndicator();
+                } else if (state is ProjectStudentFetchFavoriteSuccess) {
+                  return ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.favoriteProjectList.length,
+                    itemBuilder: (context, index) {
+                      return StudentProjectListItemView(
+                        project: state.favoriteProjectList[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        color: Colors.grey,
+                        thickness: 3,
+                      );
+                    },
+                  );
+                }
+                return Placeholder();
               },
             ),
           ],
