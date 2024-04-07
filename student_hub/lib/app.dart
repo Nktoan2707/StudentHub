@@ -56,7 +56,7 @@ class _AppState extends State<App> {
                 );
               } else if (state is AuthenticationAuthenticateFailure) {
                 _navigator.pushNamedAndRemoveUntil<void>(
-                  MainTabBarPage.pageId,
+                  HomePage.pageId,
                   (route) => false,
                 );
               }
