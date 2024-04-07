@@ -8,11 +8,13 @@ import 'package:equatable/equatable.dart';
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
 class CompanyProfile extends Equatable {
+  int companyId;
   String companyName;
   EmployeeQuantityType employeeQuantityType;
   String websiteName;
   String description;
   CompanyProfile({
+    required this.companyId,
     required this.companyName,
     required this.employeeQuantityType,
     required this.websiteName,
@@ -23,12 +25,14 @@ class CompanyProfile extends Equatable {
   List<Object> get props => [companyName, employeeQuantityType, websiteName, description];
 
   CompanyProfile copyWith({
+    required int companyId,
     String? companyName,
     EmployeeQuantityType? employeeQuantityType,
     String? websiteName,
     String? description,
   }) {
     return CompanyProfile(
+      companyId: companyId,
       companyName: companyName ?? this.companyName,
       employeeQuantityType: employeeQuantityType ?? this.employeeQuantityType,
       websiteName: websiteName ?? this.websiteName,
@@ -38,6 +42,7 @@ class CompanyProfile extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'companyId' : companyId,
       'companyName': companyName,
       'size': employeeQuantityType.index,
       'website': websiteName,
@@ -48,6 +53,7 @@ class CompanyProfile extends Equatable {
   factory CompanyProfile.fromMap(Map<String, dynamic> map) {
     int val = map['messageType'];
     return CompanyProfile(
+      companyId: map['companyId'],
       companyName: map['companyName'] as String,
       employeeQuantityType: EmployeeQuantityType.values[val],
       websiteName: map['website'] as String,

@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/user_manager.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
@@ -17,11 +19,7 @@ class CompanyProfileInputPage extends StatefulWidget {
 }
 
 class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
-  CompanyProfile companyProfile = CompanyProfile(
-      companyName: "",
-      employeeQuantityType: EmployeeQuantityType.small,
-      websiteName: "",
-      description: "");
+  CompanyProfile companyProfile = UserManager.userInfo.companyProfile!;
 
   TextEditingController companyTextController = TextEditingController();
   TextEditingController websiteTextController = TextEditingController();
@@ -29,7 +27,6 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CompanyProfileBloc>().add(CompanyProfileFetch(id: 1));
     companyTextController.text = companyProfile.companyName;
     websiteTextController.text = companyProfile.websiteName;
     descriptionTextController.text = companyProfile.description;
@@ -154,7 +151,7 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
   void continueButtonDidTap() {
     context
         .read<CompanyProfileBloc>()
-        .add(CompanyProfileUpdate(updateProfile: companyProfile));
+        .add(CompanyProfileUpdate(user: UserManager.userInfo));
   }
 
   Column getEmployeeTypeRadioList() {

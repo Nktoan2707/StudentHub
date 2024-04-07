@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/router/app_router.dart';
+import 'package:student_hub/widgets/pages/splash_page.dart';
 
 import 'features/main_tab_bar_page.dart';
 
@@ -62,7 +64,7 @@ class _AppState extends State<App> {
             child: child,
           );
         },
-        initialRoute: HomePage.pageId,
+        initialRoute: SplashPage.pageId,
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );

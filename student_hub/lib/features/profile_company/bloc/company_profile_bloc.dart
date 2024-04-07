@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 
 part 'company_profile_event.dart';
 
@@ -26,7 +27,7 @@ class CompanyProfileBloc
     emit(CompanyProfileStateInProgress());
     try {
       _companyRepository
-          .updateCompanyProfile(event.updateProfile)
+          .updateCompanyProfile(event.user)
           .then((value) {
         if (!(value as bool)) {
           emit(CompanyProfileStateFailure());
@@ -44,7 +45,7 @@ class CompanyProfileBloc
     emit(CompanyProfileStateInProgress());
 
     try {
-      _companyRepository.getCompanyProfile(event.id).then((value) {
+      _companyRepository.getCompanyProfile(event.user).then((value) {
         if (value is CompanyProfile) {
           emit(CompanyProfileStateFailure());
           return;

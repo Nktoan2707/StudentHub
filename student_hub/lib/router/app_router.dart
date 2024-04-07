@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
@@ -32,6 +33,7 @@ import 'package:student_hub/features/project_student/pages/student_project_list_
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_submit_proposal_page.dart';
+import 'package:student_hub/widgets/pages/splash_page.dart';
 
 class AppRouter {
   final LoginBloc _loginBloc;
@@ -147,6 +149,9 @@ class AppRouter {
       //Feature Notification
       case NotificationPage.pageId:
         return MaterialPageRoute(builder: (_) => const NotificationPage());
+
+      case SplashPage.pageId:
+        return MaterialPageRoute(builder: (_) => const SplashPage());
       default:
         return null;
     }

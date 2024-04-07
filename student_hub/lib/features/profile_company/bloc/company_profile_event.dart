@@ -7,25 +7,25 @@ abstract class CompanyProfileEvent extends Equatable {
 }
 
 class CompanyProfileUpdate extends CompanyProfileEvent {
-  final CompanyProfile updateProfile;
+  final User user;
   CompanyProfileUpdate({
-    required this.updateProfile,
+    required this.user
   });
   
   @override
   String toString() {
-    return "[EVENT] CompanyProfileUpdate ${updateProfile.toString()}";
+    return "[EVENT] CompanyProfileUpdate ${user.companyProfile.toString()}";
   }
 }
 
 class CompanyProfileFetch extends CompanyProfileEvent {
-  final int id;
+  final User user;
   CompanyProfileFetch({
-    required this.id,
+    required this.user,
   });
   
   @override
   String toString() {
-    return "[EVENT] CompanyProfileFetch $id";
+    return "[EVENT] CompanyProfileFetch ${user.companyProfile!.companyId}";
   }
 }
