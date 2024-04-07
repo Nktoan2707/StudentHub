@@ -16,27 +16,30 @@ class StudentProjectListPage extends StatefulWidget {
 
 class _StudentProjectListPageState extends State<StudentProjectListPage> {
   List<Project> projectList = List.from({
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "3 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 6,
+        projectDuration: 0,
+        numberOfStudents: 6,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 4),
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "5 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 4,
+        projectDuration: 0,
+        numberOfStudents: 4,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 2),
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "6 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 7,
+        projectDuration: 0,
+        numberOfStudents: 7,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 8),

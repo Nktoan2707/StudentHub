@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
 class CompanyProfile extends Equatable {
-  int companyId;
+  String companyId;
   String companyName;
   EmployeeQuantityType employeeQuantityType;
   String websiteName;
@@ -25,14 +25,14 @@ class CompanyProfile extends Equatable {
   List<Object> get props => [companyName, employeeQuantityType, websiteName, description];
 
   CompanyProfile copyWith({
-    required int companyId,
+    String? companyId,
     String? companyName,
     EmployeeQuantityType? employeeQuantityType,
     String? websiteName,
     String? description,
   }) {
     return CompanyProfile(
-      companyId: companyId,
+      companyId: companyId ?? this.companyId,
       companyName: companyName ?? this.companyName,
       employeeQuantityType: employeeQuantityType ?? this.employeeQuantityType,
       websiteName: websiteName ?? this.websiteName,

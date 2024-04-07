@@ -10,7 +10,7 @@ class UserManager {
       password: '',
       token: '',
       companyProfile: CompanyProfile(
-          companyId: 1,
+          companyId: '1',
           companyName: '',
           employeeQuantityType: EmployeeQuantityType.large,
           websiteName: '',

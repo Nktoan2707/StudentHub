@@ -84,7 +84,7 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                   ),
                   ListTile(
                     title: Text(
-                        "Student Required: \n \t \t - ${project.numberOfRequiredStudents} students"),
+                        "Student Required: \n \t \t - ${project.numberOfStudents} students"),
                     leading: const Icon(Icons.people_rounded),
                     minLeadingWidth: 0,
                     contentPadding: EdgeInsets.zero,

@@ -18,27 +18,30 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
   late final TabController _tabController;
 
   List<Project> projectList = List.from({
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "3 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 6,
+        projectDuration: 0,
+        numberOfStudents: 6,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 4),
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "5 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 4,
+        projectDuration: 0,
+        numberOfStudents: 4,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 2),
-    const Project(
+    Project(
+        companyId: "aaa",
         createdAt: "6 days ago",
         jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: "6 months",
-        numberOfRequiredStudents: 7,
+        projectDuration: 0,
+        numberOfStudents: 7,
         jobDescription:
             "Students are looking for\n \t + Clear expectation about your project or deliverables",
         numberOfProposals: 8),
@@ -110,7 +113,8 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Colors.black, style: BorderStyle.solid),
+                                  color: Colors.black,
+                                  style: BorderStyle.solid),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +122,8 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                 const Text(
                                   "Active Proposal (0)",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -148,12 +153,12 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                           const SizedBox(
                             height: 20,
                           ),
-
                           Container(
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: Colors.black, style: BorderStyle.solid),
+                                  color: Colors.black,
+                                  style: BorderStyle.solid),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +166,8 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                 const Text(
                                   "Active Proposal (0)",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -201,8 +207,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                           project: projectList[index],
                         );
                       },
-                      separatorBuilder:
-                          (BuildContext context, int index) {
+                      separatorBuilder: (BuildContext context, int index) {
                         return const Divider(
                           color: Colors.grey,
                           thickness: 3,

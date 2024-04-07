@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
 import 'company_post_project_step_4_page.dart';
@@ -12,8 +13,12 @@ class CompanyPostProjectStep3Page extends StatefulWidget {
 }
 
 class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Page> {
+  late Project postProject;
+  
   @override
   Widget build(BuildContext context) {
+    postProject = (ModalRoute.of(context)?.settings.arguments as Project);
+
     return Scaffold(
       appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
@@ -84,9 +89,11 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
                   ),
                 ),
                 const SizedBox(height: 15,),
-                const _Describe(),
+                _Describe(onChanged: (p0) {
+                  postProject.jobDescription = p0;
+                },),
                 const SizedBox(height: 15,),
-                const ReviewPost(),
+                ReviewPost(project: postProject,),
               ],
             ),
           ],
@@ -97,8 +104,9 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
 }
 
 class _Describe extends StatefulWidget {
-  const _Describe();
+  const _Describe({required this.onChanged});
 
+  final Function(String) onChanged;
   @override
   State<_Describe> createState() => _DescribeState();
 }
@@ -108,7 +116,9 @@ class _DescribeState extends State<_Describe> {
   Widget build(BuildContext context) {
     return TextField(
       key: const Key('Projectpost_Describe_textField'),
-      onChanged: (title){},
+      onChanged: (title){
+        widget.onChanged(title);
+      },
       decoration: InputDecoration(
         labelText: "",
         errorText: false ?'invalid title': null,
@@ -125,8 +135,8 @@ class _DescribeState extends State<_Describe> {
 }
 
 class ReviewPost extends StatefulWidget {
-  const ReviewPost({super.key});
-
+  ReviewPost({super.key, required this.project});
+  Project project;
   @override
   State<ReviewPost> createState() => _ReviewPostState();
 }
@@ -148,7 +158,7 @@ class _ReviewPostState extends State<ReviewPost> {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {Navigator.of(context).pushNamed(CompanyPostProjectStep4Page.pageId);} : null,
+            onPressed: true ? () {Navigator.of(context).pushNamed(CompanyPostProjectStep4Page.pageId, arguments: widget.project);} : null,
             child: const Text('Review your post'),
           );
   }

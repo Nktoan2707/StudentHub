@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
-import 'company_post_project_step_3_page.dart.dart';
+import 'company_post_project_step_3_page.dart';
 
 class CompanyPostProjectStep2Page extends StatefulWidget {
   static const String pageId = "/CompanyPostProjectStep2Page";
@@ -12,8 +13,12 @@ class CompanyPostProjectStep2Page extends StatefulWidget {
 }
 
 class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Page> {
+  late Project postProject;
+  
   @override
   Widget build(BuildContext context) {
+    postProject = (ModalRoute.of(context)?.settings.arguments as Project);
+    
     return Scaffold(
       appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
@@ -51,13 +56,17 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                 ),
                 const SizedBox(height: 15,),  
                 RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
                         child: Padding(
                           padding: EdgeInsets.only(right: 5),
-                          child: CircularCheckBox(),
+                          child: CircularCheckBox( onChanged: (p0) {
+                            if (p0 == 1) {
+                              postProject.projectDuration = 0;
+                            }
+                          },),
                         ),
                       ),
                       TextSpan(
@@ -66,7 +75,11 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                       WidgetSpan(
                         child: Padding(
                           padding: EdgeInsets.only(right: 5),
-                          child: CircularCheckBox(),
+                          child: CircularCheckBox( onChanged: (p0) {
+                            if (p0 == 1) {
+                              postProject.projectDuration = 1;
+                            }
+                          },),
                         ),
                       ),
                       TextSpan(
@@ -88,9 +101,11 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                   ),
                 ),
                 const SizedBox(height: 15,),
-                const _number(),
+                _number(onChanged: (p0) {
+                  postProject.numberOfStudents = int.parse(p0);
+                },),
                 const SizedBox(height: 25,),
-                const NextDescription(),
+                NextDescription(project: this.postProject,),
               ],
             ),
           ],
@@ -101,8 +116,8 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
 }
 
 class _number extends StatefulWidget {
-  const _number();
-
+  const _number({required this.onChanged});
+  final Function(String) onChanged;
   @override
   State<_number> createState() => _numberState();
 }
@@ -112,7 +127,9 @@ class _numberState extends State<_number> {
   Widget build(BuildContext context) {
     return TextField(
       key: const Key('Projectpost_number_textField'),
-      onChanged: (title){},
+      onChanged: (title){
+        widget.onChanged(title);
+      },
       decoration: InputDecoration(
         labelText: "number of students",
         errorText: false ?'invalid title': null,
@@ -128,8 +145,9 @@ class _numberState extends State<_number> {
 }
 
 class NextDescription extends StatefulWidget {
-  const NextDescription({super.key});
+  NextDescription({super.key, required this.project});
 
+  Project project;
   @override
   State<NextDescription> createState() => _NextDescriptionState();
 }
@@ -152,7 +170,7 @@ class _NextDescriptionState extends State<NextDescription> {
               ),
             ),
             onPressed: true ? () {
-              Navigator.of(context).pushNamed(CompanyPostProjectStep3Page.pageId);
+              Navigator.of(context).pushNamed(CompanyPostProjectStep3Page.pageId, arguments: widget.project);
             } : null,
             child: const Text('Next Scope'),
           );
@@ -160,8 +178,9 @@ class _NextDescriptionState extends State<NextDescription> {
 }
 
 class CircularCheckBox extends StatefulWidget {
-  const CircularCheckBox({super.key});
+  const CircularCheckBox({super.key, required this.onChanged});
 
+  final Function(int) onChanged;
   @override
   State<CircularCheckBox> createState() => _CircularCheckBoxState();
 }
@@ -174,6 +193,7 @@ class _CircularCheckBoxState extends State<CircularCheckBox> {
       onTap: () {
         setState(() {
           _isChecked = !_isChecked;
+          widget.onChanged(_isChecked ? 1 : 0);
         });
       },
       child: Container(

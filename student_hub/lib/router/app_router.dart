@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
+import 'package:student_hub/data/data_providers/project_repository.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
+import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_page.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
@@ -23,8 +25,8 @@ import 'package:student_hub/features/profile_student/pages/student_profile_input
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_2_page.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_3_page.dart';
 import 'package:student_hub/features/project_company/pages/company_post_project_step_1_page.dart';
-import 'package:student_hub/features/project_company/pages/company_post_project_step_2_page.dart.dart';
-import 'package:student_hub/features/project_company/pages/company_post_project_step_3_page.dart.dart';
+import 'package:student_hub/features/project_company/pages/company_post_project_step_2_page.dart';
+import 'package:student_hub/features/project_company/pages/company_post_project_step_3_page.dart';
 import 'package:student_hub/features/project_company/pages/company_post_project_step_4_page.dart';
 import 'package:student_hub/features/project_company/pages/company_project_detail_page.dart';
 import 'package:student_hub/features/project_student/pages/student_dashboard_page.dart';
@@ -39,6 +41,7 @@ class AppRouter {
   final LoginBloc _loginBloc;
   final SignupBloc _signupBloc;
   final CompanyProfileBloc _companyProfileBloc;
+  final CompanyProjectBloc _companyProjectBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -46,7 +49,9 @@ class AppRouter {
         _signupBloc =
             SignupBloc(authenticationRepository: authenticationRepository),
         _companyProfileBloc =
-            CompanyProfileBloc(companyRepository: CompanyRepository());
+            CompanyProfileBloc(companyRepository: CompanyRepository()),
+        _companyProjectBloc =
+            CompanyProjectBloc(projectRepository: ProjectRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -101,22 +106,39 @@ class AppRouter {
       case MainTabBarPage.pageId:
         return MaterialPageRoute(builder: (_) => const MainTabBarPage());
       case CompanyDashboardPage.pageId:
-        return MaterialPageRoute(builder: (_) => const CompanyDashboardPage());
+       return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyDashboardPage()));
       case CompanyProjectDetailPage.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyProjectDetailPage());
+       return MaterialPageRoute(
+             builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyProjectDetailPage()));
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep1Page());
+             builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyPostProjectStep1Page()),
+                settings: settings);
       case CompanyPostProjectStep2Page.pageId:
-        return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep2Page());
+       return MaterialPageRoute(
+             builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyPostProjectStep2Page()),
+                settings: settings);
       case CompanyPostProjectStep3Page.pageId:
         return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep3Page());
+             builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyPostProjectStep3Page()),
+                settings: settings);
       case CompanyPostProjectStep4Page.pageId:
         return MaterialPageRoute(
-            builder: (_) => const CompanyPostProjectStep4Page());
+             builder: (_) => BlocProvider.value(
+                value: _companyProjectBloc,
+                child: const CompanyPostProjectStep4Page()),
+                settings: settings);
 
       //Feature Project Student
       case StudentProjectListPage.pageId:

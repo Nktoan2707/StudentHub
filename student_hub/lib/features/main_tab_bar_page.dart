@@ -11,7 +11,7 @@ enum UserType { student, company }
 
 class MainTabBarPage extends StatefulWidget {
   static const String pageId = "/MainTabBarPage";
-  static UserType userType = UserType.student;
+  static UserType userType = UserType.company;
 
   const MainTabBarPage({super.key});
 
