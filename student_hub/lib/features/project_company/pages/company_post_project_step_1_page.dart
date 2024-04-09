@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/common/user_manager.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -8,6 +7,7 @@ import 'company_post_project_step_2_page.dart';
 
 class CompanyPostProjectStep1Page extends StatefulWidget {
   static const String pageId = "/CompanyPostProjectStep1Page";
+
   const CompanyPostProjectStep1Page({super.key});
 
   @override
@@ -18,14 +18,14 @@ class CompanyPostProjectStep1Page extends StatefulWidget {
 class _CompanyPostProjectStep1PageState
     extends State<CompanyPostProjectStep1Page> {
   Project postProject = Project(
-      companyId: UserManager.userInfo.companyProfile!.companyId,
+      companyId: "1",
       createdAt: DateTime.now().toIso8601String(),
       jobTitle: '',
       jobDescription: '',
       numberOfStudents: 0,
       numberOfProposals: 0,
       projectDuration: 0);
-      
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +56,11 @@ class _CompanyPostProjectStep1PageState
                 ),
                 const Text(
                     "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
-                _title(onChanged:(p0) {
-                  postProject.jobTitle = p0;
-                },),
+                _title(
+                  onChanged: (p0) {
+                    postProject.jobTitle = p0;
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -120,6 +122,7 @@ class _title extends StatefulWidget {
   const _title({required this.onChanged});
 
   final Function(String) onChanged;
+
   @override
   State<_title> createState() => _titleState();
 }
@@ -148,8 +151,9 @@ class _titleState extends State<_title> {
 
 class NextScope extends StatefulWidget {
   NextScope({super.key, required this.project});
-  
+
   Project project;
+
   @override
   State<NextScope> createState() => _NextScopeState();
 }
@@ -173,8 +177,9 @@ class _NextScopeState extends State<NextScope> {
             ),
             onPressed: true
                 ? () {
-                    Navigator.of(context)
-                        .pushNamed(CompanyPostProjectStep2Page.pageId, arguments: widget.project);
+                    Navigator.of(context).pushNamed(
+                        CompanyPostProjectStep2Page.pageId,
+                        arguments: widget.project);
                   }
                 : null,
             child: const Text('Next Scope'),

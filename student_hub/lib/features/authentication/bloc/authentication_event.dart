@@ -11,7 +11,7 @@ class _AuthenticationStatusChanged extends AuthenticationEvent {
   _AuthenticationStatusChanged(this.status);
 
   @override
-  String toString() => "AuthenticationStatusChanged {}";
+  String toString() => "AuthenticationStatusChanged {status: $status}";
 }
 
 class AuthenticationLoggedOut extends AuthenticationEvent {

@@ -2,16 +2,29 @@ import 'dart:convert';
 
 import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/data/models/domain/project_query_filter.dart';
 import 'package:student_hub/data/models/domain/user.dart';
 import 'package:http/http.dart' as http;
 
 class ProjectRepository {
-  Future<List<Project>> getListProject(User user, String filterQuery) async {
+  Future<List<Project>> getListProject(
+      {required User user,
+      required ProjectQueryFilter filterQuery,
+      required String token}) async {
+    // final queryParameters = {
+    //   'projectScopeFlag': 0,
+    //   'numberOfStudents': 2,
+    //   'proposalsLessThan': 6,
+    // };
+
+    final Uri uri =
+        Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
+
     final response = await http.get(
-      Uri.parse('${Constants.apiBaseURL}/api/project${filterQuery}'),
+      uri,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': user.token
+        'Authorization': 'Bearer $token',
       },
     );
 
@@ -23,14 +36,19 @@ class ProjectRepository {
     }
   }
 
-  Future<Object?> createProject(User user, Project project) async {
+  Future<Object?> createProject(
+      {required User user,
+      required Project project,
+      required String token}) async {
+    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project');
     final response = await http.post(
-        Uri.parse('${Constants.apiBaseURL}/api/project'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': user.token
-        },
-        body: project.toJson());
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: project.toJson(),
+    );
 
     if (response.statusCode == 200) {
       return true;
@@ -39,13 +57,16 @@ class ProjectRepository {
     }
   }
 
-  Future<Project> getProjectDetail(User user, int id) async {
-    final response = await http.post(
-       Uri.parse('${Constants.apiBaseURL}/api/project/${id}'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': user.token
-        });
+  Future<Project> getProjectDetail(
+      {required User user, required int id, required String token}) async {
+    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project/${id}');
+    final response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
       return Project.fromJson(jsonDecode(response.body));

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -17,17 +18,33 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listenWhen: (previous, current) => previous.status != current.status,
-      listener: (context, state) {
-        if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            if (state.status.isFailure) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text('Authentication Failure')),
+                );
+            }
+          },
+        ),
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+          listener: (context, state) {
+
+            if (state is AuthenticationAuthenticateFailure) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(content: Text('Authentication Failure')),
+                );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: const TopNavigationBar(),
         body: SingleChildScrollView(

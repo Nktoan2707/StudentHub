@@ -355,12 +355,21 @@ class _FilterFloatingPanelState extends State<_FilterFloatingPanel> {
             const SizedBox(
               height: 10,
             ),
-            
+            const TextField(
+              style: TextStyle(color: Colors.black),
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                constraints: BoxConstraints(maxHeight: 30),
+                hintStyle: TextStyle(color: Colors.black),
+                border: OutlineInputBorder(),
+              ),
+            ),
+
             const SizedBox(
               height: 20,
             ),
             const Text(
-              "Students needed",
+              "Proposals less than",
             ),
             const SizedBox(
               height: 10,

@@ -4,11 +4,14 @@ import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
+import 'package:student_hub/data/data_providers/user_repository.dart';
+import 'package:student_hub/data/models/domain/user.dart';
+import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
+import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
-import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
-import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
+
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
@@ -50,12 +53,18 @@ class AppRouter {
             LoginBloc(authenticationRepository: authenticationRepository),
         _signupBloc =
             SignupBloc(authenticationRepository: authenticationRepository),
-        _companyProfileBloc =
-            CompanyProfileBloc(companyRepository: CompanyRepository()),
-        _companyProjectBloc =
-            CompanyProjectBloc(projectRepository: ProjectRepository());
-        _projectStudentBloc =
-            ProjectStudentBloc(projectRepository: ProjectRepository());
+        _companyProfileBloc = CompanyProfileBloc(
+            companyRepository: CompanyRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
+        _companyProjectBloc = CompanyProjectBloc(
+            projectRepository: ProjectRepository(),
+            authenticationRepository: authenticationRepository,
+            userRepository: UserRepository()),
+        _projectStudentBloc = ProjectStudentBloc(
+            projectRepository: ProjectRepository(),
+            authenticationRepository: authenticationRepository,
+            userRepository: UserRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -115,39 +124,39 @@ class AppRouter {
                   ),
                 ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:
-       return MaterialPageRoute(
+        return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyDashboardPage()));
       case CompanyProjectDetailPage.pageId:
-       return MaterialPageRoute(
-             builder: (_) => BlocProvider.value(
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyProjectDetailPage()));
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(
-             builder: (_) => BlocProvider.value(
+            builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyPostProjectStep1Page()),
-                settings: settings);
+            settings: settings);
       case CompanyPostProjectStep2Page.pageId:
-       return MaterialPageRoute(
-             builder: (_) => BlocProvider.value(
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyPostProjectStep2Page()),
-                settings: settings);
+            settings: settings);
       case CompanyPostProjectStep3Page.pageId:
         return MaterialPageRoute(
-             builder: (_) => BlocProvider.value(
+            builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyPostProjectStep3Page()),
-                settings: settings);
+            settings: settings);
       case CompanyPostProjectStep4Page.pageId:
         return MaterialPageRoute(
-             builder: (_) => BlocProvider.value(
+            builder: (_) => BlocProvider.value(
                 value: _companyProjectBloc,
                 child: const CompanyPostProjectStep4Page()),
-                settings: settings);
+            settings: settings);
 
       //Feature Project Student
       case StudentProjectListPage.pageId:

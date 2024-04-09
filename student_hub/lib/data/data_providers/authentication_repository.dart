@@ -1,17 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/common/enums.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:student_hub/data/data_providers/company_repository.dart';
+import 'package:student_hub/data/data_providers/student_repository.dart';
+import 'package:student_hub/data/models/domain/company_profile.dart';
+import 'package:student_hub/data/models/domain/student_profile.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 
 class AuthenticationRepository {
   final StreamController<AuthenticationStatus> _authenticationStatusController =
       StreamController<AuthenticationStatus>();
 
   UserRole currentUserRole = UserRole.student;
+  late String token;
 
   AuthenticationRepository() {
     SharedPreferences.getInstance()
@@ -33,40 +40,55 @@ class AuthenticationRepository {
     required String emailAddress,
     required String password,
   }) async {
-    _authenticationStatusController.add(AuthenticationStatus.authenticated);
+    // _authenticationStatusController.add(AuthenticationStatus.authenticated);
 
+    try {
+      // doing register with backend
+      final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-in');
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode(
+          {
+            "email": emailAddress,
+            "password": password,
+          },
+        ),
+      );
 
-    // try {
-    //   // doing register with backend
-    //   final http.Response response = await http.post(
-    //     Uri.parse('${Constants.apiBaseURL}/api/auth/sign-in'),
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: json.encode(
-    //       {
-    //         "email": emailAddress,
-    //         "password": password,
-    //       },
-    //     ),
-    //   );
-    //
-    //   if (response.statusCode == 201) {
-    //     _authenticationStatusController.add(AuthenticationStatus.authenticated);
-    //   } else if (response.statusCode == 422) {
-    //     throw Exception(json.decode(response.body));
-    //   }
-    // } catch (e) {
-    //   print(e);
-    //   rethrow;
-    // }
+      print("RESPONSE: ${response}");
+
+      if (response.statusCode == 201) {
+        token = json.decode(response.body)["result"]["token"];
+        print("TOKEN: ${token}");
+        _authenticationStatusController.add(AuthenticationStatus.authenticated);
+      } else if (response.statusCode == 422) {
+        throw Exception(json.decode(response.body));
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 
-  void logOut() {
-    //thuc hien log out voi backend
+  Future<void> logOut() async {
+    final Uri uri = Uri.https(Constants.apiBaseURL, '/api/auth/logout');
+    final response = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-    //
-    _authenticationStatusController.add(AuthenticationStatus.unauthenticated);
+    if (response.statusCode == 201) {
+      _authenticationStatusController.add(AuthenticationStatus.unauthenticated);
+      print("LOGGED OUT!!!!");
+    } else {
+      throw Exception('[FAIL - NETWORK] Logout');
+    }
   }
 
   Future<void> signUp(
@@ -76,20 +98,24 @@ class AuthenticationRepository {
       required UserRole userRole}) async {
     try {
       // doing register with backend
-      final http.Response response =
-          await http.post(Uri.parse('${Constants.apiBaseURL}/api/auth/sign-up'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-              body: json.encode({
-                "email": emailAddress,
-                "fullname": username,
-                "password": password,
-                "role": switch (userRole) {
-                  UserRole.student => 0,
-                  UserRole.company => 1,
-                },
-              }));
+      final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-in');
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode(
+          {
+            "email": emailAddress,
+            "fullname": username,
+            "password": password,
+            "role": switch (userRole) {
+              UserRole.student => 0,
+              UserRole.company => 1,
+            },
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         currentUserRole = userRole;

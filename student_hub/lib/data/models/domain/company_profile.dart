@@ -7,65 +7,87 @@ import 'package:equatable/equatable.dart';
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
 
-class CompanyProfile extends Equatable {
-  String companyId;
-  String companyName;
-  EmployeeQuantityType employeeQuantityType;
-  String websiteName;
-  String description;
-  CompanyProfile({
-    required this.companyId,
-    required this.companyName,
-    required this.employeeQuantityType,
-    required this.websiteName,
-    required this.description,
-  });
-  
-  @override
-  List<Object> get props => [companyName, employeeQuantityType, websiteName, description];
+class CompanyProfile {
+  int? userId;
+  String? fullname;
+  String? companyName;
+  String? website;
+  int? size;
+  String? description;
+  String? updatedAt;
+  String? deletedAt;
+  int? id;
+  String? createdAt;
 
-  CompanyProfile copyWith({
-    String? companyId,
-    String? companyName,
-    EmployeeQuantityType? employeeQuantityType,
-    String? websiteName,
-    String? description,
-  }) {
-    return CompanyProfile(
-      companyId: companyId ?? this.companyId,
-      companyName: companyName ?? this.companyName,
-      employeeQuantityType: employeeQuantityType ?? this.employeeQuantityType,
-      websiteName: websiteName ?? this.websiteName,
-      description: description ?? this.description,
-    );
+  CompanyProfile(
+      {this.userId,
+        this.fullname,
+        this.companyName,
+        this.website,
+        this.size,
+        this.description,
+        this.updatedAt,
+        this.deletedAt,
+        this.id,
+        this.createdAt});
+
+
+
+  CompanyProfile.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    fullname = json['fullname'];
+    companyName = json['companyName'];
+    website = json['website'];
+    size = json['size'];
+    description = json['description'];
+    updatedAt = json['updatedAt'];
+    deletedAt = json['deletedAt'];
+    id = json['id'];
+    createdAt = json['createdAt'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
+    data['fullname'] = this.fullname;
+    data['companyName'] = this.companyName;
+    data['website'] = this.website;
+    data['size'] = this.size;
+    data['description'] = this.description;
+    data['updatedAt'] = this.updatedAt;
+    data['deletedAt'] = this.deletedAt;
+    data['id'] = this.id;
+    data['createdAt'] = this.createdAt;
+    return data;
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'companyId' : companyId,
-      'companyName': companyName,
-      'size': employeeQuantityType.index,
-      'website': websiteName,
-      'description': description,
+    return {
+      'userId': this.userId,
+      'fullname': this.fullname,
+      'companyName': this.companyName,
+      'website': this.website,
+      'size': this.size,
+      'description': this.description,
+      'updatedAt': this.updatedAt,
+      'deletedAt': this.deletedAt,
+      'id': this.id,
+      'createdAt': this.createdAt,
     };
   }
 
   factory CompanyProfile.fromMap(Map<String, dynamic> map) {
-    int val = map['messageType'];
     return CompanyProfile(
-      companyId: map['companyId'],
+      userId: map['userId'] as int,
+      fullname: map['fullname'] as String,
       companyName: map['companyName'] as String,
-      employeeQuantityType: EmployeeQuantityType.values[val],
-      websiteName: map['website'] as String,
+      website: map['website'] as String,
+      size: map['size'] as int,
       description: map['description'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] as Null,
+      id: map['id'] as int,
+      createdAt: map['createdAt'] as String,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory CompanyProfile.fromJson(String source) => CompanyProfile.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool get stringify => true;
- 
 }

@@ -7,6 +7,8 @@ abstract class ProjectStudentEvent extends Equatable {
 
 
 class ProjectStudentFetched extends ProjectStudentEvent {
+
+
   @override
   String toString() => "ProjectStudentFetched {}";
 }

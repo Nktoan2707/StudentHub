@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
+import 'package:student_hub/data/data_providers/company_repository.dart';
+import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
@@ -36,8 +38,11 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthenticationBloc(
-          authenticationRepository: _authenticationRepository,
-          userRepository: UserRepository()),
+        authenticationRepository: _authenticationRepository,
+        userRepository: UserRepository(),
+        companyRepository: CompanyRepository(),
+        studentRepository: StudentRepository(),
+      ),
       child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: "Student Hub",

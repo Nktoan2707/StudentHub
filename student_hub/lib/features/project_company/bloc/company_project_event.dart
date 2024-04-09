@@ -29,6 +29,6 @@ class CompanyProjectListFetch extends CompanyProjectEvent {
   
   @override
   String toString() {
-    return "[EVENT] CompanyProjectListFetch ${user.companyProfile!.companyId}";
+    return "[EVENT] CompanyProjectListFetch ${user.companyProfile!.id}";
   }
 }

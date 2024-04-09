@@ -8,17 +8,16 @@ abstract class AuthenticationState extends Equatable {
 class AuthenticationInitial extends AuthenticationState {}
 
 class AuthenticationAuthenticateSuccess extends AuthenticationState {
-  final User user;
   final UserRole userRole;
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [];
 
   @override
-  String toString() => "AuthenticationAuthenticateSuccess { User: $user }";
+  String toString() =>
+      "AuthenticationAuthenticateSuccess { UserRole: $userRole }";
 
   AuthenticationAuthenticateSuccess({
-    required this.user,
     required this.userRole,
   });
 }

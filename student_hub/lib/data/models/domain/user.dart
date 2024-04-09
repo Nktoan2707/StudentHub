@@ -1,52 +1,58 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
 import 'package:student_hub/data/models/domain/student_profile.dart';
 
 class User extends Equatable {
-  final String id;
-  final String userName;
-  final String email;
-  final String password;
-  final String token;
+  final int id;
+  final String fullname;
+  final List<int>? roles;
   final CompanyProfile? companyProfile;
   final StudentProfile? studentProfile;
 
   @override
-  List<Object> get props => [id, email, password];
+  List<Object> get props => [];
 
-  // static const empty = User(id: '-', email: '-', password: '-');
+  static const empty = User(
+      fullname: '-',
+      id: 0,
+      companyProfile: null,
+      roles: null,
+      studentProfile: null);
 
   const User({
     required this.id,
-    required this.userName,
-    required this.email,
-    required this.password,
-    required this.token,
+    required this.fullname,
+    this.roles,
     this.companyProfile,
     this.studentProfile,
   });
 
+  String toJson() => json.encode(toMap());
+
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
+
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'userName': userName,
-      'email': email,
-      'password': password,
-      'token': token,
-      'companyProfile': companyProfile,
-      'studentProfile': studentProfile,
+      'id': this.id,
+      'fullname': this.fullname,
+      'roles': this.roles,
+      'companyProfile': this.companyProfile,
+      'studentProfile': this.studentProfile,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as String,
-      userName: map['userName'] as String,
-      email: map['email'] as String,
-      password: map['password'] as String,
-      token: map['token'] as String,
-      companyProfile: map['companyProfile'] as CompanyProfile,
-      studentProfile: map['studentProfile'] as StudentProfile,
+      id: map['id'] as int,
+      fullname: map['fullname'] as String,
+      roles: List<int>.from(map['roles']),
+      companyProfile: map['companyProfile'] == null
+          ? null
+          : CompanyProfile.fromMap(map['companyProfile']),
+      // studentProfile: map['companyProfile'] ?? StudentProfile.fromMap(map['companyProfile']),
     );
   }
 }

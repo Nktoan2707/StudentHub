@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:student_hub/common/user_manager.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
 import 'package:student_hub/data/models/domain/user.dart';
-import 'package:student_hub/features/profile_company/bloc/company_profile_bloc.dart';
+import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
@@ -19,22 +18,19 @@ class CompanyProfileInputPage extends StatefulWidget {
 }
 
 class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
-  CompanyProfile companyProfile = UserManager.userInfo.companyProfile!;
-
   TextEditingController companyTextController = TextEditingController();
   TextEditingController websiteTextController = TextEditingController();
   TextEditingController descriptionTextController = TextEditingController();
+  CompanyProfile companyProfile = CompanyProfile();
 
   @override
   Widget build(BuildContext context) {
-    companyTextController.text = companyProfile.companyName;
-    websiteTextController.text = companyProfile.websiteName;
-    descriptionTextController.text = companyProfile.description;
+    context.read<CompanyProfileBloc>().add(CompanyProfileFetched());
+
     return BlocListener<CompanyProfileBloc, CompanyProfileState>(
       listener: (context, state) {
-        if (state is CompanyProfileStateSuccess) {
+        if (state is CompanyProfilePutSuccess) {
           setState(() {
-            companyProfile = state.newestCompanyProfile!;
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -45,6 +41,18 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
       },
       child: BlocBuilder<CompanyProfileBloc, CompanyProfileState>(
         builder: (context, state) {
+          if (state is CompanyProfileInitial) {
+            return CircularProgressIndicator();
+          }
+          ;
+
+          companyTextController.text =
+              state.currentUser.companyProfile?.companyName ?? "";
+          websiteTextController.text =
+              state.currentUser.companyProfile?.website ?? "";
+          descriptionTextController.text =
+              state.currentUser.companyProfile?.description ?? "";
+
           return Scaffold(
             appBar: const TopNavigationBar(),
             body: GestureDetector(
@@ -104,7 +112,7 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
                         heightBox: 50,
                         textController: websiteTextController,
                         onChanged: (website) {
-                          companyProfile.websiteName = website;
+                          companyProfile.website = website;
                         }),
                     const SizedBox(
                       height: 20,
@@ -151,7 +159,7 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
   void continueButtonDidTap() {
     context
         .read<CompanyProfileBloc>()
-        .add(CompanyProfileUpdate(user: UserManager.userInfo));
+        .add(CompanyProfileUpdated(companyProfile: companyProfile));
   }
 
   Column getEmployeeTypeRadioList() {
@@ -162,10 +170,10 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
           title: const Text('It\'s just me'),
           leading: Radio<EmployeeQuantityType>(
             value: EmployeeQuantityType.onlyMe,
-            groupValue: companyProfile.employeeQuantityType,
+            groupValue: EmployeeQuantityType.values[companyProfile.size ?? 0],
             onChanged: (EmployeeQuantityType? value) {
               setState(() {
-                companyProfile.employeeQuantityType = value!;
+                companyProfile.size = value!.index;
               });
             },
           ),
@@ -175,10 +183,10 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
           title: const Text('2-9 employees'),
           leading: Radio<EmployeeQuantityType>(
             value: EmployeeQuantityType.small,
-            groupValue: companyProfile.employeeQuantityType,
+            groupValue: EmployeeQuantityType.values[companyProfile.size ?? 0],
             onChanged: (EmployeeQuantityType? value) {
               setState(() {
-                companyProfile.employeeQuantityType = value!;
+                companyProfile.size = value!.index;
               });
             },
           ),
@@ -188,10 +196,10 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
           title: const Text('10-99 employees'),
           leading: Radio<EmployeeQuantityType>(
             value: EmployeeQuantityType.medium,
-            groupValue: companyProfile.employeeQuantityType,
+            groupValue: EmployeeQuantityType.values[companyProfile.size ?? 0],
             onChanged: (EmployeeQuantityType? value) {
               setState(() {
-                companyProfile.employeeQuantityType = value!;
+                companyProfile.size = value!.index;
               });
             },
           ),
@@ -201,10 +209,10 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
           title: const Text('100-1000 employees'),
           leading: Radio<EmployeeQuantityType>(
             value: EmployeeQuantityType.large,
-            groupValue: companyProfile.employeeQuantityType,
+            groupValue: EmployeeQuantityType.values[companyProfile.size ?? 0],
             onChanged: (EmployeeQuantityType? value) {
               setState(() {
-                companyProfile.employeeQuantityType = value!;
+                companyProfile.size = value!.index;
               });
             },
           ),
@@ -214,10 +222,10 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
           title: const Text('More than 1000 employees'),
           leading: Radio<EmployeeQuantityType>(
             value: EmployeeQuantityType.xlarge,
-            groupValue: companyProfile.employeeQuantityType,
+            groupValue: EmployeeQuantityType.values[companyProfile.size ?? 0],
             onChanged: (EmployeeQuantityType? value) {
               setState(() {
-                companyProfile.employeeQuantityType = value!;
+                companyProfile.size = value!.index;
               });
             },
           ),

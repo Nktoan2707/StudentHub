@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
+import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
-import 'package:student_hub/features/profile_company/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 
 import '../../../widgets/components/top_navigation_bar.dart';
@@ -24,7 +24,16 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopNavigationBar(),
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'StudentHub',
+          style: TextStyle(fontSize: 25, color: Colors.black),
+        ),
+        centerTitle: false,
+        backgroundColor: Colors.grey,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

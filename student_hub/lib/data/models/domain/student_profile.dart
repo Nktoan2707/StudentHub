@@ -1,73 +1,52 @@
+class StudentProfile {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String deletedAt;
+  int userId;
+  int techStackId;
+  String resume;
+  String transcript;
+  TechStack techStack;
+  List<Proposal> proposals;
+  List<Education> educations;
+  List<Language> languages;
+  List<Experience> experiences;
+  List<SkillSet> skillSets;
 
-
-
-import 'package:equatable/equatable.dart';
-
-class StudentProfile extends Equatable {
-  final TechStack techStack;
-  final List<SkillSet> skillSet;
-  final List<String> language;
-  final List<Education> education;
-  final Transcript transcript;
-  final Resume resume;
-
-  @override
-  List<Object?> get props => [
-        techStack,
-        skillSet,
-        language,
-        education,
-        transcript,
-        resume,
-      ];
-
-  const StudentProfile({
-    required this.techStack,
-    required this.skillSet,
-    required this.language,
-    required this.education,
-    required this.transcript,
-    required this.resume,
-  });
-}
-
-class SkillSet {
-  final String id;
-  final String name;
-
-  SkillSet({required this.id, required this.name});
-}
-
-class TechStack {
-  final String id;
-  final String name;
-
-  TechStack({required this.id, required this.name});
-}
-
-class Language {
-  final String id;
-  final String studentId;
-  final String languageName;
-  final String level;
-
-  Language({
+  StudentProfile({
     required this.id,
-    required this.studentId,
-    required this.languageName,
-    required this.level,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.userId,
+    required this.techStackId,
+    required this.resume,
+    required this.transcript,
+    required this.techStack,
+    required this.proposals,
+    required this.educations,
+    required this.languages,
+    required this.experiences,
+    required this.skillSets,
   });
 }
 
 class Education {
-  final String id;
-  final String studentId;
-  final String schoolName;
-  final DateTime startYear;
-  final DateTime endYear;
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  dynamic deletedAt;
+  int studentId;
+  String schoolName;
+  DateTime startYear;
+  DateTime endYear;
 
   Education({
     required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
     required this.studentId,
     required this.schoolName,
     required this.startYear,
@@ -76,27 +55,133 @@ class Education {
 }
 
 class Experience {
-  final String id;
-  final String studentId;
-  final String title;
-  final DateTime startMonth;
-  final DateTime endMonth;
-  final String description;
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String deletedAt;
+  int studentId;
+  String title;
+  String startMonth;
+  String endMonth;
+  String description;
+  List<TechStack> skillSets;
 
   Experience({
     required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
     required this.studentId,
     required this.title,
     required this.startMonth,
     required this.endMonth,
     required this.description,
+    required this.skillSets,
   });
 }
 
-class Transcript {
-  // Define your transcript properties here
+class TechStack {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String? deletedAt;
+  String name;
+
+  TechStack({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.name,
+  });
 }
 
-class Resume {
-  // Define your resume properties here
+class Language {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  dynamic deletedAt;
+  int studentId;
+  String languageName;
+  String level;
+
+  Language({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.studentId,
+    required this.languageName,
+    required this.level,
+  });
+}
+
+class Proposal {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  dynamic deletedAt;
+  int projectId;
+  int studentId;
+  String coverLetter;
+  int statusFlag;
+  int disableFlag;
+  Student student;
+
+  Proposal({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.projectId,
+    required this.studentId,
+    required this.coverLetter,
+    required this.statusFlag,
+    required this.disableFlag,
+    required this.student,
+  });
+}
+
+class Student {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  dynamic deletedAt;
+  int userId;
+  String fullname;
+  int techStackId;
+  dynamic resume;
+  dynamic transcript;
+  TechStack techStack;
+  List<dynamic> educations;
+
+  Student({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.userId,
+    required this.fullname,
+    required this.techStackId,
+    required this.resume,
+    required this.transcript,
+    required this.techStack,
+    required this.educations,
+  });
+}
+
+class SkillSet {
+  int id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String? deletedAt;
+  String name;
+
+  SkillSet({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.name,
+  });
 }
