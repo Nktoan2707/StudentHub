@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:student_hub/common/constants.dart';
-import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/data/models/domain/student_profile.dart';
 import 'package:student_hub/data/models/domain/user.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {

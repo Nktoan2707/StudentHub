@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';

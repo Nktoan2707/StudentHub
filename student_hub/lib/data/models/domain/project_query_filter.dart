@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:student_hub/common/enums.dart';
 
@@ -14,9 +13,9 @@ class ProjectQueryFilter {
 
   Map<String, dynamic> toMap() {
     return {
-      'projectScopeFlag': this.projectScopeFlag,
-      'numberOfStudents': this.numberOfStudents,
-      'proposalsLessThan': this.projectScopeFlag.index,
+      'projectScopeFlag': projectScopeFlag,
+      'numberOfStudents': numberOfStudents,
+      'proposalsLessThan': projectScopeFlag.index,
     };
   }
 

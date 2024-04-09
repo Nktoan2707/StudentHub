@@ -79,7 +79,7 @@ class _StudentSavedProjectListPageState
             BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
               builder: (context, state) {
                 if (state is ProjectStudentFetchFavoriteInProgress) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (state is ProjectStudentFetchFavoriteSuccess) {
                   return ListView.separated(
                     scrollDirection: Axis.vertical,
@@ -99,7 +99,7 @@ class _StudentSavedProjectListPageState
                     },
                   );
                 }
-                return Placeholder();
+                return const Placeholder();
               },
             ),
           ],

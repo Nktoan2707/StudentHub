@@ -7,7 +7,6 @@ import 'package:student_hub/features/company_profile/pages/company_profile_input
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 
-import '../../../widgets/components/top_navigation_bar.dart';
 
 class SwitchAccountPage extends StatefulWidget {
   static const String pageId = "/SwitchAccountPage";

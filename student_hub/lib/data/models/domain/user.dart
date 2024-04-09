@@ -36,11 +36,11 @@ class User extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'fullname': this.fullname,
-      'roles': this.roles,
-      'companyProfile': this.companyProfile,
-      'studentProfile': this.studentProfile,
+      'id': id,
+      'fullname': fullname,
+      'roles': roles,
+      'companyProfile': companyProfile,
+      'studentProfile': studentProfile,
     };
   }
 

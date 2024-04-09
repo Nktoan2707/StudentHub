@@ -2,14 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
-import 'package:student_hub/data/models/domain/user.dart';
 
 part 'authentication_event.dart';
 

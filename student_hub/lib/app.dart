@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';

@@ -172,7 +172,7 @@ class _CompanyPostProjectStep4PageState
 }
 
 class PostJob extends StatefulWidget {
-  PostJob({super.key, required this.onPressed});
+  const PostJob({super.key, required this.onPressed});
 
   final Function() onPressed;
   @override

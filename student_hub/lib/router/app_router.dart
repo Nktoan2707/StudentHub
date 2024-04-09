@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:student_hub/common/splash_screen.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
-import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';

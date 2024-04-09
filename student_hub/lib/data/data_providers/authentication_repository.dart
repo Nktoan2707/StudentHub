@@ -1,17 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/common/enums.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:student_hub/data/data_providers/company_repository.dart';
-import 'package:student_hub/data/data_providers/student_repository.dart';
-import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/data/models/domain/student_profile.dart';
-import 'package:student_hub/data/models/domain/user.dart';
 
 class AuthenticationRepository {
   final StreamController<AuthenticationStatus> _authenticationStatusController =
@@ -58,11 +52,11 @@ class AuthenticationRepository {
         ),
       );
 
-      print("RESPONSE: ${response}");
+      print("RESPONSE: $response");
 
       if (response.statusCode == 201) {
         token = json.decode(response.body)["result"]["token"];
-        print("TOKEN: ${token}");
+        print("TOKEN: $token");
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
         throw Exception(json.decode(response.body));

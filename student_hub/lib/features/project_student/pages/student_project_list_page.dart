@@ -149,7 +149,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
               BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
                 builder: (context, state) {
                   if (state is ProjectStudentFetchInProgress) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (state is ProjectStudentFetchSuccess) {
                     return ListView.separated(
                       scrollDirection: Axis.vertical,
@@ -170,7 +170,7 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                     );
                   }
 
-                  return Placeholder();
+                  return const Placeholder();
                 },
               ),
             ],

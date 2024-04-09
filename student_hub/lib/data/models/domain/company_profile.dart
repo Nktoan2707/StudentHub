@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 
 
 enum EmployeeQuantityType { onlyMe, small, medium, large, xlarge }
@@ -47,32 +45,32 @@ class CompanyProfile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['fullname'] = this.fullname;
-    data['companyName'] = this.companyName;
-    data['website'] = this.website;
-    data['size'] = this.size;
-    data['description'] = this.description;
-    data['updatedAt'] = this.updatedAt;
-    data['deletedAt'] = this.deletedAt;
-    data['id'] = this.id;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['fullname'] = fullname;
+    data['companyName'] = companyName;
+    data['website'] = website;
+    data['size'] = size;
+    data['description'] = description;
+    data['updatedAt'] = updatedAt;
+    data['deletedAt'] = deletedAt;
+    data['id'] = id;
+    data['createdAt'] = createdAt;
     return data;
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': this.userId,
-      'fullname': this.fullname,
-      'companyName': this.companyName,
-      'website': this.website,
-      'size': this.size,
-      'description': this.description,
-      'updatedAt': this.updatedAt,
-      'deletedAt': this.deletedAt,
-      'id': this.id,
-      'createdAt': this.createdAt,
+      'userId': userId,
+      'fullname': fullname,
+      'companyName': companyName,
+      'website': website,
+      'size': size,
+      'description': description,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+      'id': id,
+      'createdAt': createdAt,
     };
   }
 

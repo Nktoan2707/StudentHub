@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/company_profile.dart';
-import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
@@ -42,9 +41,8 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
       child: BlocBuilder<CompanyProfileBloc, CompanyProfileState>(
         builder: (context, state) {
           if (state is CompanyProfileInitial) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
-          ;
 
           companyTextController.text =
               state.currentUser.companyProfile?.companyName ?? "";

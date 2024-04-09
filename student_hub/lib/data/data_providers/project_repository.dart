@@ -59,7 +59,7 @@ class ProjectRepository {
 
   Future<Project> getProjectDetail(
       {required User user, required int id, required String token}) async {
-    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project/${id}');
+    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project/$id');
     final response = await http.get(
       uri,
       headers: <String, String>{

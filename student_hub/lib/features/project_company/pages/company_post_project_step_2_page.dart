@@ -57,11 +57,11 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                 const SizedBox(height: 15,),  
                 RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     children: [
                       WidgetSpan(
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.only(right: 5),
                           child: CircularCheckBox( onChanged: (p0) {
                             if (p0 == 1) {
                               postProject.projectDuration = 0;
@@ -69,12 +69,12 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                           },),
                         ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '1 to 3 months\n',
                       ),
                       WidgetSpan(
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.only(right: 5),
                           child: CircularCheckBox( onChanged: (p0) {
                             if (p0 == 1) {
                               postProject.projectDuration = 1;
@@ -82,7 +82,7 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                           },),
                         ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '3 to 6 months\n',
                       ),
                     ],
@@ -105,7 +105,7 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                   postProject.numberOfStudents = int.parse(p0);
                 },),
                 const SizedBox(height: 25,),
-                NextDescription(project: this.postProject,),
+                NextDescription(project: postProject,),
               ],
             ),
           ],
