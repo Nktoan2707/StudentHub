@@ -11,25 +11,28 @@ class ProjectRepository {
       {required User user,
       required ProjectQueryFilter filterQuery,
       required String token}) async {
+    try {
+      final Uri uri =
+          Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
 
-    final Uri uri =
-        Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    print(uri);
-
-    final response = await http.get(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      //Need to convert to project List
-      return [Project.fromJson(jsonDecode(response.body))];
-    } else {
-      throw Exception('[FAIL - NETWORK]Get list project');
+      if (response.statusCode == 200) {
+        //Need to convert to project List
+        return List.from(jsonDecode(response.body)['result'])
+            .map((e) => Project.fromMap(e))
+            .toList();
+      } else {
+        throw Exception('[FAIL - NETWORK]Get list project');
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

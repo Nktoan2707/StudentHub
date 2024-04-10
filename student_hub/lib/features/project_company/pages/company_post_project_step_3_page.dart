@@ -90,7 +90,7 @@ class _CompanyPostProjectStep3PageState extends State<CompanyPostProjectStep3Pag
                 ),
                 const SizedBox(height: 15,),
                 _Describe(onChanged: (p0) {
-                  postProject.jobDescription = p0;
+                  postProject.description = p0;
                 },),
                 const SizedBox(height: 15,),
                 ReviewPost(project: postProject,),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -17,14 +18,7 @@ class CompanyPostProjectStep1Page extends StatefulWidget {
 
 class _CompanyPostProjectStep1PageState
     extends State<CompanyPostProjectStep1Page> {
-  Project postProject = Project(
-      companyId: "1",
-      createdAt: DateTime.now().toIso8601String(),
-      jobTitle: '',
-      jobDescription: '',
-      numberOfStudents: 0,
-      numberOfProposals: 0,
-      projectDuration: 0);
+  Project postProject = Project(projectId: 1, createdAt: "123", updatedAt: "123", deletedAt: "123", companyId: "1", projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth, title: "123", description: "description", numberOfStudents: 1, typeFlag: 1, countProposals: 1, isFavorite: false);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +52,7 @@ class _CompanyPostProjectStep1PageState
                     "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
                 _title(
                   onChanged: (p0) {
-                    postProject.jobTitle = p0;
+                    postProject.title = p0;
                   },
                 ),
                 const SizedBox(

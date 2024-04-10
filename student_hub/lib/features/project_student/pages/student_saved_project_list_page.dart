@@ -16,35 +16,6 @@ class StudentSavedProjectListPage extends StatefulWidget {
 
 class _StudentSavedProjectListPageState
     extends State<StudentSavedProjectListPage> {
-  List<Project> projectList = List.from({
-    Project(
-        companyId: "aaa",
-        createdAt: "3 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: 0,
-        numberOfStudents: 6,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 4),
-    Project(
-        companyId: "aaa",
-        createdAt: "5 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: 0,
-        numberOfStudents: 4,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 2),
-    Project(
-        companyId: "aaa",
-        createdAt: "6 days ago",
-        jobTitle: "Senior frontend developer (Fintech)",
-        projectDuration: 0,
-        numberOfStudents: 7,
-        jobDescription:
-            "Students are looking for\n \t + Clear expectation about your project or deliverables",
-        numberOfProposals: 8),
-  }, growable: true);
 
   @override
   Widget build(BuildContext context) {

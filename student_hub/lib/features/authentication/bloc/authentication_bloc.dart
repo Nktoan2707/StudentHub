@@ -59,7 +59,7 @@ class AuthenticationBloc
           return emit(AuthenticationAuthenticateSuccess(
               userRole: _authenticationRepository.currentUserRole));
         } catch (e) {
-          print(e);
+          // print(e);
           // rethrow;
           emit(AuthenticationAuthenticateFailure());
         }

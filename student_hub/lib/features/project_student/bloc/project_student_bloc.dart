@@ -38,20 +38,14 @@ class ProjectStudentBloc
       List<Project> projectList = await _projectRepository.getListProject(
           user: await _userRepository
               .getCurrentUser(_authenticationRepository.token),
-          filterQuery: ProjectQueryFilter(
-              projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-              numberOfStudents: 1,
-              proposalsLessThan: 4),
+          filterQuery: ProjectQueryFilter(),
           token: _authenticationRepository.token);
 
       List<Project> favoriteProjectList =
           await _projectRepository.getListProject(
               user: await _userRepository
                   .getCurrentUser(_authenticationRepository.token),
-              filterQuery: ProjectQueryFilter(
-                  projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-                  numberOfStudents: 1,
-                  proposalsLessThan: 4),
+              filterQuery: ProjectQueryFilter(),
               token: _authenticationRepository.token);
       ;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
@@ -64,7 +65,7 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                           padding: const EdgeInsets.only(right: 5),
                           child: CircularCheckBox( onChanged: (p0) {
                             if (p0 == 1) {
-                              postProject.projectDuration = 0;
+                              postProject.projectScopeFlag = ProjectScopeFlag.OneToThreeMonth;
                             }
                           },),
                         ),
@@ -77,7 +78,7 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                           padding: const EdgeInsets.only(right: 5),
                           child: CircularCheckBox( onChanged: (p0) {
                             if (p0 == 1) {
-                              postProject.projectDuration = 1;
+                              postProject.projectScopeFlag = ProjectScopeFlag.ThreeToSixMonth;
                             }
                           },),
                         ),

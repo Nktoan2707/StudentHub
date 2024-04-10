@@ -1,22 +1,28 @@
-
 import 'package:student_hub/common/enums.dart';
 
 class ProjectQueryFilter {
-  final ProjectScopeFlag projectScopeFlag;
-  final int numberOfStudents;
-  final int proposalsLessThan;
+  final ProjectScopeFlag? projectScopeFlag;
+  final int? numberOfStudents;
+  final int? proposalsLessThan;
 
   ProjectQueryFilter(
-      {required this.projectScopeFlag,
-      required this.numberOfStudents,
-      required this.proposalsLessThan});
+      {this.projectScopeFlag, this.numberOfStudents, this.proposalsLessThan});
 
   Map<String, dynamic> toMap() {
-    return {
-      'projectScopeFlag': projectScopeFlag.index.toString(),
-      'numberOfStudents': numberOfStudents.toString(),
-      'proposalsLessThan': proposalsLessThan.toString(),
-    };
+    Map<String, dynamic> result = {};
+    if (projectScopeFlag != null) {
+      result.addEntries(
+          [MapEntry("projectScopeFlag", projectScopeFlag!.index.toString())]);
+    }
+    if (numberOfStudents != null) {
+      result.addEntries(
+          [MapEntry("numberOfStudents", numberOfStudents.toString())]);
+    }
+    if (proposalsLessThan != null) {
+      result.addEntries(
+          [MapEntry("proposalsLessThan", proposalsLessThan.toString())]);
+    }
+    return result;
   }
 
 // factory ProjectQueryFilter.fromMap(Map<String, dynamic> map) {

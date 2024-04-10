@@ -34,7 +34,6 @@ class AuthenticationRepository {
     required String emailAddress,
     required String password,
   }) async {
-    // _authenticationStatusController.add(AuthenticationStatus.authenticated);
 
     try {
       // doing register with backend
@@ -52,17 +51,14 @@ class AuthenticationRepository {
         ),
       );
 
-      print("RESPONSE: $response");
-
       if (response.statusCode == 201) {
         token = json.decode(response.body)["result"]["token"];
-        print("TOKEN: $token");
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
         throw Exception(json.decode(response.body));
       }
     } catch (e) {
-      print(e);
+      // print(e);
       rethrow;
     }
   }

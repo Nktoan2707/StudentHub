@@ -65,19 +65,19 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(project.jobTitle),
+                  Text(project.title),
                   const Divider(
                     thickness: 3,
                     height: 30,
                   ),
-                  Text(project.jobDescription),
+                  Text(project.description),
                   const Divider(
                     thickness: 3,
                     height: 30,
                   ),
                   ListTile(
                     title: Text(
-                        "Project Scope: \n \t \t - ${project.projectDuration}"),
+                        "Project Scope: \n \t \t - ${project.projectScopeFlag}"),
                     leading: const Icon(Icons.timer_outlined),
                     minLeadingWidth: 0,
                     contentPadding: EdgeInsets.zero,
