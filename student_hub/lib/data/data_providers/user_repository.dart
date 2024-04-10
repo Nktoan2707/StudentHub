@@ -25,9 +25,7 @@ class UserRepository {
 
     if (response.statusCode == 200) {
       doesNeedUpdate = false;
-      print(json.decode(response.body)["result"]);
       User user = User.fromMap(json.decode(response.body)["result"]);
-
       _currentUser = user;
       return _currentUser;
     } else {

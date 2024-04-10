@@ -12,8 +12,3 @@ class ProjectStudentFetched extends ProjectStudentEvent {
   @override
   String toString() => "ProjectStudentFetched {}";
 }
-
-class ProjectStudentFavoriteFetched extends ProjectStudentEvent {
-  @override
-  String toString() => "ProjectStudentFavoriteFetched {}";
-}

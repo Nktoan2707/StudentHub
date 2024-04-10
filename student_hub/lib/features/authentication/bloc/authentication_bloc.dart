@@ -60,7 +60,7 @@ class AuthenticationBloc
               userRole: _authenticationRepository.currentUserRole));
         } catch (e) {
           print(e);
-          rethrow;
+          // rethrow;
           emit(AuthenticationAuthenticateFailure());
         }
       default:

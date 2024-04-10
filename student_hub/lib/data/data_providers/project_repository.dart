@@ -11,14 +11,11 @@ class ProjectRepository {
       {required User user,
       required ProjectQueryFilter filterQuery,
       required String token}) async {
-    // final queryParameters = {
-    //   'projectScopeFlag': 0,
-    //   'numberOfStudents': 2,
-    //   'proposalsLessThan': 6,
-    // };
 
     final Uri uri =
         Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
+
+    print(uri);
 
     final response = await http.get(
       uri,

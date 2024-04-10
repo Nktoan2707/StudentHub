@@ -13,9 +13,9 @@ class ProjectQueryFilter {
 
   Map<String, dynamic> toMap() {
     return {
-      'projectScopeFlag': projectScopeFlag,
-      'numberOfStudents': numberOfStudents,
-      'proposalsLessThan': projectScopeFlag.index,
+      'projectScopeFlag': projectScopeFlag.index.toString(),
+      'numberOfStudents': numberOfStudents.toString(),
+      'proposalsLessThan': proposalsLessThan.toString(),
     };
   }
 

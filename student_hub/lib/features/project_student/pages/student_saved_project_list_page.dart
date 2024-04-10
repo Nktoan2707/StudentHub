@@ -48,8 +48,6 @@ class _StudentSavedProjectListPageState
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProjectStudentBloc>().add(ProjectStudentFavoriteFetched());
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

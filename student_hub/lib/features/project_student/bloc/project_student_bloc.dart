@@ -59,6 +59,7 @@ class ProjectStudentBloc
           projectList: projectList, favoriteProjectList: favoriteProjectList));
     } catch (e) {
       print(e);
+      rethrow;
     }
   }
 }
