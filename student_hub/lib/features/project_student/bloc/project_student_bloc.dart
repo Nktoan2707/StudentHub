@@ -42,12 +42,8 @@ class ProjectStudentBloc
           token: _authenticationRepository.token);
 
       List<Project> favoriteProjectList =
-          await _projectRepository.getListProject(
-              user: await _userRepository
-                  .getCurrentUser(_authenticationRepository.token),
-              filterQuery: ProjectQueryFilter(),
-              token: _authenticationRepository.token);
-      ;
+          projectList.where((element) => element.isFavorite).toList();
+
 
       emit(ProjectStudentFetchSuccess(
           projectList: projectList, favoriteProjectList: favoriteProjectList));
