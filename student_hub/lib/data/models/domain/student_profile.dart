@@ -1,12 +1,12 @@
 class StudentProfile {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int userId;
   int techStackId;
-  String resume;
-  String transcript;
+  String? resume;
+  String? transcript;
   TechStack techStack;
   List<Proposal> proposals;
   List<Education> educations;
@@ -53,32 +53,40 @@ class StudentProfile {
   factory StudentProfile.fromMap(Map<String, dynamic> map) {
     return StudentProfile(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as String,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       userId: map['userId'] as int,
       techStackId: map['techStackId'] as int,
-      resume: map['resume'] as String,
-      transcript: map['transcript'] as String,
-      techStack: map['techStack'] as TechStack,
-      proposals: map['proposals'] as List<Proposal>,
-      educations: map['educations'] as List<Education>,
-      languages: map['languages'] as List<Language>,
-      experiences: map['experiences'] as List<Experience>,
-      skillSets: map['skillSets'] as List<SkillSet>,
+      resume: map['resume'] == null ? null : map['resume'] as String,
+      transcript:
+          map['transcript'] == null ? null : map['transcript'] as String,
+      techStack: TechStack.fromMap(map['techStack']),
+      proposals:
+          List.from(map['proposals']).map((e) => Proposal.fromMap(e)).toList(),
+      educations: List.from(map['educations'])
+          .map((e) => Education.fromMap(e))
+          .toList(),
+      languages:
+          List.from(map['languages']).map((e) => Language.fromMap(e)).toList(),
+      experiences: List.from(map['experiences'])
+          .map((e) => Experience.fromMap(e))
+          .toList(),
+      skillSets:
+          List.from(map['skillSets']).map((e) => SkillSet.fromMap(e)).toList(),
     );
   }
 }
 
 class Education {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int studentId;
   String schoolName;
-  DateTime startYear;
-  DateTime endYear;
+  String startYear;
+  String endYear;
 
   Education({
     required this.id,
@@ -107,22 +115,22 @@ class Education {
   factory Education.fromMap(Map<String, dynamic> map) {
     return Education(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as dynamic,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       studentId: map['studentId'] as int,
       schoolName: map['schoolName'] as String,
-      startYear: map['startYear'] as DateTime,
-      endYear: map['endYear'] as DateTime,
+      startYear: map['startYear'] as String,
+      endYear: map['endYear'] as String,
     );
   }
 }
 
 class Experience {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int studentId;
   String title;
   String startMonth;
@@ -161,9 +169,9 @@ class Experience {
   factory Experience.fromMap(Map<String, dynamic> map) {
     return Experience(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as String,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       studentId: map['studentId'] as int,
       title: map['title'] as String,
       startMonth: map['startMonth'] as String,
@@ -176,8 +184,8 @@ class Experience {
 
 class TechStack {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
   String? deletedAt;
   String name;
 
@@ -202,9 +210,9 @@ class TechStack {
   factory TechStack.fromMap(Map<String, dynamic> map) {
     return TechStack(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as String,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       name: map['name'] as String,
     );
   }
@@ -212,9 +220,9 @@ class TechStack {
 
 class Language {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int studentId;
   String languageName;
   String level;
@@ -244,9 +252,9 @@ class Language {
   factory Language.fromMap(Map<String, dynamic> map) {
     return Language(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as dynamic,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       studentId: map['studentId'] as int,
       languageName: map['languageName'] as String,
       level: map['level'] as String,
@@ -256,9 +264,9 @@ class Language {
 
 class Proposal {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int projectId;
   int studentId;
   String coverLetter;
@@ -297,9 +305,9 @@ class Proposal {
   factory Proposal.fromMap(Map<String, dynamic> map) {
     return Proposal(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as dynamic,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       projectId: map['projectId'] as int,
       studentId: map['studentId'] as int,
       coverLetter: map['coverLetter'] as String,
@@ -312,9 +320,9 @@ class Proposal {
 
 class Student {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
+  String createdAt;
+  String updatedAt;
+  String? deletedAt;
   int userId;
   String fullname;
   int techStackId;
@@ -356,9 +364,9 @@ class Student {
   factory Student.fromMap(Map<String, dynamic> map) {
     return Student(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as dynamic,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       userId: map['userId'] as int,
       fullname: map['fullname'] as String,
       techStackId: map['techStackId'] as int,
@@ -372,8 +380,8 @@ class Student {
 
 class SkillSet {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
   String? deletedAt;
   String name;
 
@@ -398,9 +406,9 @@ class SkillSet {
   factory SkillSet.fromMap(Map<String, dynamic> map) {
     return SkillSet(
       id: map['id'] as int,
-      createdAt: map['createdAt'] as DateTime,
-      updatedAt: map['updatedAt'] as DateTime,
-      deletedAt: map['deletedAt'] as String,
+      createdAt: map['createdAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
       name: map['name'] as String,
     );
   }

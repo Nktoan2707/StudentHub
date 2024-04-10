@@ -14,35 +14,15 @@ class ProjectStudentFetchInProgress extends ProjectStudentState {
 
 class ProjectStudentFetchSuccess extends ProjectStudentState {
   final List<Project> projectList;
-
-  @override
-  List<Object?> get props => [projectList];
-
-  @override
-  String toString() =>
-      "ProjectStudentFetchSuccess { projectList: $projectList }";
-
-  ProjectStudentFetchSuccess({
-    required this.projectList,
-  });
-}
-
-class ProjectStudentFetchFavoriteInProgress extends ProjectStudentState {
-  @override
-  String toString() => "ProjectStudentFetchInProgress {  }";
-}
-
-class ProjectStudentFetchFavoriteSuccess extends ProjectStudentState {
   final List<Project> favoriteProjectList;
 
+  ProjectStudentFetchSuccess(
+      {required this.projectList, required this.favoriteProjectList});
+
   @override
-  List<Object?> get props => [favoriteProjectList];
+  List<Object?> get props => [projectList, favoriteProjectList];
 
   @override
   String toString() =>
-      "ProjectStudentFetchSuccess { projectList: $favoriteProjectList }";
-
-  ProjectStudentFetchFavoriteSuccess({
-    required this.favoriteProjectList,
-  });
+      "ProjectStudentFetchSuccess { projectList: $projectList, favoriteProjectList: $favoriteProjectList }";
 }

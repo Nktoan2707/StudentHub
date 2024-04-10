@@ -28,7 +28,6 @@ class ProjectStudentBloc
         _authenticationRepository = authenticationRepository,
         super(ProjectStudentInitial()) {
     on<ProjectStudentFetched>(_onProjectStudentFetched);
-    on<ProjectStudentFavoriteFetched>(_onProjectStudentFavoriteFetched);
   }
 
   Future<FutureOr<void>> _onProjectStudentFetched(
@@ -43,29 +42,21 @@ class ProjectStudentBloc
               projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
               numberOfStudents: 1,
               proposalsLessThan: 4),
-          token: "123");
-      emit(ProjectStudentFetchSuccess(projectList: projectList));
-    } catch (e) {
-      print(e);
-    }
-  }
+          token: _authenticationRepository.token);
 
-  Future<FutureOr<void>> _onProjectStudentFavoriteFetched(
-      ProjectStudentFavoriteFetched event,
-      Emitter<ProjectStudentState> emit) async {
-    emit(ProjectStudentFetchFavoriteInProgress());
+      List<Project> favoriteProjectList =
+          await _projectRepository.getListProject(
+              user: await _userRepository
+                  .getCurrentUser(_authenticationRepository.token),
+              filterQuery: ProjectQueryFilter(
+                  projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
+                  numberOfStudents: 1,
+                  proposalsLessThan: 4),
+              token: _authenticationRepository.token);
+      ;
 
-    try {
-      List<Project> projectList = await _projectRepository.getListProject(
-          user: await _userRepository
-              .getCurrentUser(_authenticationRepository.token),
-          filterQuery: ProjectQueryFilter(
-              projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-              numberOfStudents: 1,
-              proposalsLessThan: 4),
-          token: "123");
-      emit(
-          ProjectStudentFetchFavoriteSuccess(favoriteProjectList: projectList));
+      emit(ProjectStudentFetchSuccess(
+          projectList: projectList, favoriteProjectList: favoriteProjectList));
     } catch (e) {
       print(e);
     }

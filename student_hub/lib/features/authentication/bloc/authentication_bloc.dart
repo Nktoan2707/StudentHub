@@ -54,15 +54,14 @@ class AuthenticationBloc
         try {
           final user = await _userRepository
               .getCurrentUser(_authenticationRepository.token);
-          return emit(
-            user != null
-                ? AuthenticationAuthenticateSuccess(
-                    userRole: _authenticationRepository.currentUserRole)
-                : AuthenticationAuthenticateFailure(),
-          );
+          print(user.studentProfile!.toMap());
+
+          return emit(AuthenticationAuthenticateSuccess(
+              userRole: _authenticationRepository.currentUserRole));
         } catch (e) {
           print(e);
-          print("STATE AUTHENTICATION: $state");
+          rethrow;
+          emit(AuthenticationAuthenticateFailure());
         }
       default:
         throw Exception("Authentication Error!");

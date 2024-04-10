@@ -10,9 +10,9 @@ class UserRepository {
   bool doesNeedUpdate = true;
 
   Future<User> getCurrentUser(String token) async {
-    if (!doesNeedUpdate) {
-      return _currentUser;
-    }
+    // if (!doesNeedUpdate) {
+    //   return _currentUser;
+    // }
 
     final Uri uri = Uri.https(Constants.apiBaseURL, '/api/auth/me');
     final response = await http.get(
@@ -25,7 +25,9 @@ class UserRepository {
 
     if (response.statusCode == 200) {
       doesNeedUpdate = false;
+      print(json.decode(response.body)["result"]);
       User user = User.fromMap(json.decode(response.body)["result"]);
+
       _currentUser = user;
       return _currentUser;
     } else {

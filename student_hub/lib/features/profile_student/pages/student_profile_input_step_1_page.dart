@@ -52,23 +52,6 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
 
   List<Skillset> _selectedSkillset = [];
 
-  Map<String, dynamic> studentProfile = {
-  'id': 1,
-  'createdAt': ,
-  'updatedAt': ,
-  'deletedAt': ,
-  'userId': ,
-  'techStackId': ,
-  'resume': ,
-  'transcript': ,
-  'techStack': ,
-  'proposals': ,
-  'educations': ,
-  'languages': ,
-  'experiences': ,
-  'skillSets': ,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -265,7 +248,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
-          studentProfile["techStack"] = value!;
         });
       },
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {

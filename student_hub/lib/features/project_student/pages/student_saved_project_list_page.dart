@@ -78,9 +78,9 @@ class _StudentSavedProjectListPageState
             ),
             BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
               builder: (context, state) {
-                if (state is ProjectStudentFetchFavoriteInProgress) {
+                if (state is ProjectStudentFetchInProgress) {
                   return const CircularProgressIndicator();
-                } else if (state is ProjectStudentFetchFavoriteSuccess) {
+                } else if (state is ProjectStudentFetchSuccess) {
                   return ListView.separated(
                     scrollDirection: Axis.vertical,
                     physics: const NeverScrollableScrollPhysics(),
