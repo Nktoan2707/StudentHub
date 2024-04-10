@@ -8,6 +8,7 @@ abstract class StudentProfileEvent extends Equatable {
 }
 
 class StudentProfileUpdated extends StudentProfileEvent {
+  StudentProfile studentProfile;
   const StudentProfileUpdated();
 
   @override

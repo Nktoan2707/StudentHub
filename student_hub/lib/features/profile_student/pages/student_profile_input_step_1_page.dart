@@ -29,6 +29,8 @@ class StudentProfileInputStep1Page extends StatefulWidget {
 }
 
 class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1Page> {
+  Map<String, String> studentProfileData = Map();
+  studentProfileData.addEntries("TechStack", "FullStack Engineer");
   static final List<Skillset> _skillset = [
     Skillset(id: 1, name: "NodeJS"),
     Skillset(id: 2, name: "Swift"),
@@ -218,7 +220,7 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
                 children: [
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: nextButton(),
+                    child: nextButton(studentProfileData),
                   ),
                 ],
               ),
@@ -282,7 +284,7 @@ class _nextButtonState extends State<nextButton> {
               ),
             ),
             onPressed: true ? () {
-              Navigator.of(context).pushReplacementNamed(StudentProfileInputStep2Page.pageId);
+              Navigator.of(context).pushReplacementNamed(StudentProfileInputStep2Page.pageId, arguments: Map());
 
             } : null,
             child: const Text('Next'),

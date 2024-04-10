@@ -16,7 +16,8 @@ class StudentProfileBloc extends Bloc<StudentProfileEvent, StudentProfileState> 
   StudentProfileBloc({
     required StudentRepository studentRepository,
   })  : _studentRepository = studentRepository,
-        super(StudentProfileInitial());
+    on<CompanyProfileUpdate>(_onCompanyProfileUpdate);
+    on<CompanyProfileFetch>(_onCompanyProfileFetch);
 
   @override
   Stream<StudentProfileState> mapEventToState(StudentProfileEvent event) async* {

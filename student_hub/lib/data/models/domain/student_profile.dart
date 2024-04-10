@@ -1,5 +1,4 @@
-
-
+import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
@@ -29,6 +28,13 @@ class StudentProfile extends Equatable {
     required this.transcript,
     required this.resume,
   });
+
+  String toJson() => json.encode(toMap());
+
+  factory CompanyProfile.fromJson(String source) => CompanyProfile.fromMap(json.decode(source) as Map<String, dynamic>);
+
+
+  toJson() {}
 }
 
 class SkillSet {
