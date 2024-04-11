@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
+import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 
 class StudentSavedProjectListPage extends StatefulWidget {
   static const String pageId = "/StudentSavedProjectListPage";
@@ -16,7 +17,6 @@ class StudentSavedProjectListPage extends StatefulWidget {
 
 class _StudentSavedProjectListPageState
     extends State<StudentSavedProjectListPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _StudentSavedProjectListPageState
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            context.read<ProjectStudentBloc>().add(ProjectStudentFetched());
+            // context.read<ProjectStudentBloc>().add(ProjectStudentFetched());
 
             Navigator.of(context).pop();
           },
@@ -47,9 +47,15 @@ class _StudentSavedProjectListPageState
             ),
             BlocBuilder<ProjectStudentBloc, ProjectStudentState>(
               builder: (context, state) {
-                if (state is ProjectStudentFetchInProgress) {
-                  return const CircularProgressIndicator();
+                if (state is ProjectStudentFetchInProgress || state is ProjectStudentUpdateInProgress) {
+                  return Center(child: const CircularProgressIndicator());
                 } else if (state is ProjectStudentFetchSuccess) {
+                  if (state.favoriteProjectList.isEmpty) {
+                    return Center(
+                      child: Text("Nothing here..."),
+                    );
+                  }
+
                   return ListView.separated(
                     scrollDirection: Axis.vertical,
                     physics: const NeverScrollableScrollPhysics(),
@@ -57,7 +63,7 @@ class _StudentSavedProjectListPageState
                     itemCount: state.favoriteProjectList.length,
                     itemBuilder: (context, index) {
                       return StudentProjectListItemView(
-                        project: state.favoriteProjectList[index],
+                        project: state.favoriteProjectList[index], parentPageId: StudentProjectListPage.pageId,
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {

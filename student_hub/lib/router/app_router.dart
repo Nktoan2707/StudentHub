@@ -164,7 +164,9 @@ class AppRouter {
                 child: const StudentProjectListPage()));
       case StudentProjectDetailPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentProjectDetailPage(),
+            builder: (_) => BlocProvider.value(
+                value: _projectStudentBloc,
+                child: const StudentProjectDetailPage()),
             settings: settings);
       case StudentSavedProjectListPage.pageId:
         return MaterialPageRoute(
@@ -173,7 +175,9 @@ class AppRouter {
                 child: const StudentSavedProjectListPage()));
       case StudentSearchedProjectListPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentSearchedProjectListPage());
+            builder: (_) => BlocProvider.value(
+                value: _projectStudentBloc,
+                child: const StudentSearchedProjectListPage()));
       case StudentSubmitProposalPage.pageId:
         return MaterialPageRoute(
             builder: (_) => const StudentSubmitProposalPage());

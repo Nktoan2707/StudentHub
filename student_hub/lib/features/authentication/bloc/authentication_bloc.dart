@@ -52,15 +52,13 @@ class AuthenticationBloc
         return emit(AuthenticationAuthenticateFailure());
       case AuthenticationStatus.authenticated:
         try {
-          final user = await _userRepository
-              .getCurrentUser(_authenticationRepository.token);
-          print(user.studentProfile!.toMap());
+
 
           return emit(AuthenticationAuthenticateSuccess(
               userRole: _authenticationRepository.currentUserRole));
         } catch (e) {
           // print(e);
-          // rethrow;
+          rethrow;
           emit(AuthenticationAuthenticateFailure());
         }
       default:

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 
 class StudentProjectListItemView extends StatelessWidget {
-  const StudentProjectListItemView({super.key, required this.project});
-
+  const StudentProjectListItemView({super.key, required this.project, this.parentPageId});
   final Project project;
+  final String? parentPageId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(StudentProjectDetailPage.pageId, arguments: project);
+        Navigator.of(context)
+            .pushNamed(StudentProjectDetailPage.pageId, arguments: [project, parentPageId]);
       },
       child: Row(
         children: [
@@ -28,7 +31,15 @@ class StudentProjectListItemView extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
+          IconButton(
+              onPressed: () {
+                context.read<ProjectStudentBloc>().add(ProjectStudentUpdated(
+                    projectId: project.projectId,
+                    isDisabled: project.isFavorite, callerPageId: parentPageId));
+              },
+              icon: project.isFavorite
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border)),
         ],
       ),
     );

@@ -51,6 +51,7 @@ class AuthenticationRepository {
         ),
       );
 
+
       if (response.statusCode == 201) {
         token = json.decode(response.body)["result"]["token"];
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
@@ -90,7 +91,7 @@ class AuthenticationRepository {
       required UserRole userRole}) async {
     try {
       // doing register with backend
-      final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-in');
+      final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-up');
       final response = await http.post(
         uri,
         headers: <String, String>{
@@ -108,16 +109,20 @@ class AuthenticationRepository {
           },
         ),
       );
+      print("STATUSCODE: " + response.statusCode.toString());
+      print(response.body.toString());
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         currentUserRole = userRole;
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(Constants.chosenUserRole, userRole.name);
       } else if (response.statusCode == 400) {
         throw Exception(json.decode(response.body)["errorDetails"]);
+      } else {
+        throw Exception(json.decode(response.body)["errorDetails"]);
       }
     } catch (e) {
-      // print(e);
+      print(e);
       rethrow;
     }
   }
