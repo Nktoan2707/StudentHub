@@ -56,6 +56,8 @@ class AuthenticationRepository {
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
         throw Exception(json.decode(response.body));
+      } else {
+        throw Exception(json.decode(response.body));
       }
     } catch (e) {
       // print(e);
