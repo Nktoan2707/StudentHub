@@ -1,4 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 
@@ -9,23 +13,27 @@ class CompanyPostProjectStep2Page extends StatefulWidget {
   const CompanyPostProjectStep2Page({super.key});
 
   @override
-  State<CompanyPostProjectStep2Page> createState() => _CompanyPostProjectStep2PageState();
+  State<CompanyPostProjectStep2Page> createState() =>
+      _CompanyPostProjectStep2PageState();
 }
 
-class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Page> {
+class _CompanyPostProjectStep2PageState
+    extends State<CompanyPostProjectStep2Page> {
   late Project postProject;
-  
+
   @override
   Widget build(BuildContext context) {
     postProject = (ModalRoute.of(context)?.settings.arguments as Project);
-    
+
     return Scaffold(
       appBar: const TopNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            const SizedBox(height: 40,),
+            const SizedBox(
+              height: 40,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -40,9 +48,14 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
-                const Text("Consider the size of your project and the timeline"),
-                const SizedBox(height: 15,),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                    "Consider the size of your project and the timeline"),
+                const SizedBox(
+                  height: 15,
+                ),
                 RichText(
                   text: const TextSpan(
                     style: TextStyle(color: Colors.black),
@@ -54,7 +67,9 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                const SizedBox(height: 15,),  
+                const SizedBox(
+                  height: 15,
+                ),
                 RichText(
                   text: TextSpan(
                     style: const TextStyle(color: Colors.black),
@@ -62,11 +77,15 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                       WidgetSpan(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 5),
-                          child: CircularCheckBox( onChanged: (p0) {
-                            if (p0 == 1) {
-                              postProject.projectDuration = 0;
-                            }
-                          },),
+                          child: CircularCheckBox(
+                            onChanged: (p0) {
+                              if (p0 == 1) {
+                                postProject.projectScopeFlag =
+                                    ProjectScopeFlag.OneToThreeMonth;
+                              }
+                            },
+                            isChecked: postProject.projectScopeFlag == ProjectScopeFlag.OneToThreeMonth,
+                          ),
                         ),
                       ),
                       const TextSpan(
@@ -75,11 +94,15 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                       WidgetSpan(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 5),
-                          child: CircularCheckBox( onChanged: (p0) {
-                            if (p0 == 1) {
-                              postProject.projectDuration = 1;
-                            }
-                          },),
+                          child: CircularCheckBox(
+                            onChanged: (p0) {
+                              if (p0 == 1) {
+                                postProject.projectScopeFlag =
+                                    ProjectScopeFlag.ThreeToSixMonth;
+                              }
+                            },
+                             isChecked: postProject.projectScopeFlag == ProjectScopeFlag.ThreeToSixMonth,
+                          ),
                         ),
                       ),
                       const TextSpan(
@@ -88,24 +111,35 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
                     ],
                   ),
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(
+                  height: 15,
+                ),
                 RichText(
                   text: const TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                        text: "How long will your project take?",
+                        text: "How many students do you want for this project?",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 15,),
-                _number(onChanged: (p0) {
-                  postProject.numberOfStudents = int.parse(p0);
-                },),
-                const SizedBox(height: 25,),
-                NextDescription(project: postProject,),
+                const SizedBox(
+                  height: 15,
+                ),
+                _number(
+                  onChanged: (p0) {
+                    postProject.numberOfStudents = int.parse(p0);
+                  },
+                  defaultText: postProject.numberOfStudents.toString(),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                NextDescription(
+                  project: postProject,
+                ),
               ],
             ),
           ],
@@ -116,29 +150,41 @@ class _CompanyPostProjectStep2PageState extends State<CompanyPostProjectStep2Pag
 }
 
 class _number extends StatefulWidget {
-  const _number({required this.onChanged});
+  _number({
+    Key? key,
+    required this.onChanged,
+    required this.defaultText
+  }) : super(key: key);
   final Function(String) onChanged;
+  String defaultText;
   @override
   State<_number> createState() => _numberState();
 }
 
 class _numberState extends State<_number> {
+  TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    textController.text = widget.defaultText;
     return TextField(
+      controller: textController,
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
       key: const Key('Projectpost_number_textField'),
-      onChanged: (title){
+      onChanged: (title) {
         widget.onChanged(title);
       },
       decoration: InputDecoration(
         labelText: "number of students",
-        errorText: false ?'invalid title': null,
+        errorText: false ? 'invalid title' : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-        ), 
+        ),
       ),
     );
   }
@@ -169,31 +215,44 @@ class _NextDescriptionState extends State<NextDescription> {
                 side: BorderSide(width: 2),
               ),
             ),
-            onPressed: true ? () {
-              Navigator.of(context).pushNamed(CompanyPostProjectStep3Page.pageId, arguments: widget.project);
-            } : null,
+            onPressed: true
+                ? () {
+                  if (widget.project.numberOfStudents <= 0 || widget.project.projectScopeFlag == ProjectScopeFlag.LessThanOneMonth) {
+                    ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(content: Text('Please check again information'),
+                          duration: Duration(seconds: 1),),
+                        );
+                  } else {
+                    Navigator.of(context).pushNamed(
+                        CompanyPostProjectStep3Page.pageId,
+                        arguments: widget.project);
+                  }
+                  }
+                : null,
             child: const Text('Next Scope'),
           );
   }
 }
 
 class CircularCheckBox extends StatefulWidget {
-  const CircularCheckBox({super.key, required this.onChanged});
+  CircularCheckBox({super.key, required this.onChanged, required this.isChecked});
 
   final Function(int) onChanged;
+  bool isChecked;
   @override
   State<CircularCheckBox> createState() => _CircularCheckBoxState();
 }
 
 class _CircularCheckBoxState extends State<CircularCheckBox> {
-  bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         setState(() {
-          _isChecked = !_isChecked;
-          widget.onChanged(_isChecked ? 1 : 0);
+          widget.isChecked = !widget.isChecked;
+          widget.onChanged(widget.isChecked ? 1 : 0);
         });
       },
       child: Container(
@@ -203,7 +262,7 @@ class _CircularCheckBoxState extends State<CircularCheckBox> {
           shape: BoxShape.circle,
           border: Border.all(color: Colors.black),
         ),
-        child: _isChecked
+        child: widget.isChecked
             ? const Icon(
                 Icons.check,
                 size: 10,

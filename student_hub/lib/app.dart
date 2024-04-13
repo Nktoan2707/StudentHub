@@ -39,8 +39,6 @@ class _AppState extends State<App> {
       create: (context) => AuthenticationBloc(
         authenticationRepository: _authenticationRepository,
         userRepository: UserRepository(),
-        companyRepository: CompanyRepository(),
-        studentRepository: StudentRepository(),
       ),
       child: MaterialApp(
         navigatorKey: _navigatorKey,

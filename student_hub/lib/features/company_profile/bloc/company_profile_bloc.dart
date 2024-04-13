@@ -28,32 +28,45 @@ class CompanyProfileBloc
         super(CompanyProfileInitial(currentUser: User.empty)) {
     on<CompanyProfileUpdated>(_onCompanyProfileUpdated);
     on<CompanyProfileFetched>(_onCompanyProfileFetched);
-
+    on<CompanyProfileCreated>(_onCompanyProfileCreated);
+    on<CompanyProfileResetState>(_onCompanyProfileResetState);
   }
 
   Future<FutureOr<void>> _onCompanyProfileUpdated(
       CompanyProfileUpdated event, Emitter<CompanyProfileState> emit) async {
-    emit(CompanyProfilePutInProgress(
-        currentUser: await _userRepository
-            .getCurrentUser(_authenticationRepository.token)));
+    User currentUser =
+        await _userRepository.getCurrentUser(_authenticationRepository.token);
+    emit(CompanyProfileInputInProgress(currentUser: currentUser));
+
+    CompanyProfile currentCompanyProfile = currentUser.companyProfile!;
+    CompanyProfile updateCompanyProfile = event.companyProfile;
+    currentCompanyProfile.updatedAt = updateCompanyProfile.updatedAt;
+    currentCompanyProfile.companyName = updateCompanyProfile.companyName;
+    currentCompanyProfile.website = updateCompanyProfile.website;
+    currentCompanyProfile.description = updateCompanyProfile.description;
+    currentCompanyProfile.size = updateCompanyProfile.size;
+    print('[PUT-Updated profile]');
+    print(currentCompanyProfile.toJson());
     try {
-      _companyRepository
+      await _companyRepository
           .updateCompanyProfile(
-              companyProfile: event.companyProfile,
+              companyProfile: currentCompanyProfile,
               token: _authenticationRepository.token)
           .then((value) async {
         if (!(value as bool)) {
-          emit(CompanyProfilePutFailure(
+          emit(CompanyProfileInputFailure(
               currentUser: await _userRepository
                   .getCurrentUser(_authenticationRepository.token)));
           return;
         }
-        emit(CompanyProfilePutSuccess(
+
+        emit(CompanyProfileInputSuccess(
+            newestCompanyProfile: currentCompanyProfile,
             currentUser: await _userRepository
                 .getCurrentUser(_authenticationRepository.token)));
       });
     } catch (e) {
-      emit(CompanyProfilePutFailure(
+      emit(CompanyProfileInputFailure(
           currentUser: await _userRepository
               .getCurrentUser(_authenticationRepository.token)));
     }
@@ -61,32 +74,72 @@ class CompanyProfileBloc
 
   Future<FutureOr<void>> _onCompanyProfileFetched(
       CompanyProfileFetched event, Emitter<CompanyProfileState> emit) async {
-    emit(CompanyProfilePutInProgress(
+    emit(CompanyProfileFetchInprogress(
         currentUser: await _userRepository
             .getCurrentUser(_authenticationRepository.token)));
 
     try {
-      _companyRepository
+      await _companyRepository
           .getCompanyProfile(
               user: await _userRepository
                   .getCurrentUser(_authenticationRepository.token),
               token: _authenticationRepository.token)
           .then((value) async {
-        if (value is CompanyProfile) {
-          emit(CompanyProfilePutFailure(
+        if (value is! CompanyProfile) {
+          emit(CompanyProfileFetchNoProFile(
               currentUser: await _userRepository
                   .getCurrentUser(_authenticationRepository.token)));
           return;
         }
-        emit(CompanyProfilePutSuccess(
+        emit(CompanyProfileFetchSuccess(
             newestCompanyProfile: value,
             currentUser: await _userRepository
                 .getCurrentUser(_authenticationRepository.token)));
       });
     } catch (e) {
-      emit(CompanyProfilePutFailure(
+      emit(CompanyProfileFetchNetworkFailure(
           currentUser: await _userRepository
               .getCurrentUser(_authenticationRepository.token)));
     }
+  }
+
+  Future<FutureOr<void>> _onCompanyProfileCreated(
+      CompanyProfileCreated event, Emitter<CompanyProfileState> emit) async {
+    emit(CompanyProfileInputInProgress(
+        currentUser: await _userRepository
+            .getCurrentUser(_authenticationRepository.token)));
+    try {
+      await _companyRepository
+          .createCompanyProfile(
+              companyProfile: event.companyProfile,
+              token: _authenticationRepository.token)
+          .then((value) async {
+        if (!(value as bool)) {
+          emit(CompanyProfileInputFailure(
+              currentUser: await _userRepository
+                  .getCurrentUser(_authenticationRepository.token)));
+          return;
+        }
+
+        emit(CompanyProfileInputSuccess(
+            newestCompanyProfile: event.companyProfile,
+            currentUser: await _userRepository
+                .getCurrentUser(_authenticationRepository.token)));
+      });
+    } catch (e) {
+      print(e.toString());
+      emit(CompanyProfileInputFailure(
+          currentUser: await _userRepository
+              .getCurrentUser(_authenticationRepository.token)));
+    }
+  }
+
+  Future<FutureOr<void>> _onCompanyProfileResetState(
+      CompanyProfileResetState event, Emitter<CompanyProfileState> emit) async {
+
+    emit(CompanyProfileInitial(
+        currentUser: await _userRepository
+            .getCurrentUser(_authenticationRepository.token)));
+    ;
   }
 }

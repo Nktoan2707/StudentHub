@@ -10,9 +10,9 @@ class UserRepository {
   bool doesNeedUpdate = true;
 
   Future<User> getCurrentUser(String token) async {
-    if (!doesNeedUpdate) {
-      return _currentUser;
-    }
+    // if (!doesNeedUpdate) {
+    //   return _currentUser;
+    // }
 
     final Uri uri = Uri.https(Constants.apiBaseURL, '/api/auth/me');
     final response = await http.get(
@@ -22,10 +22,12 @@ class UserRepository {
         'Authorization': 'Bearer $token',
       },
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
       doesNeedUpdate = false;
+      print("[GET-User] Inprogress");
       User user = User.fromMap(json.decode(response.body)["result"]);
+      print("[GET-User] Success");
       _currentUser = user;
       return _currentUser;
     } else {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_choose_role_page.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -32,8 +33,13 @@ class _SignUpPageState extends State<SignUpPage> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Signup Successful!')),
+              const SnackBar(
+                  duration: Duration(seconds: 3),
+                  content: Text(
+                      'Signup successful!, we have sent you an email, please verify your email')),
             );
+
+          Navigator.pushNamed(context, LoginPage.pageId);
         }
       },
       child: Scaffold(
@@ -51,8 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   return Center(
                     child: Text(
                       'Sign up as ${toBeginningOfSentenceCase(state.userRole.name)}',
-                      style:
-                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   );
                 },
@@ -147,12 +153,12 @@ class _UsernameInputState extends State<_UsernameInput> {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          key: const Key('signUpPage_usernameInput_textField'),
+          key: const Key('signUpPage_fullNameInput_textField'),
           onChanged: (username) {
             context.read<SignupBloc>().add(SignupUsernameChanged(username));
           },
           decoration: InputDecoration(
-            labelText: "Username",
+            labelText: "Full Name",
             errorText:
                 state.username.displayError != null ? 'invalid username' : null,
             prefixIcon: const Icon(Icons.person_outline),
@@ -277,9 +283,15 @@ class _CheckBox extends StatelessWidget {
     return BlocBuilder<SignupBloc, SignupState>(
       builder: (context, state) {
         return Checkbox(
-          checkColor: Colors.white,
+          checkColor: Colors.black,
           fillColor: MaterialStateProperty.resolveWith(getColor),
           value: state.agreeToTerm,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+          side: MaterialStateBorderSide.resolveWith(
+            (states) => BorderSide(width: 1.0, color: Colors.black),
+          ),
           onChanged: (bool? agreeToTerm) {
             context
                 .read<SignupBloc>()

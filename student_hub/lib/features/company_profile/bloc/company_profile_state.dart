@@ -14,15 +14,16 @@ class CompanyProfileInitial extends CompanyProfileState {
   CompanyProfileInitial({required super.currentUser});
 }
 
-class CompanyProfilePutInProgress extends CompanyProfileState {
-  CompanyProfilePutInProgress({required super.currentUser});
+// Profile Input
+class CompanyProfileInputInProgress extends CompanyProfileState {
+  CompanyProfileInputInProgress({required super.currentUser});
 }
 
-class CompanyProfilePutSuccess extends CompanyProfileState {
-  final CompanyProfile? newestCompanyProfile;
+class CompanyProfileInputSuccess extends CompanyProfileState {
+  final CompanyProfile newestCompanyProfile;
 
-  CompanyProfilePutSuccess({
-    this.newestCompanyProfile,
+  CompanyProfileInputSuccess({
+    required this.newestCompanyProfile,
     required super.currentUser,
   });
 
@@ -31,9 +32,40 @@ class CompanyProfilePutSuccess extends CompanyProfileState {
 
   @override
   String toString() =>
-      "CompanyProfilePutSuccess { CompanyProfile: $newestCompanyProfile }";
+      "CompanyProfileInputSuccess { CompanyProfile: $newestCompanyProfile }";
 }
 
-class CompanyProfilePutFailure extends CompanyProfileState {
-  CompanyProfilePutFailure({required super.currentUser});
+class CompanyProfileInputFailure extends CompanyProfileState {
+  CompanyProfileInputFailure({required super.currentUser});
 }
+
+
+//Profile Fetch
+class CompanyProfileFetchInprogress extends CompanyProfileState {
+  CompanyProfileFetchInprogress({required super.currentUser});
+}
+
+class CompanyProfileFetchSuccess extends CompanyProfileState {
+  final CompanyProfile newestCompanyProfile;
+
+  CompanyProfileFetchSuccess({
+    required this.newestCompanyProfile,
+    required super.currentUser,
+  });
+
+  @override
+  List<Object?> get props => [newestCompanyProfile];
+
+  @override
+  String toString() =>
+      "CompanyProfileFetchSuccess { CompanyProfile: $newestCompanyProfile }";
+}
+
+class CompanyProfileFetchNoProFile extends CompanyProfileState {
+  CompanyProfileFetchNoProFile({required super.currentUser});
+}
+
+class CompanyProfileFetchNetworkFailure extends CompanyProfileState {
+  CompanyProfileFetchNetworkFailure({required super.currentUser});
+}
+

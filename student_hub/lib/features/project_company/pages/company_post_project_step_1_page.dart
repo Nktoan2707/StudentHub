@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/widgets/components/ui_extension.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
@@ -18,13 +19,18 @@ class CompanyPostProjectStep1Page extends StatefulWidget {
 class _CompanyPostProjectStep1PageState
     extends State<CompanyPostProjectStep1Page> {
   Project postProject = Project(
-      companyId: "1",
-      createdAt: DateTime.now().toIso8601String(),
-      jobTitle: '',
-      jobDescription: '',
+      projectId: 0,
+      createdAt: "",
+      updatedAt: null,
+      deletedAt: null,
+      companyId: "",
+      projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
+      title: "",
+      description: "",
       numberOfStudents: 0,
-      numberOfProposals: 0,
-      projectDuration: 0);
+      typeFlag: 0,
+      countProposals: 0,
+      isFavorite: false);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,7 @@ class _CompanyPostProjectStep1PageState
                     "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
                 _title(
                   onChanged: (p0) {
-                    postProject.jobTitle = p0;
+                    postProject.title = p0;
                   },
                 ),
                 const SizedBox(
@@ -153,7 +159,6 @@ class NextScope extends StatefulWidget {
   NextScope({super.key, required this.project});
 
   Project project;
-
   @override
   State<NextScope> createState() => _NextScopeState();
 }
@@ -177,9 +182,20 @@ class _NextScopeState extends State<NextScope> {
             ),
             onPressed: true
                 ? () {
+                  print(widget.project.title);
+                    if (widget.project.title.isEmpty) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(content: Text('Please fill in title'),
+                          duration: Duration(seconds: 1),),
+                        );
+                    } else {
+                      print(widget.project.toJson());
                     Navigator.of(context).pushNamed(
                         CompanyPostProjectStep2Page.pageId,
                         arguments: widget.project);
+                    }
                   }
                 : null,
             child: const Text('Next Scope'),

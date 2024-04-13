@@ -8,6 +8,7 @@ import 'package:student_hub/data/data_providers/project_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/data/models/domain/project_query_filter.dart';
+import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 
 part 'project_student_event.dart';
 
@@ -28,7 +29,8 @@ class ProjectStudentBloc
         _authenticationRepository = authenticationRepository,
         super(ProjectStudentInitial()) {
     on<ProjectStudentFetched>(_onProjectStudentFetched);
-    on<ProjectStudentFavoriteFetched>(_onProjectStudentFavoriteFetched);
+    on<ProjectStudentUpdated>(_onProjectStudentUpdated);
+    on<ProjectStudentSearched>(_onProjectStudentSearched);
   }
 
   Future<FutureOr<void>> _onProjectStudentFetched(
@@ -39,35 +41,61 @@ class ProjectStudentBloc
       List<Project> projectList = await _projectRepository.getListProject(
           user: await _userRepository
               .getCurrentUser(_authenticationRepository.token),
-          filterQuery: ProjectQueryFilter(
-              projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-              numberOfStudents: 1,
-              proposalsLessThan: 4),
-          token: "123");
-      emit(ProjectStudentFetchSuccess(projectList: projectList));
+          filterQuery: ProjectQueryFilter(),
+          token: _authenticationRepository.token);
+
+      List<Project> favoriteProjectList =
+          projectList.where((element) => element.isFavorite).toList();
+
+      emit(ProjectStudentFetchSuccess(
+          projectList: projectList, favoriteProjectList: favoriteProjectList));
     } catch (e) {
+
       print(e);
+      rethrow;
     }
   }
 
-  Future<FutureOr<void>> _onProjectStudentFavoriteFetched(
-      ProjectStudentFavoriteFetched event,
-      Emitter<ProjectStudentState> emit) async {
-    emit(ProjectStudentFetchFavoriteInProgress());
+  Future<FutureOr<void>> _onProjectStudentUpdated(
+      ProjectStudentUpdated event, Emitter<ProjectStudentState> emit) async {
+    emit(ProjectStudentUpdateInProgress());
 
     try {
+      await _projectRepository.patchStudentFavoriteProject(
+          user: await _userRepository
+              .getCurrentUser(_authenticationRepository.token),
+          projectId: event.projectId,
+          isDisabled: event.isDisabled,
+          token: _authenticationRepository.token);
+
+      emit(ProjectStudentUpdateSuccess(callerPageId: event.callerPageId));
+    } catch (e) {
+      emit(ProjectStudentUpdateFailure());
+
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<FutureOr<void>> _onProjectStudentSearched(
+      ProjectStudentSearched event, Emitter<ProjectStudentState> emit) async {
+    emit(ProjectStudentSearchInProgress());
+
+    try {
+      print(event.projectQueryFilter.toMap());
+
       List<Project> projectList = await _projectRepository.getListProject(
           user: await _userRepository
               .getCurrentUser(_authenticationRepository.token),
-          filterQuery: ProjectQueryFilter(
-              projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-              numberOfStudents: 1,
-              proposalsLessThan: 4),
-          token: "123");
-      emit(
-          ProjectStudentFetchFavoriteSuccess(favoriteProjectList: projectList));
+          filterQuery: event.projectQueryFilter,
+          token: _authenticationRepository.token);
+
+      emit(ProjectStudentSearchSuccess(
+          searchedProjectList: projectList,
+          projectQueryFilter: event.projectQueryFilter));
     } catch (e) {
       print(e);
+      rethrow;
     }
   }
 }

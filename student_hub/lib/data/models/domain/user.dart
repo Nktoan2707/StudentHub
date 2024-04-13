@@ -49,10 +49,12 @@ class User extends Equatable {
       id: map['id'] as int,
       fullname: map['fullname'] as String,
       roles: List<int>.from(map['roles']),
-      companyProfile: map['companyProfile'] == null
+      companyProfile: map['company'] == null
           ? null
-          : CompanyProfile.fromMap(map['companyProfile']),
-      // studentProfile: map['companyProfile'] ?? StudentProfile.fromMap(map['companyProfile']),
+          : CompanyProfile.fromMap(map['company']),
+      studentProfile: map['student'] == null
+          ? null
+          : StudentProfile.fromMap(map['student']),
     );
   }
 }

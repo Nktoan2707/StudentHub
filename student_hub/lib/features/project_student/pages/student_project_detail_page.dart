@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
+import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
+import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_submit_proposal_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 
@@ -15,84 +19,98 @@ class StudentProjectDetailPage extends StatefulWidget {
 
 class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
   late Project project;
+  late String? parentPageId;
 
   @override
   Widget build(BuildContext context) {
-    project = (ModalRoute.of(context)?.settings.arguments as Project);
+    project = (ModalRoute.of(context)?.settings.arguments as List)[0];
+    parentPageId = (ModalRoute.of(context)?.settings.arguments as List)[1];
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+    return BlocListener<ProjectStudentBloc, ProjectStudentState>(
+      listener: (context, state) {
+        if (state is ProjectStudentUpdateSuccess) {
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          elevation: 0,
+          title: const Text(
+            'Project Detail',
+            style: TextStyle(fontSize: 25, color: Colors.black),
+          ),
+          centerTitle: false,
+          backgroundColor: Colors.grey,
+          iconTheme: const IconThemeData(color: Colors.black),
         ),
-        elevation: 0,
-        title: const Text(
-          'Project Detail',
-          style: TextStyle(fontSize: 25, color: Colors.black),
-        ),
-        centerTitle: false,
-        backgroundColor: Colors.grey,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkCustomButton(
-              onTap: () {
-                _onApplyButtonClicked();
-              },
-              title: "Apply Now",
-              height: 50,
-              width: (MediaQuery.of(context).size.width / 3),
-            ),
-            InkCustomButton(
-              onTap: () {},
-              title: "Save",
-              height: 50,
-              width: (MediaQuery.of(context).size.width / 3),
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-        margin: const EdgeInsets.all(30),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(project.jobTitle),
-                  const Divider(
-                    thickness: 3,
-                    height: 30,
-                  ),
-                  Text(project.jobDescription),
-                  const Divider(
-                    thickness: 3,
-                    height: 30,
-                  ),
-                  ListTile(
-                    title: Text(
-                        "Project Scope: \n \t \t - ${project.projectDuration}"),
-                    leading: const Icon(Icons.timer_outlined),
-                    minLeadingWidth: 0,
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                  ListTile(
-                    title: Text(
-                        "Student Required: \n \t \t - ${project.numberOfStudents} students"),
-                    leading: const Icon(Icons.people_rounded),
-                    minLeadingWidth: 0,
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ],
+        bottomNavigationBar: Container(
+          margin: const EdgeInsets.all(30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkCustomButton(
+                onTap: () {
+                  _onApplyButtonClicked();
+                },
+                title: "Apply Now",
+                height: 50,
+                width: (MediaQuery.of(context).size.width / 3),
               ),
-            ),
-          ],
+              InkCustomButton(
+                onTap: () {
+                  Navigator.pop(context);
+                  context.read<ProjectStudentBloc>().add(ProjectStudentUpdated(
+                      projectId: project.projectId,
+                      isDisabled: project.isFavorite,
+                      callerPageId: parentPageId));
+                },
+                title: project.isFavorite ? "Unsave" : "Save",
+                height: 50,
+                width: (MediaQuery.of(context).size.width / 3),
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          margin: const EdgeInsets.all(30),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(project.title),
+                    const Divider(
+                      thickness: 3,
+                      height: 30,
+                    ),
+                    Text(project.description),
+                    const Divider(
+                      thickness: 3,
+                      height: 30,
+                    ),
+                    ListTile(
+                      title: Text(
+                          "Project Scope: \n \t \t - ${project.projectScopeFlag}"),
+                      leading: const Icon(Icons.timer_outlined),
+                      minLeadingWidth: 0,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    ListTile(
+                      title: Text(
+                          "Student Required: \n \t \t - ${project.numberOfStudents} students"),
+                      leading: const Icon(Icons.people_rounded),
+                      minLeadingWidth: 0,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

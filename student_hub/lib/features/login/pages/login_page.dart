@@ -27,14 +27,16 @@ class _LoginPageState extends State<LoginPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  const SnackBar(content: Text('Authentication Failure')),
+                  SnackBar(
+                      content: Text(state.message.isEmpty
+                          ? 'Authentication Failure'
+                          : state.message)),
                 );
             }
           },
         ),
         BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
-
             if (state is AuthenticationAuthenticateFailure) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
@@ -97,19 +99,24 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class _UsernameInput extends StatelessWidget {
+  // final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
+        // controller.text = state.username.value;
+        // controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+
         return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
+          key: const Key('loginForm_emailInput_textField'),
           onChanged: (username) {
             context.read<LoginBloc>().add(LoginUsernameChanged(username));
           },
-          controller: TextEditingController(text: state.username.value),
+          // controller: controller,
           decoration: InputDecoration(
-            labelText: "Username",
+            labelText: "Email",
             errorText:
                 state.username.displayError != null ? 'invalid username' : null,
             prefixIcon: const Icon(Icons.person_outline),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
 import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
@@ -7,11 +10,8 @@ import 'package:student_hub/features/project_student/pages/student_project_list_
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
 
-enum UserType { student, company }
-
 class MainTabBarPage extends StatefulWidget {
   static const String pageId = "/MainTabBarPage";
-  static UserType userType = UserType.company;
 
   const MainTabBarPage({super.key});
 
@@ -35,21 +35,28 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
         },
         currentIndex: _currentIndex,
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: [
-          if (MainTabBarPage.userType == UserType.company) ...[
-            const StudentProjectListPage(),
-            const CompanyDashboardPage(),
-            const TabMessagePage(),
-            const NotificationPage(),
-          ] else ...[
-            const StudentProjectListPage(),
-            const StudentDashboardPage(),
-            const TabMessagePage(),
-            const NotificationPage(),
-          ],
-        ],
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationAuthenticateSuccess) {
+            return IndexedStack(
+              index: _currentIndex,
+              children: [
+                if (state.userRole == UserRole.company) ...[
+                  const StudentProjectListPage(),
+                  const CompanyDashboardPage(),
+                  const TabMessagePage(),
+                  const NotificationPage(),
+                ] else ...[
+                  const StudentProjectListPage(),
+                  const StudentDashboardPage(),
+                  const TabMessagePage(),
+                  const NotificationPage(),
+                ],
+              ],
+            );
+          }
+          return Placeholder();
+        },
       ),
     );
   }

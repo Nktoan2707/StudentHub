@@ -322,7 +322,6 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
-          studentProfile["techStack"] = value!;
         });
       },
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {

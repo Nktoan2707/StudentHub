@@ -11,28 +11,28 @@ class ProjectRepository {
       {required User user,
       required ProjectQueryFilter filterQuery,
       required String token}) async {
-    // final queryParameters = {
-    //   'projectScopeFlag': 0,
-    //   'numberOfStudents': 2,
-    //   'proposalsLessThan': 6,
-    // };
+    try {
+      final Uri uri =
+          Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
 
-    final Uri uri =
-        Uri.https(Constants.apiBaseURL, '/api/project', filterQuery.toMap());
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    final response = await http.get(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      //Need to convert to project List
-      return [Project.fromJson(jsonDecode(response.body))];
-    } else {
-      throw Exception('[FAIL - NETWORK]Get list project');
+      if (response.statusCode == 200) {
+        //Need to convert to project List
+        return List.from(jsonDecode(response.body)['result'])
+            .map((e) => Project.fromMap(e))
+            .toList();
+      } else {
+        throw Exception('[FAIL - NETWORK]Get list project');
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -40,20 +40,25 @@ class ProjectRepository {
       {required User user,
       required Project project,
       required String token}) async {
-    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project');
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-      body: project.toJson(),
-    );
+        
+     final Uri uri = Uri.https(
+        Constants.apiBaseURL, '/api/project');
+    final response = await http.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(project.toJson()));
 
-    if (response.statusCode == 200) {
+    print("[NETWORK-CREATE PROJECT] project ${jsonEncode(project.toJson())}");
+
+    print("[NETWORK-CREATE PROJECT] statusCode${response.statusCode}");
+    print("[NETWORK-CREATE PROJECT] body${response.body}");
+
+    if (response.statusCode == 201) {
       return true;
     } else {
-      throw Exception('[FAIL - NETWORK]Update company profile');
+      throw Exception('[FAIL - NETWORK]Post Project');
     }
   }
 
@@ -72,6 +77,29 @@ class ProjectRepository {
       return Project.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('[FAIL - NETWORK]Create company profile');
+    }
+  }
+
+  Future<void> patchStudentFavoriteProject(
+      {required User user,
+      required int projectId,
+      required bool isDisabled,
+      required String token}) async {
+    final Uri uri = Uri.https(
+        Constants.apiBaseURL, 'api/favoriteProject/${user.studentProfile!.id}');
+    final response = await http.patch(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+          {"projectId": projectId, "disableFlag": isDisabled ? 1 : 0}),
+    );
+
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('[FAIL - NETWORK]Update company profile');
     }
   }
 }

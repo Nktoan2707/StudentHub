@@ -14,35 +14,53 @@ class ProjectStudentFetchInProgress extends ProjectStudentState {
 
 class ProjectStudentFetchSuccess extends ProjectStudentState {
   final List<Project> projectList;
-
-  @override
-  List<Object?> get props => [projectList];
-
-  @override
-  String toString() =>
-      "ProjectStudentFetchSuccess { projectList: $projectList }";
-
-  ProjectStudentFetchSuccess({
-    required this.projectList,
-  });
-}
-
-class ProjectStudentFetchFavoriteInProgress extends ProjectStudentState {
-  @override
-  String toString() => "ProjectStudentFetchInProgress {  }";
-}
-
-class ProjectStudentFetchFavoriteSuccess extends ProjectStudentState {
   final List<Project> favoriteProjectList;
 
+  ProjectStudentFetchSuccess(
+      {required this.projectList, required this.favoriteProjectList});
+
   @override
-  List<Object?> get props => [favoriteProjectList];
+  List<Object?> get props => [projectList, favoriteProjectList];
 
   @override
   String toString() =>
-      "ProjectStudentFetchSuccess { projectList: $favoriteProjectList }";
+      "ProjectStudentFetchSuccess { projectList: $projectList, favoriteProjectList: $favoriteProjectList }";
+}
 
-  ProjectStudentFetchFavoriteSuccess({
-    required this.favoriteProjectList,
-  });
+
+
+class ProjectStudentUpdateInProgress extends ProjectStudentState {
+  @override
+  String toString() => "ProjectStudentSaveInProgress { }";
+}
+
+class ProjectStudentUpdateSuccess extends ProjectStudentState {
+  final String? callerPageId;
+
+  ProjectStudentUpdateSuccess({this.callerPageId});
+
+  @override
+  String toString() => "ProjectStudentSaveInProgress { }";
+}
+
+class ProjectStudentUpdateFailure extends ProjectStudentState {
+  @override
+  String toString() => "ProjectStudentFetchFailure {  }";
+}
+
+class ProjectStudentSearchInProgress extends ProjectStudentState {
+  @override
+  String toString() => "ProjectStudentSearchInProgress { }";
+}
+
+class ProjectStudentSearchSuccess extends ProjectStudentState {
+  final ProjectQueryFilter projectQueryFilter;
+  final List<Project> searchedProjectList;
+
+  ProjectStudentSearchSuccess(
+      {required this.projectQueryFilter, required this.searchedProjectList});
+
+  @override
+  String toString() =>
+      "ProjectStudentSearchSuccess {searchedProjectList: $searchedProjectList }";
 }
