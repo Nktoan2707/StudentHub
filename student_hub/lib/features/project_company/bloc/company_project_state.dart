@@ -32,3 +32,7 @@ class CompanyProjectStateSuccess extends CompanyProjectState {
 class CompanyProjectStateFailure extends CompanyProjectState {
 
 }
+
+class CompanyProjectPostStateSuccess extends CompanyProjectState {
+
+}

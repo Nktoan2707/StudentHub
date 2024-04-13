@@ -44,12 +44,11 @@ class CompanyProjectBloc
               project: event.projectCreate,
               token: _authenticationRepository.token)
           .then((value) {
-            print('NETWORK-CREATE PROJECT]jehehe');
         if (!(value as bool)) {
           emit(CompanyProjectStateFailure());
           return;
         }
-        emit(CompanyProjectStateSuccess(projectList: const []));
+        emit(CompanyProjectPostStateSuccess());
       });
     } catch (e) {
       emit(CompanyProjectStateFailure());
@@ -61,22 +60,21 @@ class CompanyProjectBloc
     emit(CompanyProjectStateInProgress());
     try {
       await _projectRepository
-          .getListProject(
+          .getListCompanyProject(
               user: await _userRepository
                   .getCurrentUser(_authenticationRepository.token),
-              filterQuery: ProjectQueryFilter(
-                  projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth,
-                  numberOfStudents: 2,
-                  proposalsLessThan: 3),
+              typeFlag: event.typeFlag,
               token: _authenticationRepository.token)
           .then((value) {
-        if (!(value as bool)) {
+        
+        if (value is! List) {
           emit(CompanyProjectStateFailure());
           return;
         }
-        emit(CompanyProjectStateSuccess(projectList: value));
+        emit(CompanyProjectStateSuccess(projectList: value!));
       });
     } catch (e) {
+      print(e);
       emit(CompanyProjectStateFailure());
     }
   }

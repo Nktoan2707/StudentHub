@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:student_hub/common/enums.dart';
 
 class Project {
-  int projectId;
+  int? projectId;
   String createdAt;
   String? updatedAt;
   String? deletedAt;
@@ -15,6 +15,8 @@ class Project {
   int? typeFlag;
   int countProposals;
   bool isFavorite;
+  int? countMessages;
+  int? countHired;
 
   Project({
     required this.projectId,
@@ -29,6 +31,8 @@ class Project {
     required this.typeFlag,
     required this.countProposals,
     required this.isFavorite,
+    required this.countHired,
+    required this.countMessages
   });
 
   Map<String, dynamic> toMap() {
@@ -44,12 +48,14 @@ class Project {
       'typeFlag': typeFlag,
       'countProposals': countProposals,
       'isFavorite': isFavorite,
+      'countHired': countHired,
+      'countMessages': countMessages
     };
   }
 
   factory Project.fromMap(Map<String, dynamic> map) {
     return Project(
-      projectId: map['projectId'] as int,
+      projectId: map['id'] == null ? null : map['id'] as int,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
       deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
@@ -61,7 +67,9 @@ class Project {
       numberOfStudents: map['numberOfStudents'] as int,
       typeFlag: map['typeFlag'] == null ? null : map['typeFlag'] as int,
       countProposals: map['countProposals'] as int,
-      isFavorite: map['isFavorite'] as bool,
+      isFavorite: map['isFavorite'] == null ?  false : map['isFavorite'] as bool,
+      countHired: map['countHired'] == null ? null : map['countHired'] as int ,
+      countMessages: map['countMessages'] == null ? null : map['countMessages'] as int
     );
   }
 

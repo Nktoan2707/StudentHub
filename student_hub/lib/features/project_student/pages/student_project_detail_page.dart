@@ -63,7 +63,7 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                 onTap: () {
                   Navigator.pop(context);
                   context.read<ProjectStudentBloc>().add(ProjectStudentUpdated(
-                      projectId: project.projectId,
+                      projectId: project.projectId!,
                       isDisabled: project.isFavorite,
                       callerPageId: parentPageId));
                 },

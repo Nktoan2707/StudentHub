@@ -30,7 +30,9 @@ class _CompanyPostProjectStep1PageState
       numberOfStudents: 0,
       typeFlag: 0,
       countProposals: 0,
-      isFavorite: false);
+      isFavorite: false,
+      countHired: 0,
+      countMessages: 0);
 
   @override
   Widget build(BuildContext context) {

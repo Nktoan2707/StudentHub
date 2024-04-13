@@ -22,13 +22,13 @@ class CompanyProjectCreate extends CompanyProjectEvent {
 }
 
 class CompanyProjectListFetch extends CompanyProjectEvent {
-  final User user;
+  final int typeFlag;
   CompanyProjectListFetch({
-    required this.user,
+    required this.typeFlag
   });
   
   @override
   String toString() {
-    return "[EVENT] CompanyProjectListFetch ${user.companyProfile!.id}";
+    return "[EVENT] CompanyProjectListFetch";
   }
 }

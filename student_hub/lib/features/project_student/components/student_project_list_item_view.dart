@@ -60,7 +60,7 @@ class StudentProjectListItemView extends StatelessWidget {
           IconButton(
               onPressed: () {
                 context.read<ProjectStudentBloc>().add(ProjectStudentUpdated(
-                    projectId: project.projectId,
+                    projectId: project.projectId!,
                     isDisabled: project.isFavorite,
                     callerPageId: parentPageId));
               },
