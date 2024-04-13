@@ -7,6 +7,7 @@ import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 
 part 'authentication_event.dart';
 
@@ -16,8 +17,6 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
-  final CompanyRepository _companyRepository;
-  final StudentRepository _studentRepository;
 
   late StreamSubscription<AuthenticationStatus>
       _authenticationStateSubscription;
@@ -25,15 +24,12 @@ class AuthenticationBloc
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository userRepository,
-    required CompanyRepository companyRepository,
-    required StudentRepository studentRepository,
   })  : _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
-        _companyRepository = companyRepository,
-        _studentRepository = studentRepository,
         super(AuthenticationInitial()) {
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLoggedOut>(_onAuthenticationLoggedOut);
+    on<AuthenticationProfileSwitched>(_onAuthenticationProfileSwitched);
 
     _authenticationStateSubscription =
         _authenticationRepository.authenticationStatus.listen(
@@ -52,9 +48,9 @@ class AuthenticationBloc
         return emit(AuthenticationAuthenticateFailure());
       case AuthenticationStatus.authenticated:
         try {
-
-
           return emit(AuthenticationAuthenticateSuccess(
+              user: await _userRepository
+                  .getCurrentUser(_authenticationRepository.token),
               userRole: _authenticationRepository.currentUserRole));
         } catch (e) {
           // print(e);
@@ -78,5 +74,19 @@ class AuthenticationBloc
   Future<void> close() {
     _authenticationStateSubscription.cancel();
     return super.close();
+  }
+
+  FutureOr<void> _onAuthenticationProfileSwitched(
+      AuthenticationProfileSwitched event, Emitter<AuthenticationState> emit) {
+    emit(AuthenticationSwitchProfileInProgress());
+
+    try {
+      _authenticationRepository.currentUserRole = event.userRole;
+      emit(AuthenticationSwitchProfileSuccess());
+      add(_AuthenticationStatusChanged(AuthenticationStatus.authenticated));
+    } catch (e) {
+      emit(AuthenticationSwitchProfileFailure());
+      add(_AuthenticationStatusChanged(AuthenticationStatus.unauthenticated));
+    }
   }
 }

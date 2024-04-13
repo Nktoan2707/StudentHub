@@ -62,6 +62,7 @@ class _StudentSearchedProjectListPageState
               _searchItem(ProjectQueryFilter.fromMap(projectFilterQueryMap));
             } else if (state is ProjectStudentSearchSuccess) {
               projectFilterQueryMap["title"] = state.projectQueryFilter.title;
+              _isFilterApplied = false;
             }
           },
           builder: (context, state) {

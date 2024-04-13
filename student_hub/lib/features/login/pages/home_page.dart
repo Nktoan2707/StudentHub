@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
-                   MainTabBarPage.userType = UserType.company;
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
                 },
                 child: Container(
@@ -100,9 +99,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
-                  MainTabBarPage.userType = UserType.student;
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
-
                 },
                 child: Container(
                   height: 40,
@@ -141,5 +138,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

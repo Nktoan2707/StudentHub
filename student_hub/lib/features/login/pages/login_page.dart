@@ -27,7 +27,10 @@ class _LoginPageState extends State<LoginPage> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  const SnackBar(content: Text('Authentication Failure')),
+                  SnackBar(
+                      content: Text(state.message.isEmpty
+                          ? 'Authentication Failure'
+                          : state.message)),
                 );
             }
           },
@@ -107,13 +110,13 @@ class _UsernameInput extends StatelessWidget {
         // controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
 
         return TextField(
-          key: const Key('loginForm_usernameInput_textField'),
+          key: const Key('loginForm_emailInput_textField'),
           onChanged: (username) {
             context.read<LoginBloc>().add(LoginUsernameChanged(username));
           },
           // controller: controller,
           decoration: InputDecoration(
-            labelText: "Username",
+            labelText: "Email",
             errorText:
                 state.username.displayError != null ? 'invalid username' : null,
             prefixIcon: const Icon(Icons.person_outline),

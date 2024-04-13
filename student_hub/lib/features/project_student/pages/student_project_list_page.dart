@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/data/models/domain/project_query_filter.dart';
+import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/components/student_project_list_item_view.dart';
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
+import 'package:student_hub/widgets/components/text_custom.dart';
 
 class StudentProjectListPage extends StatefulWidget {
   static const String pageId = "/StudentProjectListPage";
@@ -24,8 +26,11 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
 
     return BlocConsumer<ProjectStudentBloc, ProjectStudentState>(
       listener: (context, state) {
-        if (state is ProjectStudentUpdateSuccess && state.callerPageId == StudentProjectListPage.pageId) {
+        if (state is ProjectStudentUpdateSuccess &&
+            state.callerPageId == StudentProjectListPage.pageId) {
           context.read<ProjectStudentBloc>().add(ProjectStudentFetched());
+        } else if (state is ProjectStudentUpdateFailure) {
+          showProfileNotCreatedDialog();
         }
       },
       builder: (context, state) {
@@ -141,7 +146,8 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
                       itemCount: state.projectList.length,
                       itemBuilder: (context, index) {
                         return StudentProjectListItemView(
-                          project: state.projectList[index],parentPageId: StudentProjectListPage.pageId,
+                          project: state.projectList[index],
+                          parentPageId: StudentProjectListPage.pageId,
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
@@ -171,5 +177,47 @@ class _StudentProjectListPageState extends State<StudentProjectListPage> {
 
   void _goToSavedProjectPage() {
     Navigator.of(context).pushNamed(StudentSavedProjectListPage.pageId);
+  }
+
+  void showProfileNotCreatedDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: const HeaderText(title: 'Error'),
+        contentPadding: const EdgeInsets.all(20.0),
+        children: [
+          const Text(
+              textAlign: TextAlign.left, 'Student Profile is not created!'),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    this
+                        .context
+                        .read<ProjectStudentBloc>()
+                        .add(ProjectStudentFetched());
+                  },
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    Navigator.pushNamed(
+                        context, StudentProfileInputStep1Page.pageId);
+                    this
+                        .context
+                        .read<ProjectStudentBloc>()
+                        .add(ProjectStudentFetched());
+                  },
+                  child: const Text('Create Student Profile')),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

@@ -5,8 +5,6 @@ import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/models/domain/password.dart';
 import 'package:student_hub/data/models/domain/username.dart';
 
-
-
 part 'login_event.dart';
 
 part 'login_state.dart';
@@ -62,8 +60,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           password: state.password.value,
         );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      } catch (e) {
+        emit(state.copyWith(
+            status: FormzSubmissionStatus.failure, message: e.toString()));
         rethrow;
       }
     }

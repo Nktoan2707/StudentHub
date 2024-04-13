@@ -27,6 +27,8 @@ class ProjectStudentFetchSuccess extends ProjectStudentState {
       "ProjectStudentFetchSuccess { projectList: $projectList, favoriteProjectList: $favoriteProjectList }";
 }
 
+
+
 class ProjectStudentUpdateInProgress extends ProjectStudentState {
   @override
   String toString() => "ProjectStudentSaveInProgress { }";
@@ -39,6 +41,11 @@ class ProjectStudentUpdateSuccess extends ProjectStudentState {
 
   @override
   String toString() => "ProjectStudentSaveInProgress { }";
+}
+
+class ProjectStudentUpdateFailure extends ProjectStudentState {
+  @override
+  String toString() => "ProjectStudentFetchFailure {  }";
 }
 
 class ProjectStudentSearchInProgress extends ProjectStudentState {

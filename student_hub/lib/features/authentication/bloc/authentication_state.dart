@@ -8,6 +8,7 @@ abstract class AuthenticationState extends Equatable {
 class AuthenticationInitial extends AuthenticationState {}
 
 class AuthenticationAuthenticateSuccess extends AuthenticationState {
+  final User user;
   final UserRole userRole;
 
   @override
@@ -19,10 +20,26 @@ class AuthenticationAuthenticateSuccess extends AuthenticationState {
 
   AuthenticationAuthenticateSuccess({
     required this.userRole,
+    required this.user
   });
 }
 
 class AuthenticationAuthenticateFailure extends AuthenticationState {
   @override
   String toString() => "AuthenticationAuthenticateFailure: ";
+}
+
+class AuthenticationSwitchProfileInProgress extends AuthenticationState {
+  @override
+  String toString() => "AuthenticationSwitchProfileInProgress: ";
+}
+
+class AuthenticationSwitchProfileSuccess extends AuthenticationState {
+  @override
+  String toString() => "AuthenticationSwitchProfileSuccess: ";
+}
+
+class AuthenticationSwitchProfileFailure extends AuthenticationState {
+  @override
+  String toString() => "AuthenticationSwitchProfileFailure: ";
 }

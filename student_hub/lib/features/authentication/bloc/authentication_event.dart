@@ -18,3 +18,14 @@ class AuthenticationLoggedOut extends AuthenticationEvent {
   @override
   String toString() => "AuthenticationLoggedOut {}";
 }
+
+class AuthenticationProfileSwitched extends AuthenticationEvent {
+  final UserRole userRole;
+
+  @override
+  String toString() => "AuthenticationProfileSwitched {}";
+
+  AuthenticationProfileSwitched({
+    required this.userRole,
+  });
+}

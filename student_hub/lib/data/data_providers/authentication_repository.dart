@@ -34,7 +34,6 @@ class AuthenticationRepository {
     required String emailAddress,
     required String password,
   }) async {
-
     try {
       // doing register with backend
       final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-in');
@@ -51,14 +50,13 @@ class AuthenticationRepository {
         ),
       );
 
-
       if (response.statusCode == 201) {
         token = json.decode(response.body)["result"]["token"];
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
-        throw Exception(json.decode(response.body));
+        throw Exception(json.decode(response.body)['errorDetails']);
       } else {
-        throw Exception(json.decode(response.body));
+        throw Exception(json.decode(response.body)['errorDetails']);
       }
     } catch (e) {
       // print(e);

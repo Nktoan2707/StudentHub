@@ -413,6 +413,5 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
   @override
   void dispose() {
     super.dispose();
-    context.read<CompanyProfileBloc>().add(CompanyProfileResetState());
   }
 }

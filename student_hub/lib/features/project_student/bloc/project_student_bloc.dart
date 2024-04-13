@@ -50,6 +50,7 @@ class ProjectStudentBloc
       emit(ProjectStudentFetchSuccess(
           projectList: projectList, favoriteProjectList: favoriteProjectList));
     } catch (e) {
+
       print(e);
       rethrow;
     }
@@ -69,6 +70,8 @@ class ProjectStudentBloc
 
       emit(ProjectStudentUpdateSuccess(callerPageId: event.callerPageId));
     } catch (e) {
+      emit(ProjectStudentUpdateFailure());
+
       print(e);
       rethrow;
     }
@@ -87,7 +90,9 @@ class ProjectStudentBloc
           filterQuery: event.projectQueryFilter,
           token: _authenticationRepository.token);
 
-      emit(ProjectStudentSearchSuccess(searchedProjectList: projectList, projectQueryFilter: event.projectQueryFilter));
+      emit(ProjectStudentSearchSuccess(
+          searchedProjectList: projectList,
+          projectQueryFilter: event.projectQueryFilter));
     } catch (e) {
       print(e);
       rethrow;
