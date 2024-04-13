@@ -115,10 +115,14 @@ class AppRouter {
                 child: const StudentProfileInputStep1Page()));
       case StudentProfileInputStep2Page.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentProfileInputStep2Page());
+            builder: (_) => BlocProvider.value(
+                value: _studentProfileBloc,
+                child: const StudentProfileInputStep2Page()));
       case StudentProfileInputStep3Page.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentProfileInputStep3Page());
+            builder: (_) => BlocProvider.value(
+                value: _studentProfileBloc,
+                child: const StudentProfileInputStep3Page()));
       case WelcomePage.pageId:
         return MaterialPageRoute(builder: (_) => const WelcomePage());
 
