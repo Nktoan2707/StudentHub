@@ -220,12 +220,11 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
                 children: [
                   Text("Language"),
                   Spacer(),
-                  isAddingLanguage
-                          ? IconButton(
-                              onPressed: addLanguage,
-                              icon: Icon(Icons.add),
-                            )
-                          : SizedBox(),
+                  if (isAddingLanguage)
+                    IconButton(
+                      onPressed: addLanguage,
+                      icon: Icon(Icons.add),
+                    ),
                   Icon(Icons.edit),
                 ],
               ),
@@ -250,12 +249,11 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
                 children: [
                   Text("Education"),
                   Spacer(),
-                  isAddingEducation
-                          ? IconButton(
+                  if(isAddingEducation)
+                            IconButton(
                               onPressed: addEducation,
                               icon: Icon(Icons.add),
-                            )
-                          : SizedBox(),
+                            ),
                 ],
               ),
               if (isAddingEducation)

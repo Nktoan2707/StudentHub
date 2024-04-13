@@ -101,12 +101,11 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
                     children: [
                       Text("Project"),
                       Spacer(),
-                      isAddingProject
-                              ? IconButton(
-                              onPressed: addProject,
-                              icon: Icon(Icons.add),
-                            )
-                          : SizedBox(),
+                      if(isAddingProject)
+                              IconButton(
+                                onPressed: addProject,
+                                icon: Icon(Icons.add),
+                              ),
                     ],
                   ),
                   if (isAddingProject)

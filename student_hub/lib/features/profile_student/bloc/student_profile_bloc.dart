@@ -17,37 +17,37 @@ class StudentProfileBloc extends Bloc<StudentProfileEvent, StudentProfileState> 
     required StudentRepository studentRepository,
   })  : _studentRepository = studentRepository,
         super(StudentProfileInitial()) {
-    on<StudentProfileUpdate>(_onStudentProfileUpdate);
-    on<StudentProfileFetch>(_onStudentProfileFetch);
+    on<StudentProfileUpdated>(_onStudentProfileUpdate);
+    // on<StudentProfileFetched>(_onStudentProfileFetch);
   }
 
   Future<void> _onStudentProfileUpdate(
-      StudentProfileUpdate event, Emitter<StudentProfileState> emit) async {
+      StudentProfileUpdated event, Emitter<StudentProfileState> emit) async {
     emit(StudentProfileUpdateInProgress());
-    try {
-      final success = await _studentRepository.updateStudentProfile(event.updateProfile);
-      if (success) {
-        emit(StudentProfileUpdateSuccess());
-      } else {
-        emit(StudentProfileUpdateFailure());
-      }
-    } catch (e) {
-      emit(StudentProfileUpdateFailure());
-    }
+    // try {
+    //   final success = await _studentRepository.updateStudentProfile(event.updateProfile);
+    //   if (success) {
+    //     emit(StudentProfileUpdateSuccess(student: ));
+    //   } else {
+    //     emit(StudentProfileUpdateFailure());
+    //   }
+    // } catch (e) {
+    //   emit(StudentProfileUpdateFailure());
+    // }
   }
 
-  Future<void> _onStudentProfileFetch(
-      StudentProfileFetch event, Emitter<StudentProfileState> emit) async {
-    emit(StudentProfileFetchInProgress());
-    try {
-      final studentProfile = await _studentRepository.getStudentProfile(event.id);
-      if (studentProfile != null) {
-        emit(StudentProfileFetchSuccess(newestStudentProfile: studentProfile));
-      } else {
-        emit(StudentProfileFetchFailure());
-      }
-    } catch (e) {
-      emit(StudentProfileFetchFailure());
-    }
-  }
+  // Future<void> _onStudentProfileFetch(
+  //     StudentProfileFetch event, Emitter<StudentProfileState> emit) async {
+  //   emit(StudentProfileFetchInProgress());
+  //   try {
+  //     final studentProfile = await _studentRepository.getStudentProfile(event.id);
+  //     if (studentProfile != null) {
+  //       emit(StudentProfileFetchSuccess(newestStudentProfile: studentProfile));
+  //     } else {
+  //       emit(StudentProfileFetchFailure());
+  //     }
+  //   } catch (e) {
+  //     emit(StudentProfileFetchFailure());
+  //   }
+  // }
 }
