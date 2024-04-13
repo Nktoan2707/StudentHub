@@ -29,6 +29,23 @@ class StudentProfileInputStep1Page extends StatefulWidget {
 }
 
 class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1Page> {
+  bool isAddingLanguage = false;
+  bool isAddingEducation = false;
+  TextEditingController languageController = TextEditingController();
+  TextEditingController educationController = TextEditingController();
+
+  void addLanguage() {
+    setState(() {
+      isAddingLanguage = true;
+    });
+  }
+
+  void addEducation() {
+    setState(() {
+      isAddingEducation = true;
+    });
+  }
+
   static final List<Skillset> _skillset = [
     Skillset(id: 1, name: "NodeJS"),
     Skillset(id: 2, name: "Swift"),
@@ -51,6 +68,48 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
       .toList();
 
   List<Skillset> _selectedSkillset = [];
+
+  Map<String, dynamic> studentProfile = {
+  'id': 1,
+  'createdAt': DateTime.now(),
+  'updatedAt': DateTime.now(),
+  'deletedAt': null,
+  'userId': 123,
+  'techStackId': 1,
+  'resume': 'resume_url',
+  'transcript': 'transcript',
+  'techStack': 'FullStack Engineer',
+  'proposals': [],
+  'educations': [
+    {
+      'id': 1,
+      'schoolName': 'HCMUS',
+      'degree': 'Bachelor of Science',
+      'fieldOfStudy': 'Computer Science',
+      'startDate': '2020',
+      'endDate': '2024',
+    },
+  ],
+  'languages': [
+    {
+      'id': 1,
+      'name': 'English',
+      'proficiency': 'Native or Bilingual',
+    },
+    {
+      'id': 2,
+      'name': 'French',
+      'proficiency': 'Intermediate',
+    },
+    {
+      'id': 3,
+      'name': 'Vietnamese',
+      'proficiency': 'Advanced',
+    },
+  ],
+  'experiences': [],
+  'skillSets': [],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -156,61 +215,76 @@ class _StudentProfileInputStep1PageState extends State<StudentProfileInputStep1P
             const SizedBox(
               height: 10,
             ),
-            const Column(children: [
+            Column(children: [
               Row(
                 children: [
                   Text("Language"),
                   Spacer(),
-                  Icon(Icons.add),
+                  isAddingLanguage
+                          ? IconButton(
+                              onPressed: addLanguage,
+                              icon: Icon(Icons.add),
+                            )
+                          : SizedBox(),
                   Icon(Icons.edit),
                 ],
               ),
-              Row(
-                children: [
-                  Text("English: Native or Bilingual"),
-                ],
-              ),
+              if (isAddingLanguage)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: languageController,
+                            decoration: InputDecoration(
+                              hintText: "Enter language...",
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
               SizedBox(
                 height: 10,
               ),
+
               Row(
                 children: [
                   Text("Education"),
                   Spacer(),
-                  Icon(Icons.add),
+                  isAddingEducation
+                          ? IconButton(
+                              onPressed: addEducation,
+                              icon: Icon(Icons.add),
+                            )
+                          : SizedBox(),
                 ],
               ),
+              if (isAddingEducation)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: 
+                          TextFormField(
+                            controller: educationController,
+                            decoration: InputDecoration(
+                              hintText: "School and Years of attendance",
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                          },
+                        ),
+                      ],
+                    ),
+
               SizedBox(
                 height: 5,
-              ),
-              Row(
-                children: [
-                  Text("Le Hong Phong High School"),
-                  Spacer(),
-                  Icon(Icons.edit),
-                  Icon(Icons.delete_sharp),
-                ],
-              ),
-              Row(
-                children: [
-                  Text("2008-2010"),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Text("Ho Chi Minh University of Sciences"),
-                  Spacer(),
-                  Icon(Icons.edit),
-                  Icon(Icons.delete_sharp),
-                ],
-              ),
-              Row(
-                children: [
-                  Text("2010-2014"),
-                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -239,6 +313,8 @@ class DropdownMenuExample extends StatefulWidget {
 
 class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   String dropdownValue = list.first;
+  
+  get studentProfile => null;
 
   @override
   Widget build(BuildContext context) {

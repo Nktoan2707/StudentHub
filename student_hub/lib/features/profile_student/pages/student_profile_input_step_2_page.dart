@@ -27,6 +27,16 @@ class StudentProfileInputStep2Page extends StatefulWidget {
 }
 
 class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2Page> {
+  bool isAddingProject = false;
+  TextEditingController projectController = TextEditingController();
+  TextEditingController durationController= TextEditingController();
+
+  void addProject() {
+    setState(() {
+      isAddingProject = true;
+    });
+  }
+
   static final List<Skillset> _skillset = [
     Skillset(id: 1, name: "NodeJS"),
     Skillset(id: 2, name: "Swift"),
@@ -87,86 +97,86 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
               const SizedBox(height: 10,),
               Column(
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text("Project"),
                       Spacer(),
-                      Icon(Icons.add),
+                      isAddingProject
+                              ? IconButton(
+                              onPressed: addProject,
+                              icon: Icon(Icons.add),
+                            )
+                          : SizedBox(),
                     ],
                   ),
-                  const SizedBox(height: 5,),
-                  const Row(
-                    children: [
-                      Text("Intelligent Taxi Dispatching system"),
-                      Spacer(),
-                      Icon(Icons.edit),
-                      Icon(Icons.delete_sharp),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Text("9/2020 - 12/2020, 4 months"),
-                    ],
-                  ),
-                  const SizedBox(height: 5,),
-                  const Column(
-                    children: [
-                      Text("It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, .."),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Column(
-                    children: [
-                      const Row(
-                        children: [
-                          Text("Skillset"),
-                        ],
-                      ),
-                      const SizedBox(height: 5,),
-                      Row(
-                        children: [
-                        SizedBox(
-                    width: MediaQuery.of(context).size.width - 50,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: const Color.fromARGB(100, 21, 18, 18),
-                          width: 2,
-                        ),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          MultiSelectBottomSheetField(
-                            initialChildSize: 0.4,
-                            listType: MultiSelectListType.CHIP,
-                            searchable: true,
-                            buttonText: const Text("List of selected Skillsets"),
-                            title: const Text("Skillset"),
-                            items: _items,
-                            onConfirm: (values) {
-                              _selectedSkillset = values.cast();
-                            },
-                            chipDisplay: MultiSelectChipDisplay(
-                              onTap: (value) {
-                                setState(() {
-                                  _selectedSkillset.remove(value);
-                                });
-                              },
-                            ),
+                  if (isAddingProject)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextField(
+                                controller: projectController,
+                                decoration: InputDecoration(
+                                  hintText: "Project Name",
+                                ),
+                                maxLines: null, // 
+                              ),
+                              SizedBox(height: 10),
+                              TextField(
+                                controller: durationController,
+                                decoration: InputDecoration(
+                                  hintText: "Duration",
+                                ),
+                                maxLines: null,
+                              ),
+                              SizedBox(height: 10),
+                              Text("Skillsets"),
+                              SizedBox(height: 5),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 50,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: const Color.fromARGB(100, 21, 18, 18),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      MultiSelectBottomSheetField(
+                                        initialChildSize: 0.4,
+                                        listType: MultiSelectListType.CHIP,
+                                        searchable: true,
+                                        buttonText: const Text("List of selected Skillsets"),
+                                        title: const Text("Skillset"),
+                                        items: _items,
+                                        onConfirm: (values) {
+                                          _selectedSkillset = values.cast();
+                                        },
+                                        chipDisplay: MultiSelectChipDisplay(
+                                          onTap: (value) {
+                                            setState(() {
+                                              _selectedSkillset.remove(value);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      _selectedSkillset.isEmpty
+                                          ? Container(
+                                              padding: const EdgeInsets.all(10),
+                                            )
+                                          : Container(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          _selectedSkillset.isEmpty
-                              ? Container(
-                                  padding: const EdgeInsets.all(10),
-                                  )
-                              : Container(),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                        ],
-                      ),
-                    ]
-                  ),
                   const SizedBox(height: 10,),
                   const Column(
                     children: [
@@ -174,26 +184,6 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
                         thickness: 2,
                         color: Colors.black,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  const Row(
-                    children: [
-                      Text("Intelligent Taxi Dispatching system"),
-                      Spacer(),
-                      Icon(Icons.edit),
-                      Icon(Icons.delete_sharp),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Text("9/2020 - 12/2020, 4 months"),
-                    ],
-                  ),
-                  const SizedBox(height: 5,),
-                  const Column(
-                    children: [
-                      Text("It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, .."),
                     ],
                   ),
                   const Row(
