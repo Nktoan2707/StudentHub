@@ -34,62 +34,75 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildSwitchProfile(),
-            const Divider(
-              thickness: 3,
-              height: 10,
-            ),
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is AuthenticationSwitchProfileSuccess) {
+                      return Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          );
+                    }
 
-            // Vertical List
-            BlocBuilder<AuthenticationBloc, AuthenticationState>(
-              builder: (context, state) {
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.account_circle),
-                      title: const Text("Profile"),
-                      onTap: () {
-                        if (state is AuthenticationAuthenticateSuccess) {
-                          switch (state.userRole) {
-                            case UserRole.student:
-                              Navigator.of(context).pushReplacementNamed(
-                                  StudentProfileInputStep1Page.pageId);
-                              break;
-                            case UserRole.company:
-                              context
-                                  .read<CompanyProfileBloc>()
-                                  .add(CompanyProfileResetState());
-                              Navigator.of(context).pushReplacementNamed(
-                                  CompanyProfileInputPage.pageId);
-                              break;
-                          }
-                        }
-                      },
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.settings),
-                      title: const Text("Setting"),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.logout),
-                      title: const Text("Log out"),
-                      onTap: () {
-                        context
-                            .read<AuthenticationBloc>()
-                            .add(AuthenticationLoggedOut());
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildSwitchProfile(),
+                const Divider(
+                  thickness: 3,
+                  height: 10,
+                ),
+
+                // Vertical List
+                BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (context, state) {
+                    
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.account_circle),
+                          title: const Text("Profile"),
+                          onTap: () {
+                            if (state is AuthenticationAuthenticateSuccess) {
+                              switch (state.userRole) {
+                                case UserRole.student:
+                                  Navigator.of(context).pushReplacementNamed(
+                                      StudentProfileInputStep1Page.pageId);
+                                  break;
+                                case UserRole.company:
+                                  context
+                                      .read<CompanyProfileBloc>()
+                                      .add(CompanyProfileResetState());
+                                  Navigator.of(context).pushReplacementNamed(
+                                      CompanyProfileInputPage.pageId);
+                                  break;
+                              }
+                            }
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text("Setting"),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.logout),
+                          title: const Text("Log out"),
+                          onTap: () {
+                            context
+                                .read<AuthenticationBloc>()
+                                .add(AuthenticationLoggedOut());
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
