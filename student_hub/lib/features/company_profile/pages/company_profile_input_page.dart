@@ -40,7 +40,7 @@ class _CompanyProfileInputPageState extends State<CompanyProfileInputPage> {
               ..showSnackBar(
                 const SnackBar(content: Text('Update Profile Success')),
               );
-              isFirstLoad = true;
+            isFirstLoad = true;
           });
         }
       },

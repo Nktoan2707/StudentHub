@@ -18,7 +18,19 @@ class CompanyPostProjectStep1Page extends StatefulWidget {
 
 class _CompanyPostProjectStep1PageState
     extends State<CompanyPostProjectStep1Page> {
-  Project postProject = Project(projectId: 1, createdAt: "123", updatedAt: "123", deletedAt: "123", companyId: "1", projectScopeFlag: ProjectScopeFlag.ThreeToSixMonth, title: "123", description: "description", numberOfStudents: 1, typeFlag: 1, countProposals: 1, isFavorite: false);
+  Project postProject = Project(
+      projectId: 0,
+      createdAt: "",
+      updatedAt: null,
+      deletedAt: null,
+      companyId: "",
+      projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
+      title: "",
+      description: "",
+      numberOfStudents: 0,
+      typeFlag: 0,
+      countProposals: 0,
+      isFavorite: false);
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +159,6 @@ class NextScope extends StatefulWidget {
   NextScope({super.key, required this.project});
 
   Project project;
-
   @override
   State<NextScope> createState() => _NextScopeState();
 }
@@ -171,9 +182,20 @@ class _NextScopeState extends State<NextScope> {
             ),
             onPressed: true
                 ? () {
+                  print(widget.project.title);
+                    if (widget.project.title.isEmpty) {
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(content: Text('Please fill in title'),
+                          duration: Duration(seconds: 1),),
+                        );
+                    } else {
+                      print(widget.project.toJson());
                     Navigator.of(context).pushNamed(
                         CompanyPostProjectStep2Page.pageId,
                         arguments: widget.project);
+                    }
                   }
                 : null,
             child: const Text('Next Scope'),

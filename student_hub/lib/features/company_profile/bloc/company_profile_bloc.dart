@@ -45,7 +45,7 @@ class CompanyProfileBloc
     currentCompanyProfile.website = updateCompanyProfile.website;
     currentCompanyProfile.description = updateCompanyProfile.description;
     currentCompanyProfile.size = updateCompanyProfile.size;
-     print('[PUT-Updated profile]');
+    print('[PUT-Updated profile]');
     print(currentCompanyProfile.toJson());
     try {
       await _companyRepository
@@ -137,7 +137,6 @@ class CompanyProfileBloc
   Future<FutureOr<void>> _onCompanyProfileResetState(
       CompanyProfileResetState event, Emitter<CompanyProfileState> emit) async {
 
-        print("asdas");
     emit(CompanyProfileInitial(
         currentUser: await _userRepository
             .getCurrentUser(_authenticationRepository.token)));

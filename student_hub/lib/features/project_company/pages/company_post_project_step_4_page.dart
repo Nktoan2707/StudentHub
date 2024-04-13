@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_event.dart';
@@ -23,11 +24,24 @@ class _CompanyPostProjectStep4PageState
   Widget build(BuildContext context) {
     postProject = (ModalRoute.of(context)?.settings.arguments as Project);
 
+    final int numberOfStudents = postProject.numberOfStudents;
+    String title = postProject.title;
+    String description = postProject.description;
+    String projectScopeFlag =
+        postProject.projectScopeFlag == ProjectScopeFlag.OneToThreeMonth
+            ? "1 - 3 months"
+            : "3 - 6 months";
+
     return BlocListener<CompanyProjectBloc, CompanyProjectState>(
       listener: (context, state) {
         if (state is CompanyProjectStateSuccess) {
-           Navigator.of(context)
-                                .popUntil((route) => route.isFirst);
+          ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(content: Text('Post Project Successful'),
+                          duration: Duration(seconds: 1),),
+                        );
+          Navigator.of(context).popUntil((route) => route.isFirst);
         }
       },
       child: BlocBuilder<CompanyProjectBloc, CompanyProjectState>(
@@ -58,11 +72,11 @@ class _CompanyPostProjectStep4PageState
                             height: 10,
                           ),
                           RichText(
-                            text: const TextSpan(
+                            text: TextSpan(
                               style: TextStyle(color: Colors.black),
                               children: [
                                 TextSpan(
-                                  text: "Title of the job",
+                                  text: title,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -78,49 +92,7 @@ class _CompanyPostProjectStep4PageState
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text("Students are looking for "),
-                          RichText(
-                            text: const TextSpan(
-                              style: TextStyle(color: Colors.black),
-                              children: [
-                                WidgetSpan(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 5, bottom: 5, left: 15),
-                                    child: Icon(Icons.fiber_manual_record,
-                                        size: 5),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text:
-                                      'Clear expectation about your project or deliverables\n',
-                                ),
-                                WidgetSpan(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 5, bottom: 5, left: 15),
-                                    child: Icon(Icons.fiber_manual_record,
-                                        size: 5),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text:
-                                      'The skills required for your project\n',
-                                ),
-                                WidgetSpan(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 5, bottom: 5, left: 15),
-                                    child: Icon(Icons.fiber_manual_record,
-                                        size: 5),
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'Detail about your project\n',
-                                ),
-                              ],
-                            ),
-                          ),
+                          Text(description),
                           const SizedBox(
                             height: 10,
                           ),
@@ -132,7 +104,7 @@ class _CompanyPostProjectStep4PageState
                             height: 10,
                           ),
                           RichText(
-                            text: const TextSpan(
+                            text: TextSpan(
                               style: TextStyle(color: Colors.black),
                               children: [
                                 WidgetSpan(
@@ -142,8 +114,15 @@ class _CompanyPostProjectStep4PageState
                                   ),
                                 ),
                                 TextSpan(
-                                  text: 'Project scope\n',
+                                  text: 'Project scope: $projectScopeFlag',
                                 ),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              children: [
                                 WidgetSpan(
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 5),
@@ -151,7 +130,8 @@ class _CompanyPostProjectStep4PageState
                                   ),
                                 ),
                                 TextSpan(
-                                  text: 'Student required\n',
+                                  text:
+                                      'Student required: $numberOfStudents students',
                                 ),
                               ],
                             ),

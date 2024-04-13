@@ -5,7 +5,7 @@ import 'package:student_hub/common/enums.dart';
 class Project {
   int projectId;
   String createdAt;
-  String updatedAt;
+  String? updatedAt;
   String? deletedAt;
   String companyId;
   ProjectScopeFlag projectScopeFlag;
@@ -33,18 +33,17 @@ class Project {
 
   Map<String, dynamic> toMap() {
     return {
-      'projectId': this.projectId,
-      'createdAt': this.createdAt,
-      'updatedAt': this.updatedAt,
-      'deletedAt': this.deletedAt,
-      'companyId': this.companyId,
-      'projectScopeFlag': this.projectScopeFlag,
-      'title': this.title,
-      'description': this.description,
-      'numberOfStudents': this.numberOfStudents,
-      'typeFlag': this.typeFlag,
-      'countProposals': this.countProposals,
-      'isFavorite': this.isFavorite,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+      'companyId': companyId,
+      'projectScopeFlag': projectScopeFlag.index,
+      'title': title,
+      'description': description,
+      'numberOfStudents': numberOfStudents,
+      'typeFlag': typeFlag,
+      'countProposals': countProposals,
+      'isFavorite': isFavorite,
     };
   }
 
@@ -66,7 +65,15 @@ class Project {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['companyId'] = companyId;
+    data['projectScopeFlag'] = projectScopeFlag.index;
+    data['title'] = title;
+    data['numberOfStudents'] = numberOfStudents;
+    data['description'] = description;
+    return data;
+  }
 
   factory Project.fromJson(String source) =>
       Project.fromMap(json.decode(source) as Map<String, dynamic>);
