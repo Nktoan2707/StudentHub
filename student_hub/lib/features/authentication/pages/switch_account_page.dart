@@ -7,6 +7,8 @@ import 'package:student_hub/features/company_profile/pages/company_profile_input
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 
+import '../../company_profile/bloc/company_profile_bloc.dart';
+
 
 class SwitchAccountPage extends StatefulWidget {
   static const String pageId = "/SwitchAccountPage";
@@ -52,11 +54,13 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                 ListTile(
                   leading: const Icon(Icons.account_circle),
                   title: const Text("Profile"),
-                  onTap: () {
+                  onTap: () async {
                     if (MainTabBarPage.userType == UserType.student) {
                       Navigator.of(context).pushReplacementNamed(
                           StudentProfileInputStep1Page.pageId);
                     } else {
+                      context.read<CompanyProfileBloc>().add(CompanyProfileResetState());
+                      Future.delayed(Durations.extralong4);
                       Navigator.of(context)
                           .pushReplacementNamed(CompanyProfileInputPage.pageId);
                     }

@@ -68,7 +68,9 @@ class AppRouter {
     switch (settings.name) {
       //Feature Authentication
       case SwitchAccountPage.pageId:
-        return MaterialPageRoute(builder: (_) => const SwitchAccountPage());
+        return MaterialPageRoute(builder: (_) => BlocProvider.value(
+                value: _companyProfileBloc,
+                child: const SwitchAccountPage()));
 
       //Feature Login
       case HomePage.pageId:

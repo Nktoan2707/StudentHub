@@ -33,7 +33,6 @@ class CompanyProfile {
 
   CompanyProfile.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
-    fullname = json['fullname'];
     companyName = json['companyName'];
     website = json['website'];
     size = json['size'];
@@ -47,7 +46,6 @@ class CompanyProfile {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['userId'] = userId;
-    data['fullname'] = fullname;
     data['companyName'] = companyName;
     data['website'] = website;
     data['size'] = size;
@@ -62,7 +60,6 @@ class CompanyProfile {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
-      'fullname': fullname,
       'companyName': companyName,
       'website': website,
       'size': size,
@@ -77,13 +74,12 @@ class CompanyProfile {
   factory CompanyProfile.fromMap(Map<String, dynamic> map) {
     return CompanyProfile(
       userId: map['userId'] as int,
-      fullname: map['fullname'] as String,
-      companyName: map['companyName'] as String,
-      website: map['website'] as String,
-      size: map['size'] as int,
-      description: map['description'] as String,
-      updatedAt: map['updatedAt'] as String,
-      deletedAt: map['deletedAt'] as Null,
+      companyName: map['companyName'] == null ? null :  map['companyName'] as String,
+      website: map['website'] == null ? null :  map['website'] as String,
+      size: map['size'] == null ? null :  map['size'] as int,
+      description: map['description'] == null ? null :  map['description'] as String,
+      updatedAt: map['updatedAt'] == null ? null :  map['updatedAt'] as String,
+      deletedAt: map['deletedAt'] == null ? null :  map['deletedAt'] as String,
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
     );

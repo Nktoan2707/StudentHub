@@ -17,9 +17,28 @@ class CompanyProfileUpdated extends CompanyProfileEvent {
   }
 }
 
+class CompanyProfileCreated extends CompanyProfileEvent {
+  final CompanyProfile companyProfile;
+
+  CompanyProfileCreated({required this.companyProfile});
+
+  @override
+  String toString() {
+    return "[EVENT] CompanyProfileCreated ${companyProfile.toString()}";
+  }
+}
+
 class CompanyProfileFetched extends CompanyProfileEvent {
   @override
   String toString() {
     return "[EVENT] CompanyProfileFetched";
   }
 }
+
+class CompanyProfileResetState extends CompanyProfileEvent {
+  @override
+  String toString() {
+    return "[EVENT] CompanyProfileResetState";
+  }
+}
+
