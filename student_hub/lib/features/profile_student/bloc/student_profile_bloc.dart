@@ -16,26 +16,38 @@ class StudentProfileBloc extends Bloc<StudentProfileEvent, StudentProfileState> 
   StudentProfileBloc({
     required StudentRepository studentRepository,
   })  : _studentRepository = studentRepository,
-        super(StudentProfileInitial());
+        super(StudentProfileInitial()) {
+    on<StudentProfileUpdate>(_onStudentProfileUpdate);
+    on<StudentProfileFetch>(_onStudentProfileFetch);
+  }
 
-  @override
-  Stream<StudentProfileState> mapEventToState(StudentProfileEvent event) async* {
-    if (event is StudentProfileUpdated) {
-      yield* _mapProfileUpdatedToState(event);
+  Future<void> _onStudentProfileUpdate(
+      StudentProfileUpdate event, Emitter<StudentProfileState> emit) async {
+    emit(StudentProfileUpdateInProgress());
+    try {
+      final success = await _studentRepository.updateStudentProfile(event.updateProfile);
+      if (success) {
+        emit(StudentProfileUpdateSuccess());
+      } else {
+        emit(StudentProfileUpdateFailure());
+      }
+    } catch (e) {
+      emit(StudentProfileUpdateFailure());
     }
   }
 
-  Stream<StudentProfileState> _mapProfileUpdatedToState(StudentProfileUpdated event) async* {
-    yield StudentProfileUpdateInProgress();
+  Future<void> _onStudentProfileFetch(
+      StudentProfileFetch event, Emitter<StudentProfileState> emit) async {
+    emit(StudentProfileFetchInProgress());
     try {
-      final student = await _studentRepository.getStudent();
-      if (student != null) {
-        yield StudentProfileUpdateSuccess(student: student);
+      final studentProfile = await _studentRepository.getStudentProfile(event.id);
+      if (studentProfile != null) {
+        emit(StudentProfileFetchSuccess(newestStudentProfile: studentProfile));
       } else {
-        yield StudentProfileUpdateFailure();
+        emit(StudentProfileFetchFailure());
       }
     } catch (e) {
-      yield StudentProfileUpdateFailure();
+      emit(StudentProfileFetchFailure());
     }
   }
 }

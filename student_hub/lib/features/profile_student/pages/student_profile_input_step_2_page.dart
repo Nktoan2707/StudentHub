@@ -15,6 +15,20 @@ class Skillset {
   });
 }
 
+class Project {
+    final String name;
+    final String duration;
+    final String description;
+    List<Skillset> skillsets;
+
+    Project({
+      required this.name,
+      required this.duration,
+      required this.description,
+      required this.skillsets,
+    });
+}
+
 const List<String> list = <String>['FullStack Engineer'];
 class StudentProfileInputStep2Page extends StatefulWidget {
   static const String pageId = "/StudentProfileInputStep2Page";
@@ -27,6 +41,18 @@ class StudentProfileInputStep2Page extends StatefulWidget {
 }
 
 class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2Page> {
+  List<Project> projects = [];
+
+  void addProject() {
+    setState(() {
+      projects.add(Project(
+        name: "New Project",
+        duration: "Duration",
+        description: "Description",
+        skillsets: [], // Khởi tạo danh sách skillset rỗng
+      ));
+    });
+  }
   static final List<Skillset> _skillset = [
     Skillset(id: 1, name: "NodeJS"),
     Skillset(id: 2, name: "Swift"),
@@ -85,6 +111,7 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
                 ]
               ),
               const SizedBox(height: 10,),
+              
               Column(
                 children: [
                   const Row(
@@ -174,26 +201,6 @@ class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2P
                         thickness: 2,
                         color: Colors.black,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  const Row(
-                    children: [
-                      Text("Intelligent Taxi Dispatching system"),
-                      Spacer(),
-                      Icon(Icons.edit),
-                      Icon(Icons.delete_sharp),
-                    ],
-                  ),
-                  const Row(
-                    children: [
-                      Text("9/2020 - 12/2020, 4 months"),
-                    ],
-                  ),
-                  const SizedBox(height: 5,),
-                  const Column(
-                    children: [
-                      Text("It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, .."),
                     ],
                   ),
                   const Row(
