@@ -133,6 +133,9 @@ class AppRouter {
                   BlocProvider.value(
                     value: _projectStudentBloc,
                   ),
+                  BlocProvider.value(
+                    value: _companyProjectBloc,
+                  ),
                 ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:
         return MaterialPageRoute(

@@ -34,7 +34,7 @@ class _CompanyPostProjectStep4PageState
 
     return BlocListener<CompanyProjectBloc, CompanyProjectState>(
       listener: (context, state) {
-        if (state is CompanyProjectStateSuccess) {
+        if (state is CompanyProjectPostStateSuccess) {
           ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()
                         ..showSnackBar(

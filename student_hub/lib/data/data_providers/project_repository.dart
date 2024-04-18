@@ -24,7 +24,6 @@ class ProjectRepository {
       );
 
       if (response.statusCode == 200) {
-        //Need to convert to project List
         return List.from(jsonDecode(response.body)['result'])
             .map((e) => Project.fromMap(e))
             .toList();
@@ -40,9 +39,7 @@ class ProjectRepository {
       {required User user,
       required Project project,
       required String token}) async {
-        
-     final Uri uri = Uri.https(
-        Constants.apiBaseURL, '/api/project');
+    final Uri uri = Uri.https(Constants.apiBaseURL, '/api/project');
     final response = await http.post(uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -100,6 +97,48 @@ class ProjectRepository {
     if (response.statusCode == 200) {
     } else {
       throw Exception('[FAIL - NETWORK]Update company profile');
+    }
+  }
+
+  Future<List<Project>?> getListCompanyProject(
+      {required User user,
+      required int typeFlag,
+      required String token}) async {
+    try {
+      Uri uri;
+      if (typeFlag == -1) {
+        uri = Uri.https(Constants.apiBaseURL,
+            '/api/project/company/${user.companyProfile!.id}');
+      } else {
+        uri = Uri.https(Constants.apiBaseURL,
+            '/api/project/company/${user.companyProfile!.id}?typeFlag=$typeFlag');
+      }
+
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print(
+          "[NETWORK-GET LIST COMPANY PROJECT] statusCode${response.statusCode}");
+      print("[NETWORK-GET LIST COMPANY PROJECT] body${response.body}");
+
+      if (response.statusCode == 200) {
+        return List.from(jsonDecode(response.body)['result'])
+            .map((e) => Project.fromMap(e))
+            .toList();
+      } else {
+        if (response.statusCode == 404) {
+          return List.empty();
+        } else {
+          throw Exception('[FAIL - NETWORK]Get list project');
+        }
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }
