@@ -59,24 +59,6 @@ class ProjectRepository {
     }
   }
 
-  Future<Project> getProjectDetail(
-      {required User user, required int id, required String token}) async {
-    final Uri uri = Uri.https(Constants.apiBaseURL, 'api/project/$id');
-    final response = await http.get(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return Project.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('[FAIL - NETWORK]Create company profile');
-    }
-  }
-
   Future<void> patchStudentFavoriteProject(
       {required User user,
       required int projectId,
@@ -97,6 +79,36 @@ class ProjectRepository {
     if (response.statusCode == 200) {
     } else {
       throw Exception('[FAIL - NETWORK]Update company profile');
+    }
+  }
+
+  Future<Project?> getProjectDetail(
+      {required int projectId,
+      required String token}) async {
+    try {
+      Uri uri;
+      uri = Uri.https(Constants.apiBaseURL,
+            '/api/project/$projectId');
+
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print(
+          "[NETWORK-GET PROJECT DETAIL] statusCode${response.statusCode}");
+      print("[NETWORK-GET PROJECT DETAIL] body${response.body}");
+
+      if (response.statusCode == 200) {
+        return Project.fromJson(jsonDecode(response.body)['result']);
+      } else {
+        throw Exception('[FAIL - NETWORK]Get project detail');
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 

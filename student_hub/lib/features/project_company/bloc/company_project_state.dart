@@ -36,3 +36,26 @@ class CompanyProjectStateFailure extends CompanyProjectState {
 class CompanyProjectPostStateSuccess extends CompanyProjectState {
 
 }
+
+// Project Detail
+class CompanyProjectDetailInProgress extends CompanyProjectState {
+
+}
+
+class CompanyProjectDetailSuccess extends CompanyProjectState {
+  Project project;
+  CompanyProjectDetailSuccess({
+    required this.project,
+  });
+
+   @override
+  List<Object?> get props => [project];
+
+  @override
+  String toString() => "CompanyProfileStateSuccess { Company: $project }";
+}
+
+class CompanyProjectDetailFailure extends CompanyProjectState {
+
+}
+

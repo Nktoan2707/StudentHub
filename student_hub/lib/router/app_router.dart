@@ -47,6 +47,7 @@ class AppRouter {
   final SignupBloc _signupBloc;
   final CompanyProfileBloc _companyProfileBloc;
   final CompanyProjectBloc _companyProjectBloc;
+  final CompanyProjectBloc _companyProjectDetailBloc;
   final ProjectStudentBloc _projectStudentBloc;
   final StudentProfileBloc _studentProfileBloc;
 
@@ -60,6 +61,10 @@ class AppRouter {
             userRepository: UserRepository(),
             authenticationRepository: authenticationRepository),
         _companyProjectBloc = CompanyProjectBloc(
+            projectRepository: ProjectRepository(),
+            authenticationRepository: authenticationRepository,
+            userRepository: UserRepository()),
+        _companyProjectDetailBloc = CompanyProjectBloc(
             projectRepository: ProjectRepository(),
             authenticationRepository: authenticationRepository,
             userRepository: UserRepository()),
@@ -153,8 +158,9 @@ class AppRouter {
       case CompanyProjectDetailPage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _companyProjectBloc,
-                child: const CompanyProjectDetailPage()));
+                value: _companyProjectDetailBloc,
+                child: const CompanyProjectDetailPage()),
+            settings: settings);
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(

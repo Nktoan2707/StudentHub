@@ -32,3 +32,16 @@ class CompanyProjectListFetch extends CompanyProjectEvent {
     return "[EVENT] CompanyProjectListFetch";
   }
 }
+
+class CompanyProjectGetDetail extends CompanyProjectEvent {
+  final int projectId;
+  CompanyProjectGetDetail({
+    required this.projectId
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectGetDetail";
+  }
+}
+

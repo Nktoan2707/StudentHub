@@ -164,7 +164,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                 onTap: () {
                                                   Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId);
+                                                          .pageId, arguments: project.projectId);
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -271,9 +271,9 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
                                               return GestureDetector(
                                                 onTap: () {
-                                                  Navigator.of(context).pushNamed(
+                                                   Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId);
+                                                          .pageId, arguments: project.projectId);
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -378,9 +378,9 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
                                               return GestureDetector(
                                                 onTap: () {
-                                                  Navigator.of(context).pushNamed(
+                                                   Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId);
+                                                          .pageId, arguments: project.projectId);
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
