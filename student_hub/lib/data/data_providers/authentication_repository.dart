@@ -13,21 +13,65 @@ class AuthenticationRepository {
 
   UserRole currentUserRole = UserRole.student;
   late String token;
+  late final String? _email;
+  late final String? _password;
 
   AuthenticationRepository() {
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.getString(Constants.chosenUserRole))
+        .then((prefs) {
+          _email = prefs.getString(Constants.savedEmail);
+          _password = prefs.getString(Constants.savedPassword);
+
+          return prefs.getString(Constants.chosenUserRole);
+        })
         .then((value) => UserRole.values.firstWhere(
               (element) => element.name == value,
               orElse: () => UserRole.student,
             ))
-        .then((value) => currentUserRole = value);
+        .then((value) {
+          currentUserRole = value;
+          tryAutoLogIn();
+        });
   }
 
   Stream<AuthenticationStatus> get authenticationStatus async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    yield AuthenticationStatus.unauthenticated;
     yield* _authenticationStatusController.stream;
+  }
+
+  Future<void> tryAutoLogIn() async {
+    try {
+      if (_email == null || _password == null) {
+        _authenticationStatusController
+            .add(AuthenticationStatus.unauthenticated);
+        throw Exception("Login information not found!");
+      }
+
+      final Uri uri = Uri.https(Constants.apiBaseURL, 'api/auth/sign-in');
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode(
+          {
+            "email": _email,
+            "password": _password,
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        token = json.decode(response.body)["result"]["token"];
+        _authenticationStatusController.add(AuthenticationStatus.authenticated);
+      } else if (response.statusCode == 422) {
+        throw Exception(json.decode(response.body)['errorDetails']);
+      } else {
+        throw Exception(json.decode(response.body)['errorDetails']);
+      }
+    } catch (e) {
+      // print(e);
+      rethrow;
+    }
   }
 
   Future<void> logIn({
@@ -52,6 +96,10 @@ class AuthenticationRepository {
 
       if (response.statusCode == 201) {
         token = json.decode(response.body)["result"]["token"];
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(Constants.savedEmail, emailAddress);
+        await prefs.setString(Constants.savedPassword, password);
+
         _authenticationStatusController.add(AuthenticationStatus.authenticated);
       } else if (response.statusCode == 422) {
         throw Exception(json.decode(response.body)['errorDetails']);
