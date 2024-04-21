@@ -5,6 +5,7 @@ import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
+import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 
 import '../../company_profile/bloc/company_profile_bloc.dart';
@@ -37,12 +38,12 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationSwitchProfileSuccess) {
-                      return Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          );
-                    }
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              );
+            }
 
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -56,7 +57,6 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                 // Vertical List
                 BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (context, state) {
-                    
                     return ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -68,6 +68,9 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                             if (state is AuthenticationAuthenticateSuccess) {
                               switch (state.userRole) {
                                 case UserRole.student:
+                                  context
+                                      .read<StudentProfileBloc>()
+                                      .add(StudentProfileFetched());
                                   Navigator.of(context).pushReplacementNamed(
                                       StudentProfileInputStep1Page.pageId);
                                   break;

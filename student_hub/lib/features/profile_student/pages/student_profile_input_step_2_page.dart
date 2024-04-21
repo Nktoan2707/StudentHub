@@ -1,284 +1,670 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:student_hub/data/models/domain/student_profile.dart';
 import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_3_page.dart';
+import 'package:student_hub/widgets/components/ink_custom_button.dart';
 import 'package:student_hub/widgets/components/top_navigation_bar.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-class Skillset {
-  final int id;
-  final String name;
-
-  Skillset({
-    required this.id,
-    required this.name,
-  });
-}
-
 const List<String> list = <String>['FullStack Engineer'];
+
 class StudentProfileInputStep2Page extends StatefulWidget {
   static const String pageId = "/StudentProfileInputStep2Page";
-
 
   const StudentProfileInputStep2Page({super.key});
 
   @override
-  State<StudentProfileInputStep2Page> createState() => _StudentProfileInputStep2PageState();
+  State<StudentProfileInputStep2Page> createState() =>
+      _StudentProfileInputStep2PageState();
 }
 
-class _StudentProfileInputStep2PageState extends State<StudentProfileInputStep2Page> {
-  bool isAddingProject = false;
-  TextEditingController projectController = TextEditingController();
-  TextEditingController durationController= TextEditingController();
+class _StudentProfileInputStep2PageState
+    extends State<StudentProfileInputStep2Page> {
+  Map<String, dynamic> studentProfileMap = {
+    'id': -1,
+    'createdAt': "",
+    'updatedAt': "",
+    'deletedAt': null,
+    'userId': -1,
+    'techStackId': -1,
+    'resume': 'resume_url',
+    'transcript': 'transcript_url',
+    'techStack': {},
+    'proposals': [],
+    'educations': [],
+    'languages': [],
+    'experiences': [],
+    'skillSets': [],
+  };
 
-  void addProject() {
-    setState(() {
-      isAddingProject = true;
-    });
-  }
-
-  static final List<Skillset> _skillset = [
-    Skillset(id: 1, name: "NodeJS"),
-    Skillset(id: 2, name: "Swift"),
-    Skillset(id: 3, name: "Objective C"),
-    Skillset(id: 4, name: "C/C++"),
-    Skillset(id: 5, name: "Java"),
-    Skillset(id: 6, name: "Python"),
-    Skillset(id: 7, name: "Golang"),
-    Skillset(id: 8, name: "React"),
-    Skillset(id: 9, name: "React Native"),
-    Skillset(id: 10, name: "Flutter"),
-    Skillset(id: 11, name: "MySQL"),
-    Skillset(id: 12, name: "SQLite"),
-    Skillset(id: 13, name: "PostgreSQL"),
-    Skillset(id: 14, name: "AWS")
-  ];
-
-  final _items = _skillset
-      .map((animal) => MultiSelectItem<Skillset>(animal, animal.name))
-      .toList();
-
-  List<Skillset> _selectedSkillset = [];
+  List<Experience> _listExperience = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      studentProfileMap =
+          (ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>);
+    }
+
     return Scaffold(
       appBar: const TopNavigationBar(),
-      body: BlocListener<StudentProfileBloc, StudentProfileState>(
-        listener: (context, state) {
-          if (state is StudentProfileUpdateInProgress) {
-          } else if (state is StudentProfileUpdateSuccess) {
-            Navigator.of(context).pushReplacementNamed(StudentProfileInputStep3Page.pageId);
-          } else if (state is StudentProfileUpdateFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Failed to update profile'),
-                backgroundColor: Colors.red,
-              ),
+      body: BlocConsumer<StudentProfileBloc, StudentProfileState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is StudentProfileFetchInProgress) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }
-        },
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 10,),
-              const Center(
-                child: Text('Experiences'),
-              ),
-              const SizedBox(height: 20,),
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+          } else if (state is StudentProfileFetchSuccess) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
                 children: [
-                  Text("Tell us about your self and you will be on your way connect with real-world project"),
-                ]
-              ),
-              const SizedBox(height: 10,),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("Project"),
-                      Spacer(),
-                      isAddingProject
-                              ? IconButton(
-                              onPressed: addProject,
-                              icon: Icon(Icons.add),
-                            )
-                          : SizedBox(),
-                    ],
+                  const SizedBox(
+                    height: 20,
                   ),
-                  if (isAddingProject)
-                    Row(
+                  const Center(
+                    child: Text(
+                      'Experiences',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextField(
-                                controller: projectController,
-                                decoration: InputDecoration(
-                                  hintText: "Project Name",
-                                ),
-                                maxLines: null, // 
-                              ),
-                              SizedBox(height: 10),
-                              TextField(
-                                controller: durationController,
-                                decoration: InputDecoration(
-                                  hintText: "Duration",
-                                ),
-                                maxLines: null,
-                              ),
-                              SizedBox(height: 10),
-                              Text("Skillsets"),
-                              SizedBox(height: 5),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 50,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: const Color.fromARGB(100, 21, 18, 18),
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      MultiSelectBottomSheetField(
-                                        initialChildSize: 0.4,
-                                        listType: MultiSelectListType.CHIP,
-                                        searchable: true,
-                                        buttonText: const Text("List of selected Skillsets"),
-                                        title: const Text("Skillset"),
-                                        items: _items,
-                                        onConfirm: (values) {
-                                          _selectedSkillset = values.cast();
+                        Text(
+                            "Tell us about your self and you will be on your way connect with real-world project"),
+                      ]),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Projects"),
+                            Spacer(),
+                            Container(
+                              margin: EdgeInsets.only(right: 15),
+                              child: SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: IconButton.outlined(
+                                    padding: EdgeInsets.zero,
+                                    iconSize: 17,
+                                    onPressed: () {
+                                      _displayInputDialogExperience(
+                                        context,
+                                        onInputFinished: (experience) {
+                                          setState(() {
+                                            _listExperience.add(experience);
+                                          });
                                         },
-                                        chipDisplay: MultiSelectChipDisplay(
-                                          onTap: (value) {
-                                            setState(() {
-                                              _selectedSkillset.remove(value);
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      _selectedSkillset.isEmpty
-                                          ? Container(
-                                              padding: const EdgeInsets.all(10),
-                                            )
-                                          : Container(),
-                                    ],
-                                  ),
-                                ),
+                                      );
+                                    },
+                                    icon: Icon(Icons.add)),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
+                        ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: _listExperience.length,
+                          itemBuilder: (context, index) {
+                            return _ListItemViewExperience(
+                                experience: _listExperience[index],
+                                onDeletePressed: () {
+                                  setState(() {
+                                    _listExperience.removeAt(index);
+                                  });
+                                },
+                                onEditPressed: () {
+                                  _displayInputDialogExperience(context,
+                                      experience: _listExperience[index],
+                                      onInputFinished: (education) {
+                                    setState(() {
+                                      _listExperience[index] = education;
+                                    });
+                                  });
+                                });
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              color: Colors.grey,
+                              thickness: 3,
+                            );
+                          },
                         ),
                       ],
                     ),
-                  const SizedBox(height: 10,),
-                  const Column(
-                    children: [
-                      Divider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
-                    ],
                   ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: nextButton(),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
                   ),
-                ]
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: _buildNextButton(),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10,),
-              
-            ]
-            
-          ),
-        ),
+            );
+          }
+
+          return Placeholder();
+        },
       ),
     );
   }
-}
 
-class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+  Future<void> _displayInputDialogExperience(BuildContext context,
+      {Experience? experience,
+      required void Function(Experience) onInputFinished}) async {
+    final TextEditingController titleTextFieldController =
+        TextEditingController(text: experience == null ? "" : experience.title);
 
-  @override
-  State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
-}
+    final TextEditingController startMonthTextFieldController =
+        TextEditingController(
+            text: experience == null ? "" : experience.startMonth.toString());
 
-class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  String dropdownValue = list.first;
+    final TextEditingController endMonthTextFieldController =
+        TextEditingController(
+            text: experience == null ? "" : experience.endMonth.toString());
 
-  @override
-  Widget build(BuildContext context) {
-    return DropdownMenu<String>(
-      initialSelection: list.first,
-      onSelected: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
+    final TextEditingController descriptionTextFieldController =
+        TextEditingController(
+            text: experience == null ? "" : experience.description);
+
+    List<SkillSet> _listSkillSet =
+        experience?.skillSets ?? List<SkillSet>.empty(growable: true);
+
+    String? getEndTimeErrorText() {
+      if (startMonthTextFieldController.text.isEmpty) {
+        return null;
+      }
+
+      int differenceInMonths(DateTime date1, DateTime date2) {
+        int yearsDiff = date2.year - date1.year;
+        int monthsDiff = date2.month - date1.month;
+        return (yearsDiff * 12) + monthsDiff;
+      }
+
+      if (endMonthTextFieldController.text.isEmpty) {
+        return "End Time can not be empty";
+      }
+
+      DateFormat dateFormat = DateFormat("MM-yyyy");
+      if (differenceInMonths(
+              dateFormat.parse(startMonthTextFieldController.text),
+              dateFormat.parse(endMonthTextFieldController.text)) <=
+          0) {
+        return 'End Time must be larger than Start Time!';
+      }
+
+      return null;
+    }
+
+    String? getStartTimeErrorText() {
+      if (startMonthTextFieldController.text.isEmpty) {
+        return "Start time can not be empty";
+      }
+
+      return null;
+    }
+
+    Future<void> selectMonthYear(BuildContext context,
+        {required TextEditingController textController}) async {
+      DateTime? pickedDate = await showDatePicker(
+          context: context,
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2200));
+
+      if (pickedDate != null) {
+        textController.text = pickedDate
+            .toString()
+            .split(" ")[0]
+            .substring(0, 7)
+            .split("-")
+            .reversed
+            .join("-");
+      }
+    }
+
+    String? getTitleErrorText() {
+      return titleTextFieldController.text.isEmpty
+          ? "Title can not be empty"
+          : null;
+    }
+
+    String? getDescriptionErrorText() {
+      return descriptionTextFieldController.text.isEmpty
+          ? "Description can not be empty"
+          : null;
+    }
+
+    bool isInputValid() {
+      return getTitleErrorText() == null &&
+          getStartTimeErrorText() == null &&
+          getEndTimeErrorText() == null &&
+          getDescriptionErrorText() == null;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (contextDialog) {
+        return Dialog(
+          // backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(10),
+          child: BlocProvider.value(
+            value: context.read<StudentProfileBloc>(),
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(contextDialog).requestFocus(FocusNode());
+              },
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          Navigator.pop(contextDialog);
+                        },
+                        icon: const FaIcon(
+                          FontAwesomeIcons.circleXmark,
+                          size: 25,
+                        ),
+                        // constraints: const BoxConstraints(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      experience == null
+                          ? "Add Project Experience"
+                          : "Edit Project Experience",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    const Divider(
+                      thickness: 3,
+                      height: 40,
+                    ),
+                    const Text(
+                      "Project Name/Title",
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      style: TextStyle(color: Colors.black),
+                      // inputFormatters: <TextInputFormatter>[
+                      //   FilteringTextInputFormatter.digitsOnly,
+                      // ],
+                      controller: titleTextFieldController,
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                        errorText: getTitleErrorText(),
+                        hintStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: startMonthTextFieldController,
+                      style: const TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.auto,
+                          prefixIcon: Icon(Icons.calendar_month),
+                          filled: true,
+                          enabledBorder:
+                              OutlineInputBorder(borderSide: BorderSide.none),
+                          labelText: "Start Time",
+                          errorText: getStartTimeErrorText(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue))),
+                      readOnly: true,
+                      onTap: () {
+                        selectMonthYear(contextDialog,
+                            textController: startMonthTextFieldController);
+                        FocusScope.of(contextDialog).unfocus();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      controller: endMonthTextFieldController,
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        prefixIcon: Icon(Icons.calendar_month),
+                        filled: true,
+                        enabledBorder:
+                            OutlineInputBorder(borderSide: BorderSide.none),
+                        labelText: "End Time",
+                        errorText: getEndTimeErrorText(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                      ),
+                      readOnly: true,
+                      onTap: () {
+                        selectMonthYear(contextDialog,
+                            textController: endMonthTextFieldController);
+                        FocusScope.of(contextDialog).unfocus();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      "Description",
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      style: TextStyle(color: Colors.black),
+                      maxLines: null,
+                      controller: descriptionTextFieldController,
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                        errorText: getDescriptionErrorText(),
+                        hintStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text("SkillSet"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlocBuilder<StudentProfileBloc, StudentProfileState>(
+                      builder: (context, state) {
+                        if (state is StudentProfileFetchInProgress) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is StudentProfileFetchSuccess) {
+                          final skillSetItemList = state.allSkillSetList
+                              .map((skillSet) => MultiSelectItem<SkillSet>(
+                                  skillSet, skillSet.name))
+                              .toList();
+
+                          return Column(
+                            children: [
+                              MultiSelectBottomSheetField(
+                                initialChildSize: 0.4,
+                                listType: MultiSelectListType.CHIP,
+                                searchable: true,
+                                buttonText:
+                                    const Text("List of selected skill set(s)"),
+                                title: const Text("SkillSet"),
+                                items: skillSetItemList,
+                                initialValue: _listSkillSet,
+                                onConfirm: (values) {
+                                  setState(() {
+                                    _listSkillSet = values.cast();
+                                  });
+                                },
+                                chipDisplay: MultiSelectChipDisplay(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color:
+                                          const Color.fromARGB(100, 21, 18, 18),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  onTap: (value) {
+                                    // setState(() {});
+                                  },
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(100, 21, 18, 18),
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              if (_listSkillSet.isEmpty)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      left: BorderSide(
+                                          width: 2,
+                                          color:
+                                              Color.fromARGB(100, 21, 18, 18)),
+                                      bottom: BorderSide(
+                                          width: 2,
+                                          color:
+                                              Color.fromARGB(100, 21, 18, 18)),
+                                      right: BorderSide(
+                                          width: 2,
+                                          color:
+                                              Color.fromARGB(100, 21, 18, 18)),
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                )
+                            ],
+                          );
+                        }
+
+                        return Placeholder();
+                      },
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(contextDialog).size.height * 0.1,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkCustomButton(
+                          title: "Cancel",
+                          padding: 5,
+                          width: MediaQuery.of(contextDialog).size.width * 0.3,
+                          onTap: () {
+                            Navigator.pop(contextDialog);
+                          },
+                        ),
+                        InkCustomButton(
+                          title: experience == null ? "Add" : "Confirm",
+                          padding: 5,
+                          width: MediaQuery.of(contextDialog).size.width * 0.3,
+                          onTap: isInputValid()
+                              ? () {
+                                  onInputFinished(
+                                    Experience(
+                                        id: -1,
+                                        createdAt: "",
+                                        updatedAt: "",
+                                        deletedAt: null,
+                                        studentId: -1,
+                                        title: titleTextFieldController.text,
+                                        startMonth:
+                                            startMonthTextFieldController.text,
+                                        endMonth:
+                                            endMonthTextFieldController.text,
+                                        description:
+                                            descriptionTextFieldController.text,
+                                        skillSets: _listSkillSet),
+                                  );
+                                  Navigator.pop(contextDialog);
+                                }
+                              : null,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
       },
-      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-        return DropdownMenuEntry<String>(value: value, label: value);
-      }).toList(),
+    );
+  }
+
+  Widget _buildNextButton() {
+    return ElevatedButton(
+      key: const Key('studentProfileForm_next_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        elevation: 5,
+        shadowColor: Colors.black,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        minimumSize: const Size(200, 40),
+        shape: const RoundedRectangleBorder(
+          side: BorderSide(width: 2),
+        ),
+      ),
+      onPressed: () {
+        studentProfileMap["experiences"] =
+            _listExperience.map((e) => e.toMap()).toList();
+
+        Navigator.of(context).pushNamed(StudentProfileInputStep3Page.pageId,
+            arguments: studentProfileMap);
+      },
+      child: const Text('Next'),
     );
   }
 }
 
-class nextButton extends StatefulWidget {
-  const nextButton({super.key});
+class _ListItemViewExperience extends StatelessWidget {
+  final Experience experience;
+  final VoidCallback onEditPressed;
+  final VoidCallback onDeletePressed;
 
-  @override
-  State<nextButton> createState() => _nextButtonState();
-}
+  const _ListItemViewExperience(
+      {super.key,
+      required this.experience,
+      required this.onEditPressed,
+      required this.onDeletePressed});
 
-class _nextButtonState extends State<nextButton> {
   @override
   Widget build(BuildContext context) {
-    return false
-        ? const CircularProgressIndicator()
-        : ElevatedButton(
-            key: const Key('profileForm_Next_raisedButton'),
-            style: ElevatedButton.styleFrom(
-              elevation: 5,
-              shadowColor: Colors.black,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              minimumSize: const Size(200, 40),
-              shape: const RoundedRectangleBorder(
-                side: BorderSide(width: 2),
+    final skillSetItemList = experience.skillSets
+        .map((skillSet) => MultiSelectItem<SkillSet>(skillSet, skillSet.name))
+        .toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          visualDensity: const VisualDensity(horizontal: -0, vertical: -4),
+          contentPadding: const EdgeInsets.only(left: 0, right: 0),
+          title: Text(experience.title),
+          subtitle: Text(_getFormattedDuration()),
+          titleAlignment: ListTileTitleAlignment.center,
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 15),
+                child: SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: IconButton.outlined(
+                      padding: EdgeInsets.zero,
+                      iconSize: 17,
+                      onPressed: () {
+                        onEditPressed();
+                      },
+                      icon: Icon(Icons.edit)),
+                ),
               ),
-            ),
-            onPressed: true ? () {
-              Navigator.of(context).pushReplacementNamed(StudentProfileInputStep3Page.pageId);
-
-            } : null,
-            child: const Text('Next'),
-          );
+              Container(
+                margin: EdgeInsets.only(right: 15),
+                child: SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: IconButton.outlined(
+                      padding: EdgeInsets.zero,
+                      iconSize: 17,
+                      onPressed: () {
+                        onDeletePressed();
+                      },
+                      icon: Icon(Icons.delete)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          experience.description,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text("SkillSet"),
+        SizedBox(
+          height: 20,
+        ),
+        skillSetItemList.isNotEmpty
+            ? MultiSelectChipDisplay<SkillSet>(
+                items: skillSetItemList,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(100, 21, 18, 18),
+                    width: 2,
+                  ),
+                ),
+                onTap: (value) {
+                  // setState(() {});
+                },
+              )
+            : Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: Color.fromARGB(100, 21, 18, 18),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10),
+              )
+      ],
+    );
   }
-}
 
-class Multi_select_skillset extends StatefulWidget {
-  const Multi_select_skillset({super.key});
+  String _getFormattedDuration() {
+    int differenceInMonths(DateTime date1, DateTime date2) {
+      int yearsDiff = date2.year - date1.year;
+      int monthsDiff = date2.month - date1.month;
+      return ((yearsDiff * 12) + monthsDiff).abs();
+    }
 
-  @override
-  State<Multi_select_skillset> createState() => _Multi_select_skillsetState();
-}
+    String formattedStartMonthYear = experience.startMonth.split("-").join("/");
+    String formattedEndMonthYear = experience.endMonth.split("-").join("/");
 
-class _Multi_select_skillsetState extends State<Multi_select_skillset> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+    DateFormat dateFormat = DateFormat("MM-yyyy");
+    String durationMonth =
+        "${differenceInMonths(dateFormat.parse(experience.startMonth), dateFormat.parse(experience.endMonth))} month(s)";
+
+    return "${formattedStartMonthYear} - ${formattedEndMonthYear}, $durationMonth";
   }
 }
