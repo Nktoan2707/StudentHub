@@ -296,7 +296,7 @@ class Experience {
       'startMonth': this.startMonth,
       'endMonth': this.endMonth,
       'description': this.description,
-      'skillSets': this.skillSets,
+      'skillSets': this.skillSets.map((e) => e.toMap()).toList(),
     };
   }
 

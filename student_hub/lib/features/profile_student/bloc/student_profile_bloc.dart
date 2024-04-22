@@ -34,7 +34,7 @@ class StudentProfileBloc
       StudentProfileFetched event, Emitter<StudentProfileState> emit) async {
     emit(StudentProfileFetchInProgress());
     try {
-      final StudentProfile? studentProfile = await _userRepository
+      final StudentProfile studentProfile = await _userRepository
           .getCurrentUser(_authenticationRepository.token)
           .then((user) async {
         if (user.studentProfile == null) {
@@ -46,7 +46,7 @@ class StudentProfileBloc
               .then((user) => user.studentProfile!);
         }
 
-        return user.studentProfile;
+        return user.studentProfile!;
       });
 
       final List<TechStack> allTechStackList =
@@ -54,8 +54,24 @@ class StudentProfileBloc
       final List<SkillSet> allSkillSetList =
           await _studentRepository.getAllSkillSet();
 
+      String? resumeUrl;
+      if (studentProfile.resume != null) {
+        resumeUrl = await _studentRepository.getStudentProfileResumeUrl(
+            token: _authenticationRepository.token,
+            studentId: studentProfile.id);
+      }
+
+      String? transcriptUrl;
+      if (studentProfile.transcript != null) {
+        transcriptUrl = await _studentRepository.getStudentProfileTranscriptUrl(
+            token: _authenticationRepository.token,
+            studentId: studentProfile.id);
+      }
+
       emit(StudentProfileFetchSuccess(
           studentProfile: studentProfile!,
+          resumeUrl: resumeUrl,
+          transcriptUrl: transcriptUrl,
           allSkillSetList: allSkillSetList,
           allTechStackList: allTechStackList));
     } catch (e) {
@@ -75,8 +91,10 @@ class StudentProfileBloc
           token: _authenticationRepository.token,
           studentProfile: event.studentProfile);
       emit(StudentProfileUpdateSuccess());
+      add(StudentProfileFetched());
     } catch (e) {
       emit(StudentProfileUpdateFailure());
+      add(StudentProfileFetched());
       rethrow;
     }
   }

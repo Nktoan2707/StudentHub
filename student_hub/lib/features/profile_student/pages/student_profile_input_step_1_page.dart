@@ -32,8 +32,8 @@ class _StudentProfileInputStep1PageState
     'deletedAt': null,
     'userId': -1,
     'techStackId': -1,
-    'resume': 'resume_url',
-    'transcript': 'transcript_url',
+    'resume': null,
+    'transcript': null,
     'techStack': {},
     'proposals': [],
     'educations': [],
@@ -49,8 +49,6 @@ class _StudentProfileInputStep1PageState
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: const TopNavigationBar(),
       body: BlocConsumer<StudentProfileBloc, StudentProfileState>(
@@ -65,7 +63,19 @@ class _StudentProfileInputStep1PageState
                 .map((skillSet) =>
                     MultiSelectItem<SkillSet>(skillSet, skillSet.name))
                 .toList();
-            _selectedTechStack = state.allTechStackList.first;
+            _selectedTechStack = state.allTechStackList.firstWhere(
+                (element) => element.id == state.studentProfile.techStackId);
+
+            _listSkillSet =
+                state.allSkillSetList.where((allSkillSetListElement) {
+              return state.studentProfile.skillSets.any(
+                  (thisExperienceSkillSetElement) =>
+                      thisExperienceSkillSetElement.id ==
+                      allSkillSetListElement.id);
+            }).toList();
+            _listLanguage = state.studentProfile.languages;
+            _listEducation = state.studentProfile.educations;
+
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -116,9 +126,7 @@ class _StudentProfileInputStep1PageState
                         items: skillSetItemList,
                         initialValue: _listSkillSet,
                         onConfirm: (values) {
-                          setState(() {
-                            _listSkillSet = values.cast();
-                          });
+                          _listSkillSet = values.cast();
                         },
                         chipDisplay: MultiSelectChipDisplay(
                           decoration: BoxDecoration(
@@ -507,8 +515,8 @@ class _StudentProfileInputStep1PageState
               width: 300,
               height: 300,
               child: YearPicker(
-                firstDate: DateTime(DateTime.now().year - 100, 1),
-                lastDate: DateTime(DateTime.now().year + 100, 1),
+                firstDate: DateTime(DateTime.now().year - 100),
+                lastDate: DateTime(DateTime.now().year),
                 selectedDate: DateTime.now(),
                 onChanged: (DateTime dateTime) {
                   // close the dialog when year is selected.

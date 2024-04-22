@@ -13,11 +13,15 @@ class StudentProfileFetchInProgress extends StudentProfileState {}
 
 class StudentProfileFetchSuccess extends StudentProfileState {
   final StudentProfile studentProfile;
+  final String? resumeUrl;
+  final String? transcriptUrl;
   final List<TechStack> allTechStackList;
   final List<SkillSet> allSkillSetList;
 
-  const StudentProfileFetchSuccess(
+  StudentProfileFetchSuccess(
       {required this.studentProfile,
+      required this.resumeUrl,
+      required this.transcriptUrl,
       required this.allTechStackList,
       required this.allSkillSetList});
 

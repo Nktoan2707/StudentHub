@@ -31,8 +31,8 @@ class _StudentProfileInputStep2PageState
     'deletedAt': null,
     'userId': -1,
     'techStackId': -1,
-    'resume': 'resume_url',
-    'transcript': 'transcript_url',
+    'resume': null,
+    'transcript': null,
     'techStack': {},
     'proposals': [],
     'educations': [],
@@ -60,6 +60,8 @@ class _StudentProfileInputStep2PageState
               child: CircularProgressIndicator(),
             );
           } else if (state is StudentProfileFetchSuccess) {
+            _listExperience = state.studentProfile.experiences;
+
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -133,9 +135,9 @@ class _StudentProfileInputStep2PageState
                                 onEditPressed: () {
                                   _displayInputDialogExperience(context,
                                       experience: _listExperience[index],
-                                      onInputFinished: (education) {
+                                      onInputFinished: (experience) {
                                     setState(() {
-                                      _listExperience[index] = education;
+                                      _listExperience[index] = experience;
                                     });
                                   });
                                 });
@@ -186,8 +188,7 @@ class _StudentProfileInputStep2PageState
         TextEditingController(
             text: experience == null ? "" : experience.description);
 
-    List<SkillSet> _listSkillSet =
-        experience?.skillSets ?? List<SkillSet>.empty(growable: true);
+    List<SkillSet> _listSkillSet = List<SkillSet>.empty(growable: true);
 
     String? getEndTimeErrorText() {
       if (startMonthTextFieldController.text.isEmpty) {
@@ -413,6 +414,18 @@ class _StudentProfileInputStep2PageState
                                   skillSet, skillSet.name))
                               .toList();
 
+                          if (experience != null) {
+                            for (var allSkillSetListElement
+                                in state.allSkillSetList) {
+                              if (experience.skillSets.any(
+                                  (thisExperienceSkillSetElement) =>
+                                      thisExperienceSkillSetElement.id ==
+                                      allSkillSetListElement.id)) {
+                                _listSkillSet.add(allSkillSetListElement);
+                              }
+                            }
+                          }
+
                           return Column(
                             children: [
                               MultiSelectBottomSheetField(
@@ -425,9 +438,7 @@ class _StudentProfileInputStep2PageState
                                 items: skillSetItemList,
                                 initialValue: _listSkillSet,
                                 onConfirm: (values) {
-                                  setState(() {
-                                    _listSkillSet = values.cast();
-                                  });
+                                  _listSkillSet = values.cast();
                                 },
                                 chipDisplay: MultiSelectChipDisplay(
                                   decoration: BoxDecoration(

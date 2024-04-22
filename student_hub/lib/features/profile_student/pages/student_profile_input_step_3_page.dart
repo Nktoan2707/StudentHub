@@ -26,8 +26,8 @@ class StudentProfileInputStep3State
     'deletedAt': null,
     'userId': -1,
     'techStackId': -1,
-    'resume': 'resume_url',
-    'transcript': 'transcript_url',
+    'resume': null,
+    'transcript': null,
     'techStack': {},
     'proposals': [],
     'educations': [],
@@ -52,6 +52,14 @@ class StudentProfileInputStep3State
       appBar: const TopNavigationBar(),
       body: BlocConsumer<StudentProfileBloc, StudentProfileState>(
         listener: (context, state) {
+          onBlocUpdateResultReturned() {
+            int countToStudentProfileStep1Page = 3;
+            Navigator.popUntil(context, (route) {
+              countToStudentProfileStep1Page--;
+              return countToStudentProfileStep1Page == 0;
+            });
+          }
+
           if (state is StudentProfileUpdateInProgress) {
           } else if (state is StudentProfileUpdateSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -60,7 +68,7 @@ class StudentProfileInputStep3State
                 backgroundColor: Colors.green,
               ),
             );
-            Navigator.popUntil(context, (route) => route.isFirst);
+            onBlocUpdateResultReturned();
           } else if (state is StudentProfileUpdateFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -68,7 +76,7 @@ class StudentProfileInputStep3State
                 backgroundColor: Colors.red,
               ),
             );
-            Navigator.popUntil(context, (route) => route.isFirst);
+            onBlocUpdateResultReturned();
           }
         },
         builder: (context, state) {
@@ -105,17 +113,36 @@ class StudentProfileInputStep3State
                       height: 20,
                     ),
                     const PrimaryText(title: 'Resume/CV (*)'),
-                    FilePickerWidget(
-                      onSelectedFileWithFilePath: (filePath) =>
-                          didResumeSelectedFileWithFilePath(filePath),
+                    ClipRect(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: _getNetworkImageFromUrl(state.resumeUrl!),
+                              fit: BoxFit.cover),
+                        ),
+                        child: FilePickerWidget(
+                          uploadedFileName: state.studentProfile.resume,
+                          onSelectedFileWithFilePath: (filePath) =>
+                              didResumeSelectedFileWithFilePath(filePath),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     const PrimaryText(title: 'Transcript (*)'),
-                    FilePickerWidget(
-                      onSelectedFileWithFilePath: (filePath) =>
-                          didTranscriptSelectedFileWithFilePath(filePath),
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: _getNetworkImageFromUrl(state.transcriptUrl!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: FilePickerWidget(
+                        uploadedFileName: state.studentProfile.transcript,
+                        onSelectedFileWithFilePath: (filePath) =>
+                            didTranscriptSelectedFileWithFilePath(filePath),
+                      ),
                     ),
                     const SizedBox(
                       height: 30,
@@ -165,5 +192,16 @@ class StudentProfileInputStep3State
 
   void didTranscriptSelectedFileWithFilePath(String filePath) {
     transcriptUrl = filePath;
+  }
+
+  NetworkImage _getNetworkImageFromUrl(String transcriptUrl) {
+    NetworkImage result;
+    try {
+      result = NetworkImage(transcriptUrl);
+    } catch (e) {
+      result = NetworkImage(
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsm4S3V32BzChhNWdIc14k_R0BIdPnGNLQQ243iVrHAw&s');
+    }
+    return result;
   }
 }
