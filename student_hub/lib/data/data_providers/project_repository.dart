@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:student_hub/common/constants.dart';
 import 'package:student_hub/data/models/domain/project.dart';
@@ -56,6 +57,30 @@ class ProjectRepository {
       return true;
     } else {
       throw Exception('[FAIL - NETWORK]Post Project');
+    }
+  }
+
+  Future<Object?> updateProject(
+      {required User user,
+      required Project project,
+      required String token}) async {
+    final Uri uri = Uri.https(Constants.apiBaseURL, '/api/project');
+    final response = await http.patch(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(project.toJson()));
+
+    print("[NETWORK-UPDATE PROJECT] project ${jsonEncode(project.toJson())}");
+
+    print("[NETWORK-UPDATE PROJECT] statusCode${response.statusCode}");
+    print("[NETWORK-UPDATE PROJECT] body${response.body}");
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception('[FAIL - NETWORK]Update Project');
     }
   }
 
@@ -148,6 +173,36 @@ class ProjectRepository {
         } else {
           throw Exception('[FAIL - NETWORK]Get list project');
         }
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> deleteProject(
+      {required int projectId,
+      required String token}) async {
+    try {
+      Uri uri;
+      uri = Uri.https(Constants.apiBaseURL,
+            '/api/project/$projectId');
+
+      final response = await http.delete(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print(
+          "[NETWORK-DELETE PROJECT DETAIL] statusCode${response.statusCode}");
+      print("[NETWORK-DELETE PROJECT DETAIL] body${response.body}");
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('[FAIL - NETWORK]Delete project detail');
       }
     } catch (e) {
       rethrow;

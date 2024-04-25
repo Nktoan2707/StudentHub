@@ -28,6 +28,8 @@ class CompanyProjectBloc
     on<CompanyProjectCreate>(_onCompanyProjectCreate);
     on<CompanyProjectListFetch>(_onCompanyProfileListFetch);
     on<CompanyProjectGetDetail>(_onCompanyProjectGetDetail);
+    on<CompanyProjectUpdate>(_onCompanyProjectUpdate);
+    on<CompanyProjectDelete>(_onCompanyProjectDelete);
   }
 
   FutureOr<void> _onCompanyProjectCreate(
@@ -101,6 +103,54 @@ class CompanyProjectBloc
     } catch (e) {
       print(e);
       emit(CompanyProjectDetailFailure());
+    }
+  }
+
+  FutureOr<void> _onCompanyProjectUpdate(CompanyProjectUpdate event, Emitter<CompanyProjectState> emit) async {
+    emit(CompanyProjectStateInProgress());
+
+    User user =
+        await _userRepository.getCurrentUser(_authenticationRepository.token);
+
+    event.projectUpdate.updatedAt = DateTime.now().toString();
+    try {
+      await _projectRepository
+          .createProject(
+              user: await _userRepository
+                  .getCurrentUser(_authenticationRepository.token),
+              project: event.projectUpdate,
+              token: _authenticationRepository.token)
+          .then((value) {
+        if (!(value as bool)) {
+          emit(CompanyProjectStateFailure());
+          return;
+        }
+        emit(CompanyProjectPostStateSuccess());
+      });
+    } catch (e) {
+      emit(CompanyProjectStateFailure());
+    }
+  }
+
+  FutureOr<void> _onCompanyProjectDelete(CompanyProjectDelete event, Emitter<CompanyProjectState> emit) async {
+    emit(CompanyProjectStateInProgress());
+
+    User user =
+        await _userRepository.getCurrentUser(_authenticationRepository.token);
+    try {
+      await _projectRepository
+          .deleteProject(
+              projectId: event.projectId,
+              token: _authenticationRepository.token)
+          .then((value) {
+        if (!(value as bool)) {
+          emit(CompanyProjectDeleteStateFailure());
+          return;
+        }
+        emit(CompanyProjectDeleteStateSuccess());
+      });
+    } catch (e) {
+      emit(CompanyProjectDeleteStateFailure());
     }
   }
 }

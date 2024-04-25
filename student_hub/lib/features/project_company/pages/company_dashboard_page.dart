@@ -43,15 +43,34 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
     return BlocListener<CompanyProjectBloc, CompanyProjectState>(
       listener: (context, state) {
-        if (state is CompanyProjectPostStateSuccess) {
-          context
-              .read<CompanyProjectBloc>()
-              .add(CompanyProjectListFetch(typeFlag: -1));
+        if (state is CompanyProjectDeleteStateSuccess) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text('Delete Project Successful'),
+                duration: Duration(seconds: 3),
+              ),
+            );
+        }
+
+        if (state is CompanyProjectDeleteStateFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text('Delete project fail. Please try later'),
+                duration: Duration(seconds: 3),
+              ),
+            );
         }
       },
       child: BlocBuilder<CompanyProjectBloc, CompanyProjectState>(
         builder: (context, state) {
           if (state is! CompanyProjectStateSuccess) {
+            context
+                .read<CompanyProjectBloc>()
+                .add(CompanyProjectListFetch(typeFlag: -1));
             return Center(
               child: CircularProgressIndicator(
                 strokeWidth: 2,
@@ -164,7 +183,10 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                 onTap: () {
                                                   Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId, arguments: project.projectId);
+                                                          .pageId,
+                                                      arguments: _getMap(
+                                                          project.projectId!,
+                                                          0));
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -185,11 +207,12 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                           maxLines: 2,
                                                         ),
                                                         IconButton(
-                                                          icon: const Icon(
+                                                          icon: Icon(
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                index);
+                                                                project
+                                                                    .projectId!);
                                                           },
                                                         ),
                                                       ],
@@ -271,9 +294,12 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
                                               return GestureDetector(
                                                 onTap: () {
-                                                   Navigator.of(context).pushNamed(
+                                                  Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId, arguments: project.projectId);
+                                                          .pageId,
+                                                      arguments: _getMap(
+                                                          project.projectId!,
+                                                          0));
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -298,7 +324,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                index);
+                                                                project
+                                                                    .projectId!);
                                                           },
                                                         ),
                                                       ],
@@ -378,9 +405,12 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
                                               return GestureDetector(
                                                 onTap: () {
-                                                   Navigator.of(context).pushNamed(
+                                                  Navigator.of(context).pushNamed(
                                                       CompanyProjectDetailPage
-                                                          .pageId, arguments: project.projectId);
+                                                          .pageId,
+                                                      arguments: _getMap(
+                                                          project.projectId!,
+                                                          0));
                                                 },
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -405,7 +435,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                index);
+                                                                project
+                                                                    .projectId!);
                                                           },
                                                         ),
                                                       ],
@@ -475,44 +506,113 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
   void actionMenuButtonDidTap(int id) {
     showModalBottomSheet(
       context: context,
-      builder: (context) {
-        return const SingleChildScrollView(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: Icon(Icons.view_list),
-                title: Text('View Proposals'),
-              ),
-              ListTile(
-                leading: Icon(Icons.message),
-                title: Text('View messages'),
-              ),
-              ListTile(
-                leading: Icon(Icons.person_2),
-                title: Text('View hired'),
-              ),
-              Divider(color: Colors.black, height: 10, thickness: 1),
-              ListTile(
-                leading: Icon(Icons.task),
-                title: Text('View job posting'),
-              ),
-              ListTile(
-                leading: Icon(Icons.edit),
-                title: Text('Edit posting'),
-              ),
-              ListTile(
-                leading: Icon(Icons.remove),
-                title: Text('Remove posting'),
-              ),
-              Divider(color: Colors.black, height: 10, thickness: 1),
-              ListTile(
-                leading: Icon(Icons.start),
-                title: Text('Start working this project'),
-              ),
-            ],
+      builder: (contextx) {
+        return BlocProvider.value(
+          value: BlocProvider.of<CompanyProjectBloc>(context),
+          child: SingleChildScrollView(
+            child: Wrap(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.view_list),
+                  title: Text('View Proposals'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                        CompanyProjectDetailPage.pageId,
+                        arguments: _getMap(id, 0));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.message),
+                  title: Text('View messages'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                        CompanyProjectDetailPage.pageId,
+                        arguments: _getMap(id, 2));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.person_2),
+                  title: Text('View hired'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                        CompanyProjectDetailPage.pageId,
+                        arguments: _getMap(id, 3));
+                  },
+                ),
+                Divider(color: Colors.black, height: 10, thickness: 1),
+                ListTile(
+                  leading: Icon(Icons.task),
+                  title: Text('View job posting'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                        CompanyProjectDetailPage.pageId,
+                        arguments: _getMap(id, 1));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text('Edit posting'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                        CompanyPostProjectStep1Page.pageId,
+                        arguments: _getMap(id, 1));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.remove),
+                  title: Text('Remove posting'),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (contexts) => BlocProvider.value(
+                        value: BlocProvider.of<CompanyProjectBloc>(context),
+                        child: SimpleDialog(
+                          title: const HeaderText(title: 'Delete project'),
+                          contentPadding: const EdgeInsets.all(20.0),
+                          children: [
+                            const Text(
+                                textAlign: TextAlign.left,
+                                'Do you really want to delete this project?'),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(contexts).pop();
+                                    },
+                                    child: const Text('Cancel')),
+                                TextButton(
+                                    onPressed: () {
+                                      context.read<CompanyProjectBloc>().add(
+                                          CompanyProjectDelete(projectId: id));
+                                      Navigator.of(contexts).pop();
+                                      Navigator.of(contextx).pop();
+                                    },
+                                    child: const Text('Send')),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                Divider(color: Colors.black, height: 10, thickness: 1),
+                ListTile(
+                  leading: Icon(Icons.start),
+                  title: Text('Start working this project'),
+                ),
+              ],
+            ),
           ),
         );
       },
     );
+  }
+
+  Map<String, dynamic> _getMap(int projectId, int initialDetailTab) {
+    return {"projectId": projectId, "initialDetailTab": initialDetailTab};
   }
 }

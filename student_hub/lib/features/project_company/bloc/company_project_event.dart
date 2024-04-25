@@ -45,3 +45,28 @@ class CompanyProjectGetDetail extends CompanyProjectEvent {
   }
 }
 
+class CompanyProjectUpdate extends CompanyProjectEvent {
+  Project projectUpdate;
+  CompanyProjectUpdate({
+    required this.projectUpdate
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectUpdate ${projectUpdate.toString()}";
+  }
+}
+
+class CompanyProjectDelete extends CompanyProjectEvent {
+  final int projectId;
+  CompanyProjectDelete({
+    required this.projectId
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectDelete";
+  }
+}
+
+

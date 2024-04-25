@@ -40,7 +40,10 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    int projectId = (ModalRoute.of(context)?.settings.arguments as int);
+    Map<String,dynamic> projectInfo = ModalRoute.of(context)?.settings.arguments as Map<String,dynamic>;
+    int projectId = projectInfo['projectId'];
+    int initialDetailTab = projectInfo['initialDetailTab'];
+    _tabController.index = initialDetailTab;
     if (isFirstLoad) {
       context
           .read<CompanyProjectBloc>()
@@ -109,6 +112,7 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
               children: [
                 HeaderText(title: project.title),
                 TabBar(
+                  
                   controller: _tabController,
                   tabs: const <Widget>[
                     Tab(text: 'Proposals'), // Proposals
