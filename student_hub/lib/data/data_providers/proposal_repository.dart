@@ -11,8 +11,7 @@ class ProposalRepository {
     try {
       final Uri uri =
           Uri.https(Constants.apiBaseURL, '/api/proposal/getByProjectId/$projectId');
- print(
-          "[NETWORK-GET PROPOSAL LIST] statusCode 1231");
+
       final response = await http.get(
         uri,
         headers: <String, String>{
@@ -36,4 +35,35 @@ class ProposalRepository {
       rethrow;
     }
   }
+
+Future<bool> updateStatusProposal(
+      {required Proposal proposal,
+      required String token}) async {
+    try {
+      final Uri uri =
+          Uri.https(Constants.apiBaseURL, '/api/proposal/${proposal.id}');
+
+      final response = await http.patch(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode(proposal.toJson()) 
+      );
+
+       print(
+          "[NETWORK-GET PROPOSAL LIST] statusCode${response.statusCode}");
+      print("[NETWORK-GET PROPOSAL LIST] body${jsonDecode(response.body)}");
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('[FAIL - NETWORK]Get list proposal');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

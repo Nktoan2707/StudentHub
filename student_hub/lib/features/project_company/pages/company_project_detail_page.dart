@@ -132,120 +132,178 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                           child: Text("Currently have no proposal"),
                         ),
                       if (proposals.length != 0)
-                        BlocBuilder<CompanyProposalBloc, CompanyProposalState>(
-                          builder: (contextProposal, state) {
-                            if (state is! CompanyProposalStateSuccess) {
-                              contextProposal.read<CompanyProposalBloc>().add(
-                                  CompanyProposalListFetched(
-                                      projectId: projectId));
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              );
-                              ;
-                            }
-
-                            List<Proposal> proposalList = [];
-                            state.proposalList.every((element) {
-                              if (element.statusFlag != 3) {
-                                proposalList.add(element);
-                              }
-                              return true;
-                            });
-
-                            if (proposalList.isEmpty) {
-                              return Center(
-                                child: Text("Currently have no hired"),
-                              );
-                            }
-                            return ListView.builder(
-                              itemCount: proposalList.length,
-                              itemBuilder: (context, index) {
-                                Proposal proposal = proposalList[index];
-
-                                StudentProfile student =
-                                    proposal.studentProfile!;
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(student.user!.fullname,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18)),
-                                        subtitle: Text(
-                                          student.educations.firstOrNull == null
-                                              ? "Anonymous"
-                                              : student.educations.firstOrNull!
-                                                  .schoolName,
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        leading: Image.network(
-                                            'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(student.techStack.name,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
-                                          Text('Excellent')
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(proposal.coverLetter),
-                                      const SizedBox(
-                                        height: 16,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          InkCustomButton(
-                                            title: 'Message',
-                                            width: MediaQuery.sizeOf(context)
-                                                        .width /
-                                                    2 -
-                                                32,
-                                            onTap: () {},
-                                          ),
-                                          InkCustomButton(
-                                            title: 'Hire',
-                                            width: MediaQuery.sizeOf(context)
-                                                        .width /
-                                                    2 -
-                                                32,
-                                            onTap: () {
-                                              sentHiredButtonDidTap(index);
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                      const Divider(
-                                          color: Colors.black,
-                                          height: 50,
-                                          thickness: 2),
-                                    ],
+                        BlocListener<CompanyProposalBloc, CompanyProposalState>(
+                          listener: (context, state) {
+                            if (state is CompanyProposalStateUpdateSuccess) {
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Update status proposal successfully'),
+                                    duration: Duration(seconds: 3),
                                   ),
                                 );
-                              },
-                            );
+                            }
+
+                            if (state is CompanyProposalStateUpdateFailure) {
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text('Update status proposal fail'),
+                                    duration: Duration(seconds: 3),
+                                  ),
+                                );
+                            }
                           },
+                          child: BlocBuilder<CompanyProposalBloc,
+                              CompanyProposalState>(
+                            builder: (contextProposal, state) {
+                              if (state is! CompanyProposalStateSuccess) {
+                                contextProposal.read<CompanyProposalBloc>().add(
+                                    CompanyProposalListFetched(
+                                        projectId: projectId));
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                );
+                                ;
+                              }
+
+                              List<Proposal> proposalList = [];
+                              state.proposalList.every((element) {
+                                if (element.statusFlag != 3) {
+                                  proposalList.add(element);
+                                }
+                                return true;
+                              });
+
+                              if (proposalList.isEmpty) {
+                                return Center(
+                                  child: Text("Currently have no hired"),
+                                );
+                              }
+                              return ListView.builder(
+                                itemCount: proposalList.length,
+                                itemBuilder: (context, index) {
+                                  Proposal proposal = proposalList[index];
+
+                                  StudentProfile student =
+                                      proposal.studentProfile!;
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ListTile(
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Text(student.user!.fullname,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18)),
+                                          subtitle: Text(
+                                            student.educations.firstOrNull ==
+                                                    null
+                                                ? "Anonymous"
+                                                : student.educations
+                                                    .firstOrNull!.schoolName,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                          leading: Image.network(
+                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(student.techStack.name,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14)),
+                                            Text('Excellent')
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(proposal.coverLetter),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("Proposal Status:",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14)),
+                                            const SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(getProposalStatusWithType(
+                                                proposal.statusFlag)),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            InkCustomButton(
+                                              title: 'Message',
+                                              width: proposal.statusFlag == 0
+                                                  ? MediaQuery.sizeOf(context)
+                                                          .width -
+                                                      48
+                                                  : MediaQuery.sizeOf(context)
+                                                              .width /
+                                                          2 -
+                                                      32,
+                                              onTap: () {
+                                                if (proposal.statusFlag == 0) {
+                                                  makeActiveProposal(proposal);
+                                                }
+                                              },
+                                            ),
+                                            if (proposal.statusFlag != 0)
+                                              InkCustomButton(
+                                                title: proposal.statusFlag == 2
+                                                    ? 'Sent hire offer'
+                                                    : 'Hire',
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                                .width /
+                                                            2 -
+                                                        32,
+                                                onTap: () {
+                                                  sentHiredButtonDidTap(proposal);
+                                                },
+                                              )
+                                          ],
+                                        ),
+                                        const Divider(
+                                            color: Colors.black,
+                                            height: 50,
+                                            thickness: 2),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       Column(
                         children: [
@@ -439,16 +497,6 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                                     2 -
                                                 32,
                                             onTap: () {},
-                                          ),
-                                          InkCustomButton(
-                                            title: 'Hire',
-                                            width: MediaQuery.sizeOf(context)
-                                                        .width /
-                                                    2 -
-                                                32,
-                                            onTap: () {
-                                              sentHiredButtonDidTap(index);
-                                            },
                                           )
                                         ],
                                       ),
@@ -474,36 +522,110 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
     );
   }
 
-  void sentHiredButtonDidTap(int id) {
+  void makeActiveProposal(Proposal proposal) {
     showDialog(
       context: context,
-      builder: (context) => SimpleDialog(
-        title: const HeaderText(title: 'Hired offer'),
-        contentPadding: const EdgeInsets.all(20.0),
-        children: [
-          const Text(
-              textAlign: TextAlign.left,
-              'Do you really want to send hired offer for student to do this project?'),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel')),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Send')),
-            ],
-          )
-        ],
+      builder: (contextDialog) => BlocProvider.value(
+        value: BlocProvider.of<CompanyProposalBloc>(context),
+        child: SimpleDialog(
+          title: const HeaderText(title: 'Make contact'),
+          contentPadding: const EdgeInsets.all(20.0),
+          children: [
+            const Text(
+                textAlign: TextAlign.left,
+                'Do you really want to make contact with this proposal'),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(contextDialog).pop();
+                    },
+                    child: const Text('Cancel')),
+                TextButton(
+                    onPressed: () {
+                      proposal.statusFlag = 1;
+                      context.read<CompanyProposalBloc>().add(
+                          CompanyProposalUpdated(updatedProposal: proposal));
+                      Navigator.of(contextDialog).pop();
+                    },
+                    child: const Text('Send')),
+              ],
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void sentHiredButtonDidTap(Proposal proposal) {
+    if (proposal.statusFlag == 1) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => BlocProvider.value(
+         value: BlocProvider.of<CompanyProposalBloc>(context),
+        child: SimpleDialog(
+          title: const HeaderText(title: 'Hired offer'),
+          contentPadding: const EdgeInsets.all(20.0),
+          children: [
+            const Text(
+                textAlign: TextAlign.left,
+                'Do you really want to send hired offer for student to do this project?'),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel')),
+                TextButton(
+                    onPressed: () {
+                      proposal.statusFlag = 2;
+                      context.read<CompanyProposalBloc>().add(
+                          CompanyProposalUpdated(updatedProposal: proposal));
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Send')),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+    } else {
+      showDialog(
+      context: context,
+      builder: (dialogContext) => BlocProvider.value(
+         value: BlocProvider.of<CompanyProposalBloc>(context),
+        child: SimpleDialog(
+          title: const HeaderText(title: 'Sent hire offer'),
+          contentPadding: const EdgeInsets.all(20.0),
+          children: [
+            const Text(
+                textAlign: TextAlign.left,
+                'You already sent hire offer for this proposal. Please wait for employee reply.'),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Close')),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+    }
   }
 
   String getTimeTextProjectScope(ProjectScopeFlag projectScopeFlag) {
@@ -519,6 +641,25 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
 
       case ProjectScopeFlag.MoreThanSixMOnth:
         return "> 6 months";
+
+      default:
+        return 'Unknown';
+    }
+  }
+
+  String getProposalStatusWithType(int type) {
+    switch (type) {
+      case 0:
+        return "Waiting";
+
+      case 1:
+        return "Active";
+
+      case 2:
+        return "Sent Offer";
+
+      case 3:
+        return "Working";
 
       default:
         return 'Unknown';

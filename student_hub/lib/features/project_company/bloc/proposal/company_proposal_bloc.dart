@@ -50,6 +50,23 @@ class CompanyProposalBloc
     }
   }
 
-  FutureOr<void> _onCompanyProposalUpdated(CompanyProposalUpdated event, Emitter<CompanyProposalState> emit) {
+  FutureOr<void> _onCompanyProposalUpdated(CompanyProposalUpdated event, Emitter<CompanyProposalState> emit) async {
+    emit(CompanyProposalStateInProgress());
+    try {
+      await _proposalRepository
+          .updateStatusProposal(
+              proposal: event.updatedProposal,
+              token: _authenticationRepository.token)
+          .then((value) {
+        if (value != true) {
+          emit(CompanyProposalStateUpdateFailure());
+          return;
+        }
+        emit(CompanyProposalStateUpdateSuccess());
+      });
+    } catch (e) {
+      print(e);
+      emit(CompanyProposalStateUpdateFailure());
+    }
   }
 }

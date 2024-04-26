@@ -32,3 +32,9 @@ class CompanyProposalStateSuccess extends CompanyProposalState {
 class CompanyProposalStateFailure extends CompanyProposalState {
 
 }
+
+class CompanyProposalStateUpdateFailure extends CompanyProposalState {
+}
+
+class CompanyProposalStateUpdateSuccess extends CompanyProposalState {
+}

@@ -211,8 +211,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                project
-                                                                    .projectId!);
+                                                                project);
                                                           },
                                                         ),
                                                       ],
@@ -324,8 +323,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                project
-                                                                    .projectId!);
+                                                                project);
                                                           },
                                                         ),
                                                       ],
@@ -435,8 +433,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                               Icons.more_horiz),
                                                           onPressed: () {
                                                             actionMenuButtonDidTap(
-                                                                project
-                                                                    .projectId!);
+                                                                project);
                                                           },
                                                         ),
                                                       ],
@@ -503,7 +500,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
     Navigator.of(context).pushNamed(CompanyPostProjectStep1Page.pageId);
   }
 
-  void actionMenuButtonDidTap(int id) {
+  void actionMenuButtonDidTap(Project project) {
+    int id = project.projectId!;
     showModalBottomSheet(
       context: context,
       builder: (contextx) {
@@ -603,6 +601,37 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                 ListTile(
                   leading: Icon(Icons.start),
                   title: Text('Start working this project'),
+                  onTap: () {
+                    if (project.numberOfStudents != project.countHired) {
+                      showDialog(
+                        context: context,
+                        builder: (contexts) => BlocProvider.value(
+                          value: BlocProvider.of<CompanyProjectBloc>(context),
+                          child: SimpleDialog(
+                            title: const HeaderText(title: 'Information'),
+                            contentPadding: const EdgeInsets.all(20.0),
+                            children: [
+                              const Text(
+                                  textAlign: TextAlign.left,
+                                  'Please checking again your hired student and your require student on this project'),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(contexts).pop();
+                                      },
+                                      child: const Text('Close')),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
