@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
+import 'package:student_hub/data/data_providers/proposal_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/data/models/domain/user.dart';
@@ -15,6 +16,7 @@ import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.d
 
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
+import 'package:student_hub/features/project_company/bloc/proposal/company_proposal_bloc.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_page.dart';
@@ -51,6 +53,7 @@ class AppRouter {
   final CompanyProjectBloc _companyProjectEditBloc;
   final ProjectStudentBloc _projectStudentBloc;
   final StudentProfileBloc _studentProfileBloc;
+  final CompanyProposalBloc _companyProposalBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -79,6 +82,10 @@ class AppRouter {
             userRepository: UserRepository()),
         _studentProfileBloc = StudentProfileBloc(
             studentRepository: StudentRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
+        _companyProposalBloc = CompanyProposalBloc(
+            proposalRepository: ProposalRepository(),
             userRepository: UserRepository(),
             authenticationRepository: authenticationRepository);
 
@@ -162,9 +169,14 @@ class AppRouter {
                 child: const CompanyDashboardPage()));
       case CompanyProjectDetailPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                value: _companyProjectDetailBloc,
-                child: const CompanyProjectDetailPage()),
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(
+                    value: _companyProjectDetailBloc,
+                  ),
+                  BlocProvider.value(
+                    value: _companyProposalBloc,
+                  ),
+                ], child: const CompanyProjectDetailPage()),
             settings: settings);
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(

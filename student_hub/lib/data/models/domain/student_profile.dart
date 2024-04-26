@@ -1,5 +1,8 @@
 import 'dart:ffi';
 
+import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/data/models/domain/user.dart';
+
 class StudentProfile {
   int id;
   String createdAt;
@@ -15,6 +18,7 @@ class StudentProfile {
   List<Language> languages;
   List<Experience> experiences;
   List<SkillSet> skillSets;
+  User? user;
 
   StudentProfile({
     required this.id,
@@ -31,6 +35,7 @@ class StudentProfile {
     required this.languages,
     required this.experiences,
     required this.skillSets,
+    required this.user
   });
 
   Map<String, dynamic> toMap() {
@@ -44,15 +49,17 @@ class StudentProfile {
       'resume': this.resume,
       'transcript': this.transcript,
       'techStack': this.techStack.toMap(),
-      'proposals': this.proposals.map((e) => e.toMap()).toList(),
-      'educations': this.educations.map((e) => e.toMap()).toList(),
-      'languages': this.languages.map((e) => e.toMap()).toList(),
-      'experiences': this.experiences.map((e) => e.toMap()).toList(),
-      'skillSets': this.skillSets.map((e) => e.toMap()).toList(),
+      'proposals': this.proposals?.map((e) => e.toJson()).toList(),
+      'educations': this.educations?.map((e) => e.toMap()).toList(),
+      'languages': this.languages?.map((e) => e.toMap()).toList(),
+      'experiences': this.experiences?.map((e) => e.toMap()).toList(),
+      'skillSets': this.skillSets?.map((e) => e.toMap()).toList(),
+      'user': this.user == null ? null : this.user
     };
   }
 
   factory StudentProfile.fromMap(Map<String, dynamic> map) {
+    print(map);
     return StudentProfile(
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
@@ -64,18 +71,32 @@ class StudentProfile {
       transcript:
           map['transcript'] == null ? null : map['transcript'] as String,
       techStack: TechStack.fromMap(map['techStack']),
-      proposals:
-          List.from(map['proposals']).map((e) => Proposal.fromMap(e)).toList(),
-      educations: List.from(map['educations'])
-          .map((e) => Education.fromMap(e))
-          .toList(),
-      languages:
-          List.from(map['languages']).map((e) => Language.fromMap(e)).toList(),
-      experiences: List.from(map['experiences'])
-          .map((e) => Experience.fromMap(e))
-          .toList(),
-      skillSets:
-          List.from(map['skillSets']).map((e) => SkillSet.fromMap(e)).toList(),
+      proposals: map['proposals'] == null
+          ? []
+          : List.from(map['proposals'])
+              .map((e) => Proposal.fromJson(e))
+              .toList(),
+      educations: map['educations'] == null
+          ? []
+          : List.from(map['educations'])
+              .map((e) => Education.fromMap(e))
+              .toList(),
+      languages: map['languages'] == null
+          ? []
+          : List.from(map['languages'])
+              .map((e) => Language.fromMap(e))
+              .toList(),
+      experiences: map['experiences'] == null
+          ? []
+          : List.from(map['experiences'])
+              .map((e) => Experience.fromMap(e))
+              .toList(),
+      skillSets: map['skillSets'] == null
+          ? []
+          : List.from(map['skillSets'])
+              .map((e) => SkillSet.fromMap(e))
+              .toList(),
+      user: map['user'] == null ? null : User.fromMap(map['user']) 
     );
   }
 }
@@ -116,57 +137,58 @@ class TechStack {
   }
 }
 
-class Proposal {
-  int id;
-  String createdAt;
-  String updatedAt;
-  String? deletedAt;
-  int projectId;
-  int studentId;
-  String coverLetter;
-  int statusFlag;
-  int disableFlag;
+// Long note: Dùng Proposal bên Project
+// class Proposal {
+//   int id;
+//   String createdAt;
+//   String updatedAt;
+//   String? deletedAt;
+//   int projectId;
+//   int studentId;
+//   String coverLetter;
+//   int statusFlag;
+//   int disableFlag;
 
-  Proposal({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.projectId,
-    required this.studentId,
-    required this.coverLetter,
-    required this.statusFlag,
-    required this.disableFlag,
-  });
+//   Proposal({
+//     required this.id,
+//     required this.createdAt,
+//     required this.updatedAt,
+//     required this.deletedAt,
+//     required this.projectId,
+//     required this.studentId,
+//     required this.coverLetter,
+//     required this.statusFlag,
+//     required this.disableFlag,
+//   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': this.id,
-      'createdAt': this.createdAt,
-      'updatedAt': this.updatedAt,
-      'deletedAt': this.deletedAt,
-      'projectId': this.projectId,
-      'studentId': this.studentId,
-      'coverLetter': this.coverLetter,
-      'statusFlag': this.statusFlag,
-      'disableFlag': this.disableFlag,
-    };
-  }
+//   Map<String, dynamic> toMap() {
+//     return {
+//       'id': this.id,
+//       'createdAt': this.createdAt,
+//       'updatedAt': this.updatedAt,
+//       'deletedAt': this.deletedAt,
+//       'projectId': this.projectId,
+//       'studentId': this.studentId,
+//       'coverLetter': this.coverLetter,
+//       'statusFlag': this.statusFlag,
+//       'disableFlag': this.disableFlag,
+//     };
+//   }
 
-  factory Proposal.fromMap(Map<String, dynamic> map) {
-    return Proposal(
-      id: map['id'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
-      deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
-      projectId: map['projectId'] as int,
-      studentId: map['studentId'] as int,
-      coverLetter: map['coverLetter'] as String,
-      statusFlag: map['statusFlag'] as int,
-      disableFlag: map['disableFlag'] as int,
-    );
-  }
-}
+//   factory Proposal.fromMap(Map<String, dynamic> map) {
+//     return Proposal(
+//       id: map['id'] as int,
+//       createdAt: map['createdAt'] as String,
+//       updatedAt: map['updatedAt'] as String,
+//       deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
+//       projectId: map['projectId'] as int,
+//       studentId: map['studentId'] as int,
+//       coverLetter: map['coverLetter'] as String,
+//       statusFlag: map['statusFlag'] as int,
+//       disableFlag: map['disableFlag'] as int,
+//     );
+//   }
+// }
 
 class Education {
   int id;

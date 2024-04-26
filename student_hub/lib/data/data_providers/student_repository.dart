@@ -46,7 +46,7 @@ class StudentRepository {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
-        body: {"techStackId": 1, "skillSets": []},
+        body: jsonEncode({"techStackId": 1, "skillSets": []}),
       );
       print(response.body);
       if (response.statusCode == 201) {

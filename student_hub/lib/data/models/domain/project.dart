@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/data/models/domain/student_profile.dart';
 
 class Project {
   int? projectId;
@@ -119,6 +120,7 @@ class Proposal {
   String coverLetter;
   int statusFlag;
   int disableFlag;
+  StudentProfile? studentProfile;
 
   Proposal({
     required this.id,
@@ -130,6 +132,7 @@ class Proposal {
     required this.coverLetter,
     required this.statusFlag,
     required this.disableFlag,
+    required this.studentProfile
   });
 
   factory Proposal.fromJson(Map<String, dynamic> json) => Proposal(
@@ -142,6 +145,7 @@ class Proposal {
         coverLetter: json["coverLetter"],
         statusFlag: json["statusFlag"],
         disableFlag: json["disableFlag"],
+        studentProfile: json["student"] == null ? null : StudentProfile.fromMap(json["student"]) 
       );
 
   Map<String, dynamic> toJson() => {
@@ -154,5 +158,6 @@ class Proposal {
         "coverLetter": coverLetter,
         "statusFlag": statusFlag,
         "disableFlag": disableFlag,
+        "student": studentProfile?.toMap()
       };
 }
