@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/bloc/dashboard_student_accept_proposal_bloc.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/submit_proposal_student/pages/student_submit_proposal_page.dart';
 import 'package:student_hub/widgets/components/ink_custom_button.dart';
 
-class StudentProjectDetailPage extends StatefulWidget {
-  static const String pageId = "/StudentProjectDetailPage";
+class DashboardStudentAcceptPage extends StatefulWidget {
+  static const String pageId = "/DashboardStudentAcceptPage";
 
-  const StudentProjectDetailPage({super.key});
+  const DashboardStudentAcceptPage({super.key});
 
   @override
-  State<StudentProjectDetailPage> createState() =>
-      _StudentProjectDetailPageState();
+  State<DashboardStudentAcceptPage> createState() =>
+      _DashboardStudentAcceptPageState();
 }
 
-class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
-  late Project project;
-  late String? parentPageId;
+class _DashboardStudentAcceptPageState
+    extends State<DashboardStudentAcceptPage> {
+  late Proposal proposal;
 
   @override
   Widget build(BuildContext context) {
-    project = (ModalRoute.of(context)?.settings.arguments as List)[0];
-    parentPageId = (ModalRoute.of(context)?.settings.arguments as List)[1];
+    proposal = ModalRoute.of(context)?.settings.arguments as Proposal;
 
-    return BlocListener<ProjectStudentBloc, ProjectStudentState>(
+    return BlocListener<DashboardStudentAcceptProposalBloc,
+        DashboardStudentAcceptProposalState>(
       listener: (context, state) {
-        if (state is ProjectStudentUpdateSuccess) {}
+        if (state is DashboardStudentAcceptAcceptSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Submit Proposal Success!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.of(context).pop();
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -38,41 +47,31 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
           ),
           elevation: 0,
           title: const Text(
-            'Project Detail',
+            'Offer Project',
             style: TextStyle(fontSize: 25, color: Colors.black),
           ),
           centerTitle: false,
           backgroundColor: Colors.grey,
           iconTheme: const IconThemeData(color: Colors.black),
         ),
-        bottomNavigationBar: Container(
-          margin: const EdgeInsets.all(30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkCustomButton(
-                onTap: () {
-                  _onApplyButtonClicked();
-                },
-                title: "Apply Now",
-                height: 50,
-                width: (MediaQuery.of(context).size.width / 3),
-              ),
-              InkCustomButton(
-                onTap: () {
-                  Navigator.pop(context);
-                  context.read<ProjectStudentBloc>().add(ProjectStudentUpdated(
-                      projectId: project.projectId!,
-                      isDisabled: project.isFavorite,
-                      callerPageId: parentPageId));
-                },
-                title: project.isFavorite ? "Unsave" : "Save",
-                height: 50,
-                width: (MediaQuery.of(context).size.width / 3),
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: proposal.statusFlag == 2
+            ? Container(
+                margin: const EdgeInsets.all(30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkCustomButton(
+                      onTap: () {
+                        _onAcceptButtonClicked();
+                      },
+                      title: "Accept Offer",
+                      height: 50,
+                      width: (MediaQuery.of(context).size.width / 3),
+                    ),
+                  ],
+                ),
+              )
+            : null,
         body: Container(
           margin: const EdgeInsets.all(30),
           child: Row(
@@ -81,26 +80,26 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(project.title),
+                    Text(proposal.project!.title),
                     const Divider(
                       thickness: 3,
                       height: 30,
                     ),
-                    Text(project.description),
+                    Text(proposal.project!.description),
                     const Divider(
                       thickness: 3,
                       height: 30,
                     ),
                     ListTile(
                       title: Text(
-                          "Project Scope: \n \t \t - ${project.projectScopeFlag}"),
+                          "Project Scope: \n \t \t - ${proposal.project!.projectScopeFlag}"),
                       leading: const Icon(Icons.timer_outlined),
                       minLeadingWidth: 0,
                       contentPadding: EdgeInsets.zero,
                     ),
                     ListTile(
                       title: Text(
-                          "Student Required: \n \t \t - ${project.numberOfStudents} students"),
+                          "Student Required: \n \t \t - ${proposal.project!.numberOfStudents} students"),
                       leading: const Icon(Icons.people_rounded),
                       minLeadingWidth: 0,
                       contentPadding: EdgeInsets.zero,
@@ -115,8 +114,10 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
     );
   }
 
-  void _onApplyButtonClicked() {
-    Navigator.of(context).pushNamed(StudentSubmitProposalPage.pageId,
-        arguments: project.projectId);
+  void _onAcceptButtonClicked() {
+    proposal.statusFlag = 3;
+    context
+        .read<DashboardStudentAcceptProposalBloc>()
+        .add(DashboardStudentAcceptProposalAccepted(proposal: proposal));
   }
 }

@@ -9,6 +9,9 @@ import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
+import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/bloc/dashboard_student_accept_proposal_bloc.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/pages/dashboard_student_accept_page.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
@@ -36,12 +39,13 @@ import 'package:student_hub/features/project_company/pages/company_post_project_
 import 'package:student_hub/features/project_company/pages/company_post_project_step_3_page.dart';
 import 'package:student_hub/features/project_company/pages/company_post_project_step_4_page.dart';
 import 'package:student_hub/features/project_company/pages/company_project_detail_page.dart';
-import 'package:student_hub/features/project_student/pages/student_dashboard_page.dart';
+import 'package:student_hub/features/dashboard_student/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_saved_project_list_page.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
-import 'package:student_hub/features/project_student/pages/student_submit_proposal_page.dart';
+import 'package:student_hub/features/submit_proposal_student/bloc/submit_proposal_student_bloc.dart';
+import 'package:student_hub/features/submit_proposal_student/pages/student_submit_proposal_page.dart';
 import 'package:student_hub/widgets/pages/splash_page.dart';
 
 class AppRouter {
@@ -54,6 +58,9 @@ class AppRouter {
   final ProjectStudentBloc _projectStudentBloc;
   final StudentProfileBloc _studentProfileBloc;
   final CompanyProposalBloc _companyProposalBloc;
+  final SubmitProposalStudentBloc _submitProposalStudent;
+  final DashboardStudentBloc _dashboardStudentBloc;
+  final DashboardStudentAcceptProposalBloc _dashboardStudentAcceptProposalBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -87,7 +94,20 @@ class AppRouter {
         _companyProposalBloc = CompanyProposalBloc(
             proposalRepository: ProposalRepository(),
             userRepository: UserRepository(),
-            authenticationRepository: authenticationRepository);
+            authenticationRepository: authenticationRepository),
+        _submitProposalStudent = SubmitProposalStudentBloc(
+            proposalRepository: ProposalRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
+        _dashboardStudentBloc = DashboardStudentBloc(
+            proposalRepository: ProposalRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
+        _dashboardStudentAcceptProposalBloc =
+            DashboardStudentAcceptProposalBloc(
+                proposalRepository: ProposalRepository(),
+                userRepository: UserRepository(),
+                authenticationRepository: authenticationRepository);
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -161,6 +181,9 @@ class AppRouter {
                   BlocProvider.value(
                     value: _companyProjectBloc,
                   ),
+                  BlocProvider.value(
+                    value: _dashboardStudentBloc,
+                  ),
                 ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:
         return MaterialPageRoute(
@@ -227,9 +250,21 @@ class AppRouter {
                 child: const StudentSearchedProjectListPage()));
       case StudentSubmitProposalPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => const StudentSubmitProposalPage());
+            builder: (_) => BlocProvider.value(
+                value: _submitProposalStudent,
+                child: const StudentSubmitProposalPage()),
+            settings: settings);
       case StudentDashboardPage.pageId:
-        return MaterialPageRoute(builder: (_) => const StudentDashboardPage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _dashboardStudentBloc,
+                child: const StudentDashboardPage()));
+      case DashboardStudentAcceptPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _dashboardStudentAcceptProposalBloc,
+                child: const DashboardStudentAcceptPage()),
+            settings: settings);
 
       //Feature Message
       case TabMessagePage.pageId:
