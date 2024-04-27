@@ -115,7 +115,7 @@ class CompanyProjectBloc
     event.projectUpdate.updatedAt = DateTime.now().toString();
     try {
       await _projectRepository
-          .createProject(
+          .updateProject(
               user: await _userRepository
                   .getCurrentUser(_authenticationRepository.token),
               project: event.projectUpdate,

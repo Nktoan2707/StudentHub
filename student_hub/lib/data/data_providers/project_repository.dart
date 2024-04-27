@@ -64,7 +64,7 @@ class ProjectRepository {
       {required User user,
       required Project project,
       required String token}) async {
-    final Uri uri = Uri.https(Constants.apiBaseURL, '/api/project');
+    final Uri uri = Uri.https(Constants.apiBaseURL, '/api/project/${project.projectId}');
     final response = await http.patch(uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -77,7 +77,7 @@ class ProjectRepository {
     print("[NETWORK-UPDATE PROJECT] statusCode${response.statusCode}");
     print("[NETWORK-UPDATE PROJECT] body${response.body}");
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return true;
     } else {
       throw Exception('[FAIL - NETWORK]Update Project');

@@ -137,59 +137,6 @@ class TechStack {
   }
 }
 
-// Long note: Dùng Proposal bên Project
-// class Proposal {
-//   int id;
-//   String createdAt;
-//   String updatedAt;
-//   String? deletedAt;
-//   int projectId;
-//   int studentId;
-//   String coverLetter;
-//   int statusFlag;
-//   int disableFlag;
-
-//   Proposal({
-//     required this.id,
-//     required this.createdAt,
-//     required this.updatedAt,
-//     required this.deletedAt,
-//     required this.projectId,
-//     required this.studentId,
-//     required this.coverLetter,
-//     required this.statusFlag,
-//     required this.disableFlag,
-//   });
-
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'id': this.id,
-//       'createdAt': this.createdAt,
-//       'updatedAt': this.updatedAt,
-//       'deletedAt': this.deletedAt,
-//       'projectId': this.projectId,
-//       'studentId': this.studentId,
-//       'coverLetter': this.coverLetter,
-//       'statusFlag': this.statusFlag,
-//       'disableFlag': this.disableFlag,
-//     };
-//   }
-
-//   factory Proposal.fromMap(Map<String, dynamic> map) {
-//     return Proposal(
-//       id: map['id'] as int,
-//       createdAt: map['createdAt'] as String,
-//       updatedAt: map['updatedAt'] as String,
-//       deletedAt: map['deletedAt'] == null ? null : map['deletedAt'] as String,
-//       projectId: map['projectId'] as int,
-//       studentId: map['studentId'] as int,
-//       coverLetter: map['coverLetter'] as String,
-//       statusFlag: map['statusFlag'] as int,
-//       disableFlag: map['disableFlag'] as int,
-//     );
-//   }
-// }
-
 class Education {
   int id;
   String createdAt;

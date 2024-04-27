@@ -52,6 +52,9 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
       context
           .read<CompanyProjectBloc>()
           .add(CompanyProjectGetDetail(projectId: projectId));
+      context
+          .read<CompanyProposalBloc>()
+          .add(CompanyProposalListFetched(projectId: projectId));
       isFirstLoad = false;
     }
 
@@ -288,7 +291,8 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                                             2 -
                                                         32,
                                                 onTap: () {
-                                                  sentHiredButtonDidTap(proposal);
+                                                  sentHiredButtonDidTap(
+                                                      proposal);
                                                 },
                                               )
                                           ],
@@ -562,69 +566,69 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
 
   void sentHiredButtonDidTap(Proposal proposal) {
     if (proposal.statusFlag == 1) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => BlocProvider.value(
-         value: BlocProvider.of<CompanyProposalBloc>(context),
-        child: SimpleDialog(
-          title: const HeaderText(title: 'Hired offer'),
-          contentPadding: const EdgeInsets.all(20.0),
-          children: [
-            const Text(
-                textAlign: TextAlign.left,
-                'Do you really want to send hired offer for student to do this project?'),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel')),
-                TextButton(
-                    onPressed: () {
-                      proposal.statusFlag = 2;
-                      context.read<CompanyProposalBloc>().add(
-                          CompanyProposalUpdated(updatedProposal: proposal));
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Send')),
-              ],
-            )
-          ],
+      showDialog(
+        context: context,
+        builder: (dialogContext) => BlocProvider.value(
+          value: BlocProvider.of<CompanyProposalBloc>(context),
+          child: SimpleDialog(
+            title: const HeaderText(title: 'Hired offer'),
+            contentPadding: const EdgeInsets.all(20.0),
+            children: [
+              const Text(
+                  textAlign: TextAlign.left,
+                  'Do you really want to send hired offer for student to do this project?'),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
+                      onPressed: () {
+                        proposal.statusFlag = 2;
+                        context.read<CompanyProposalBloc>().add(
+                            CompanyProposalUpdated(updatedProposal: proposal));
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Send')),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
     } else {
       showDialog(
-      context: context,
-      builder: (dialogContext) => BlocProvider.value(
-         value: BlocProvider.of<CompanyProposalBloc>(context),
-        child: SimpleDialog(
-          title: const HeaderText(title: 'Sent hire offer'),
-          contentPadding: const EdgeInsets.all(20.0),
-          children: [
-            const Text(
-                textAlign: TextAlign.left,
-                'You already sent hire offer for this proposal. Please wait for employee reply.'),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Close')),
-              ],
-            )
-          ],
+        context: context,
+        builder: (dialogContext) => BlocProvider.value(
+          value: BlocProvider.of<CompanyProposalBloc>(context),
+          child: SimpleDialog(
+            title: const HeaderText(title: 'Sent hire offer'),
+            contentPadding: const EdgeInsets.all(20.0),
+            children: [
+              const Text(
+                  textAlign: TextAlign.left,
+                  'You already sent hire offer for this proposal. Please wait for employee reply.'),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Close')),
+                ],
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
     }
   }
 
