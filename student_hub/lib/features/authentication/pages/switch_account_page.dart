@@ -85,7 +85,31 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                         ListTile(
                           leading: const Icon(Icons.settings),
                           title: const Text("Setting"),
-                          onTap: () {},
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Settings'),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: <Widget>[
+                                        SettingsWidget(), // Embedding the settings widget
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Close'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                         ),
                         ListTile(
                           leading: const Icon(Icons.logout),
@@ -167,6 +191,54 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
           ],
         );
       },
+    );
+  }
+}
+
+class SettingsWidget extends StatefulWidget {
+  const SettingsWidget({super.key});
+
+  @override
+  State<SettingsWidget> createState() => _SettingsWidgetState();
+}
+
+class _SettingsWidgetState extends State<SettingsWidget> {
+  bool isDarkMode = false; 
+  String currentLanguage = 'English';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SwitchListTile(
+          title: Text('Dark Mode'),
+          value: isDarkMode,
+          onChanged: (bool value) {
+            setState(() {
+              isDarkMode = value;
+            });
+          },
+        ),
+        ListTile(
+          title: Text('Language'),
+          trailing: DropdownButton<String>(
+            value: currentLanguage,
+            onChanged: (String? newValue) {
+              setState(() {
+                currentLanguage = newValue!;
+              });
+            },
+            items: <String>['English', 'French', 'Vietnamese']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
