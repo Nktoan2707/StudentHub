@@ -68,7 +68,7 @@ class Project {
         description: map['description'] as String,
         numberOfStudents: map['numberOfStudents'] as int,
         typeFlag: map['typeFlag'] == null ? null : map['typeFlag'] as int,
-        countProposals: map['countProposals'] as int,
+        countProposals: map['countProposals'] == null ? -1 : map['countProposals'] as int,
         isFavorite:
             map['isFavorite'] == null ? false : map['isFavorite'] as bool,
         countHired: map['countHired'] == null ? null : map['countHired'] as int,
@@ -98,13 +98,16 @@ class Project {
     description = json['description'] as String;
     numberOfStudents = json['numberOfStudents'] as int;
     typeFlag = json['typeFlag'] == null ? null : json['typeFlag'] as int;
-    countProposals = json['countProposals'] as int;
+    countProposals =
+        json['countProposals'] == null ? -1 : json['countProposals'] as int;
     isFavorite =
         json['isFavorite'] == null ? false : json['isFavorite'] as bool;
     countHired = json['countHired'] == null ? null : json['countHired'] as int;
     countMessages =
         json['countMessages'] == null ? null : json['countMessages'] as int;
-        proposals =  json['proposals'] == null ? null : List.from(json['proposals'])
+    proposals = json['proposals'] == null
+        ? null
+        : List.from(json['proposals'])
             .map((e) => Proposal.fromJson(e))
             .toList();
   }
@@ -121,32 +124,36 @@ class Proposal {
   int statusFlag;
   int disableFlag;
   StudentProfile? studentProfile;
+  Project? project;
 
-  Proposal({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.projectId,
-    required this.studentId,
-    required this.coverLetter,
-    required this.statusFlag,
-    required this.disableFlag,
-    required this.studentProfile
-  });
+  Proposal(
+      {required this.id,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.deletedAt,
+      required this.projectId,
+      required this.studentId,
+      required this.coverLetter,
+      required this.statusFlag,
+      required this.disableFlag,
+      required this.studentProfile,
+      this.project});
 
   factory Proposal.fromJson(Map<String, dynamic> json) => Proposal(
-        id: json["id"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        deletedAt: json["deletedAt"],
-        projectId: json["projectId"],
-        studentId: json["studentId"],
-        coverLetter: json["coverLetter"],
-        statusFlag: json["statusFlag"],
-        disableFlag: json["disableFlag"],
-        studentProfile: json["student"] == null ? null : StudentProfile.fromMap(json["student"]) 
-      );
+      id: json["id"],
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
+      deletedAt: json["deletedAt"],
+      projectId: json["projectId"],
+      studentId: json["studentId"],
+      coverLetter: json["coverLetter"],
+      statusFlag: json["statusFlag"],
+      disableFlag: json["disableFlag"],
+      studentProfile: json["student"] == null
+          ? null
+          : StudentProfile.fromMap(json["student"]),
+      project:
+          json["project"] == null ? null : Project.fromMap(json["project"]));
 
   Map<String, dynamic> toJson() => {
         "id": id,

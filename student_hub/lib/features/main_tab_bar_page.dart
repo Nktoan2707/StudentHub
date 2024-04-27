@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
+import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
 import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
-import 'package:student_hub/features/project_student/pages/student_dashboard_page.dart';
+import 'package:student_hub/features/dashboard_student/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
 
 import 'package:student_hub/widgets/components/ui_extension.dart';
@@ -38,6 +39,7 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
       body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is AuthenticationAuthenticateSuccess) {
+            context.read<DashboardStudentBloc>().add(DashboardStudentFetched());
             return IndexedStack(
               index: _currentIndex,
               children: [
