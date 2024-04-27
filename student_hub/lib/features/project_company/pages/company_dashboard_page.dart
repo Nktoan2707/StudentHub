@@ -157,8 +157,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 0, 16, 8),
+                              
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.black,
@@ -188,55 +187,59 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                           project.projectId!,
                                                           0));
                                                 },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          project.title,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14),
-                                                          maxLines: 2,
-                                                        ),
-                                                        IconButton(
-                                                          icon: Icon(
-                                                              Icons.more_horiz),
-                                                          onPressed: () {
-                                                            actionMenuButtonDidTap(
-                                                                project);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Text(project.description),
-                                                    const SizedBox(
-                                                      height: 24,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            '${project.countProposals} Proposals'),
-                                                        Text(
-                                                            '${project.countMessages} Messages'),
-                                                        Text(
-                                                            '${project.countHired} Hired'),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                child: Padding(
+                                                  padding: const EdgeInsets.fromLTRB(
+                                          16, 0, 16, 8),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            project.title,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14),
+                                                            maxLines: 2,
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.more_horiz),
+                                                            onPressed: () {
+                                                              actionMenuButtonDidTap(
+                                                                  project);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      Text(project.description),
+                                                      const SizedBox(
+                                                        height: 24,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              '${project.countProposals} Proposals'),
+                                                          Text(
+                                                              '${project.countMessages} Messages'),
+                                                          Text(
+                                                              '${project.countHired} Hired'),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -246,7 +249,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                               return const Divider(
                                                 color: Colors.grey,
                                                 thickness: 3,
-                                                height: 50,
+                                                height: 10,
                                               );
                                             },
                                           ),
@@ -265,104 +268,105 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 0, 16, 8),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.black,
                                             style: BorderStyle.solid),
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ListView.separated(
-                                            scrollDirection: Axis.vertical,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: listProject.length,
-                                            itemBuilder: (context, index) {
-                                              Project project =
-                                                  listProject[index];
-                                              if (project.typeFlag != 0) {
-                                                return null;
-                                              }
-
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).pushNamed(
-                                                      CompanyProjectDetailPage
-                                                          .pageId,
-                                                      arguments: _getMap(
-                                                          project.projectId!,
-                                                          0));
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          project.title,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14),
-                                                          maxLines: 2,
-                                                        ),
-                                                        IconButton(
-                                                          icon: const Icon(
-                                                              Icons.more_horiz),
-                                                          onPressed: () {
-                                                            actionMenuButtonDidTap(
-                                                                project);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Text(project.description),
-                                                    const SizedBox(
-                                                      height: 24,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            '${project.countProposals} Proposals'),
-                                                        Text(
-                                                            '${project.countMessages} Messages'),
-                                                        Text(
-                                                            '${project.countHired} Hired'),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                            separatorBuilder:
-                                                (BuildContext context,
-                                                    int index) {
-                                              return const Divider(
-                                                color: Colors.grey,
-                                                thickness: 3,
-                                                height: 50,
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListView.separated(
+                                              scrollDirection: Axis.vertical,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: listProject.length,
+                                              itemBuilder: (context, index) {
+                                                Project project =
+                                                    listProject[index];
+                                                if (project.typeFlag != 0) {
+                                                  return null;
+                                                }
+                                        
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).pushNamed(
+                                                        CompanyProjectDetailPage
+                                                            .pageId,
+                                                        arguments: _getMap(
+                                                            project.projectId!,
+                                                            0));
+                                                  },
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            project.title,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14),
+                                                            maxLines: 2,
+                                                          ),
+                                                          IconButton(
+                                                            icon: const Icon(
+                                                                Icons.more_horiz),
+                                                            onPressed: () {
+                                                              actionMenuButtonDidTap(
+                                                                  project);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      Text(project.description),
+                                                      const SizedBox(
+                                                        height: 24,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              '${project.countProposals} Proposals'),
+                                                          Text(
+                                                              '${project.countMessages} Messages'),
+                                                          Text(
+                                                              '${project.countHired} Hired'),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return const Divider(
+                                                  color: Colors.grey,
+                                                  thickness: 3,
+                                                  height: 50,
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -377,102 +381,103 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                 child: Column(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 0, 16, 8),
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.black,
                                             style: BorderStyle.solid),
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ListView.separated(
-                                            scrollDirection: Axis.vertical,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                listArchiveProject.length,
-                                            itemBuilder: (context, index) {
-                                              Project project =
-                                                  listProject[index];
-
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).pushNamed(
-                                                      CompanyProjectDetailPage
-                                                          .pageId,
-                                                      arguments: _getMap(
-                                                          project.projectId!,
-                                                          0));
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          project.title,
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14),
-                                                          maxLines: 2,
-                                                        ),
-                                                        IconButton(
-                                                          icon: const Icon(
-                                                              Icons.more_horiz),
-                                                          onPressed: () {
-                                                            actionMenuButtonDidTap(
-                                                                project);
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Text(project.description),
-                                                    const SizedBox(
-                                                      height: 24,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                            '${project.countProposals} Proposals'),
-                                                        Text(
-                                                            '${project.countMessages} Messages'),
-                                                        Text(
-                                                            '${project.countHired} Hired'),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                            separatorBuilder:
-                                                (BuildContext context,
-                                                    int index) {
-                                              return const Divider(
-                                                color: Colors.grey,
-                                                thickness: 3,
-                                                height: 50,
-                                              );
-                                            },
-                                          ),
-                                        ],
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListView.separated(
+                                              scrollDirection: Axis.vertical,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount:
+                                                  listArchiveProject.length,
+                                              itemBuilder: (context, index) {
+                                                Project project =
+                                                    listProject[index];
+                                        
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).pushNamed(
+                                                        CompanyProjectDetailPage
+                                                            .pageId,
+                                                        arguments: _getMap(
+                                                            project.projectId!,
+                                                            0));
+                                                  },
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            project.title,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14),
+                                                            maxLines: 2,
+                                                          ),
+                                                          IconButton(
+                                                            icon: const Icon(
+                                                                Icons.more_horiz),
+                                                            onPressed: () {
+                                                              actionMenuButtonDidTap(
+                                                                  project);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      Text(project.description),
+                                                      const SizedBox(
+                                                        height: 24,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                              '${project.countProposals} Proposals'),
+                                                          Text(
+                                                              '${project.countMessages} Messages'),
+                                                          Text(
+                                                              '${project.countHired} Hired'),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return const Divider(
+                                                  color: Colors.grey,
+                                                  thickness: 3,
+                                                  height: 10,
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
