@@ -5,6 +5,8 @@ import 'package:student_hub/features/authentication/bloc/authentication_bloc.dar
 import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
+import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
+import 'package:student_hub/features/project_company/bloc/company_project_event.dart';
 import 'package:student_hub/features/project_company/pages/company_dashboard_page.dart';
 import 'package:student_hub/features/dashboard_student/pages/student_dashboard_page.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
@@ -40,6 +42,9 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
         builder: (context, state) {
           if (state is AuthenticationAuthenticateSuccess) {
             context.read<DashboardStudentBloc>().add(DashboardStudentFetched());
+            context
+        .read<CompanyProjectBloc>()
+        .add(CompanyProjectListFetch(typeFlag: -1));
             return IndexedStack(
               index: _currentIndex,
               children: [

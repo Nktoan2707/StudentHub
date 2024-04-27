@@ -37,9 +37,6 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
   @override
   Widget build(BuildContext context) {
-    context
-        .read<CompanyProjectBloc>()
-        .add(CompanyProjectListFetch(typeFlag: -1));
 
     return BlocListener<CompanyProjectBloc, CompanyProjectState>(
       listener: (context, state) {

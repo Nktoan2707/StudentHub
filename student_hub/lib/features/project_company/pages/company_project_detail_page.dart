@@ -497,9 +497,9 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                           InkCustomButton(
                                             title: 'Message',
                                             width: MediaQuery.sizeOf(context)
-                                                        .width /
-                                                    2 -
-                                                32,
+                                                        .width - 48
+                                              
+                                                ,
                                             onTap: () {},
                                           )
                                         ],
