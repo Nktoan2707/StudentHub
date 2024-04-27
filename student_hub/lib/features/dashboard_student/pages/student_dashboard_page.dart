@@ -140,8 +140,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                         itemCount: listProposalHired.length,
                                         itemBuilder: (context, index) {
                                           return StudentProposalListItemView(
-                                            project: listProposalHired[index]
-                                                .project!,
+                                            proposal: listProposalHired[index],
                                           );
                                         },
                                         separatorBuilder:
@@ -187,8 +186,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                         itemCount: listProposalOffer.length,
                                         itemBuilder: (context, index) {
                                           return StudentProposalListItemView(
-                                            project: listProposalOffer[index]
-                                                .project!,
+                                            proposal: listProposalOffer[index],
                                           );
                                         },
                                         separatorBuilder:
@@ -234,8 +232,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                         itemCount: listProposalActive.length,
                                         itemBuilder: (context, index) {
                                           return StudentProposalListItemView(
-                                            project: listProposalActive[index]
-                                                .project!,
+                                            proposal: listProposalActive[index],
                                           );
                                         },
                                         separatorBuilder:
@@ -281,8 +278,8 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                         itemCount: listProposalWaiting.length,
                                         itemBuilder: (context, index) {
                                           return StudentProposalListItemView(
-                                            project: listProposalWaiting[index]
-                                                .project!,
+                                            proposal:
+                                                listProposalWaiting[index],
                                           );
                                         },
                                         separatorBuilder:
@@ -310,7 +307,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                             itemCount: listProposalWorking.length,
                             itemBuilder: (context, index) {
                               return StudentProposalListItemView(
-                                project: listProposalWorking[index].project!,
+                                proposal: listProposalWorking[index],
                               );
                             },
                             separatorBuilder:
@@ -329,7 +326,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                             itemCount: listProposalArchived.length,
                             itemBuilder: (context, index) {
                               return StudentProposalListItemView(
-                                project: listProposalArchived[index].project!,
+                                proposal: listProposalArchived[index],
                               );
                             },
                             separatorBuilder:

@@ -10,6 +10,8 @@ import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/bloc/dashboard_student_accept_proposal_bloc.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/pages/dashboard_student_accept_page.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
@@ -58,6 +60,7 @@ class AppRouter {
   final CompanyProposalBloc _companyProposalBloc;
   final SubmitProposalStudentBloc _submitProposalStudent;
   final DashboardStudentBloc _dashboardStudentBloc;
+  final DashboardStudentAcceptProposalBloc _dashboardStudentAcceptProposalBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -99,7 +102,12 @@ class AppRouter {
         _dashboardStudentBloc = DashboardStudentBloc(
             proposalRepository: ProposalRepository(),
             userRepository: UserRepository(),
-            authenticationRepository: authenticationRepository);
+            authenticationRepository: authenticationRepository),
+        _dashboardStudentAcceptProposalBloc =
+            DashboardStudentAcceptProposalBloc(
+                proposalRepository: ProposalRepository(),
+                userRepository: UserRepository(),
+                authenticationRepository: authenticationRepository);
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -251,6 +259,12 @@ class AppRouter {
             builder: (_) => BlocProvider.value(
                 value: _dashboardStudentBloc,
                 child: const StudentDashboardPage()));
+      case DashboardStudentAcceptPage.pageId:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                value: _dashboardStudentAcceptProposalBloc,
+                child: const DashboardStudentAcceptPage()),
+            settings: settings);
 
       //Feature Message
       case TabMessagePage.pageId:

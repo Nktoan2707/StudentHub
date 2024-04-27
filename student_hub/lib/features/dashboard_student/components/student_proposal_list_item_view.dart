@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/dashboard_student_accept_proposal/pages/dashboard_student_accept_page.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/pages/student_project_detail_page.dart';
 
 class StudentProposalListItemView extends StatelessWidget {
-  const StudentProposalListItemView({super.key, required this.project});
+  const StudentProposalListItemView({super.key, required this.proposal});
 
-  final Project project;
+  final Proposal proposal;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .pushNamed(StudentProjectDetailPage.pageId, arguments: [project]);
+            .pushNamed(DashboardStudentAcceptPage.pageId, arguments: proposal);
       },
       child: Row(
         children: [
@@ -24,13 +25,13 @@ class StudentProposalListItemView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Created ${project.createdAt}",
+                  "Created ${proposal.createdAt}",
                   style: TextStyle(
                     fontSize: 12,
                   ),
                 ),
                 Text(
-                  project.title,
+                  proposal.project!.title,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Row(
@@ -39,10 +40,11 @@ class StudentProposalListItemView extends StatelessWidget {
                       "Time: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(getTimeTextProjectScope(project.projectScopeFlag))
+                    Text(getTimeTextProjectScope(
+                        proposal.project!.projectScopeFlag))
                   ],
                 ),
-                Text(project.description),
+                Text(proposal.project!.description),
                 Row(
                   children: [
                     Text(
@@ -50,7 +52,7 @@ class StudentProposalListItemView extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                        "${project.countProposals >= 5 ? project.countProposals : "Less than 5"}")
+                        "${proposal.project!.countProposals >= 5 ? proposal.project!.countProposals : "Less than 5"}")
                   ],
                 ),
               ],
