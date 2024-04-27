@@ -37,6 +37,7 @@ class AuthenticationBloc
         add(_AuthenticationStatusChanged(status));
       },
     );
+
   }
 
   Future<void> _onAuthenticationStatusChanged(

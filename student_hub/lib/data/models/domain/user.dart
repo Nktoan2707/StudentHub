@@ -46,9 +46,9 @@ class User extends Equatable {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as int,
+      id: map['id'] == null ? 0 : map['id'] as int,
       fullname: map['fullname'] as String,
-      roles: List<int>.from(map['roles']),
+      roles:map['role'] == null ? [] : List<int>.from(map['roles']),
       companyProfile: map['company'] == null
           ? null
           : CompanyProfile.fromMap(map['company']),

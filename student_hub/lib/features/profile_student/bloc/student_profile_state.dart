@@ -9,15 +9,30 @@ abstract class StudentProfileState extends Equatable {
 
 class StudentProfileInitial extends StudentProfileState {}
 
-class StudentProfileUpdateInProgress extends StudentProfileState {}
+class StudentProfileFetchInProgress extends StudentProfileState {}
 
-class StudentProfileUpdateSuccess extends StudentProfileState {
-  final StudentProfile student;
+class StudentProfileFetchSuccess extends StudentProfileState {
+  final StudentProfile studentProfile;
+  final String? resumeUrl;
+  final String? transcriptUrl;
+  final List<TechStack> allTechStackList;
+  final List<SkillSet> allSkillSetList;
 
-  const StudentProfileUpdateSuccess({required this.student});
+  StudentProfileFetchSuccess(
+      {required this.studentProfile,
+      required this.resumeUrl,
+      required this.transcriptUrl,
+      required this.allTechStackList,
+      required this.allSkillSetList});
 
   @override
-  List<Object> get props => [student];
+  List<Object> get props => [studentProfile];
 }
+
+class StudentProfileFetchFailure extends StudentProfileState {}
+
+class StudentProfileUpdateInProgress extends StudentProfileState {}
+
+class StudentProfileUpdateSuccess extends StudentProfileState {}
 
 class StudentProfileUpdateFailure extends StudentProfileState {}

@@ -3,9 +3,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 
 class FilePickerWidget extends StatefulWidget {
-  const FilePickerWidget({super.key, required this.onSelectedFileWithFilePath});
-  
-  final  Function(String filePath) onSelectedFileWithFilePath;
+  final String? uploadedFileName;
+
+  const FilePickerWidget(
+      {super.key, required this.onSelectedFileWithFilePath, this.uploadedFileName});
+
+  final Function(String filePath) onSelectedFileWithFilePath;
+
   @override
   // ignore: library_private_types_in_public_api
   _FilePickerWidgetState createState() => _FilePickerWidgetState();
@@ -35,7 +39,7 @@ class _FilePickerWidgetState extends State<FilePickerWidget> {
   Widget build(BuildContext context) {
     return Row(children: [
       SizedBox(
-        width:(MediaQuery.of(context).size.width) - 40,
+        width: (MediaQuery.of(context).size.width) - 40,
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -55,7 +59,9 @@ class _FilePickerWidgetState extends State<FilePickerWidget> {
               const SizedBox(height: 20),
               _fileName != null
                   ? Text('Selected File: $_fileName')
-                  : const Text('No file selected'),
+                  : widget.uploadedFileName != null
+                      ? Text('Uploaded File: ${widget.uploadedFileName}')
+                      : const Text('No file selected'),
             ],
           ),
         ),

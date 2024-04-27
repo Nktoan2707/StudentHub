@@ -17,7 +17,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
-  List<Project> projectList = List.from([], growable: true);
+  List<Project> projectList = List.empty();
 
   @override
   void initState() {
@@ -104,7 +104,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
                                   scrollDirection: Axis.vertical,
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: 1,
+                                  itemCount: projectList.length,
                                   itemBuilder: (context, index) {
                                     return StudentProjectListItemView(
                                       project: projectList[index],

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
+import 'package:student_hub/data/data_providers/proposal_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/company_profile/bloc/company_profile_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
@@ -14,6 +16,7 @@ import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.d
 
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
+import 'package:student_hub/features/project_company/bloc/proposal/company_proposal_bloc.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/signup/bloc/signup_bloc.dart';
 import 'package:student_hub/features/signup/pages/sign_up_page.dart';
@@ -46,8 +49,11 @@ class AppRouter {
   final SignupBloc _signupBloc;
   final CompanyProfileBloc _companyProfileBloc;
   final CompanyProjectBloc _companyProjectBloc;
+  final CompanyProjectBloc _companyProjectDetailBloc;
+  final CompanyProjectBloc _companyProjectEditBloc;
   final ProjectStudentBloc _projectStudentBloc;
   final StudentProfileBloc _studentProfileBloc;
+  final CompanyProposalBloc _companyProposalBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -62,20 +68,36 @@ class AppRouter {
             projectRepository: ProjectRepository(),
             authenticationRepository: authenticationRepository,
             userRepository: UserRepository()),
+        _companyProjectDetailBloc = CompanyProjectBloc(
+            projectRepository: ProjectRepository(),
+            authenticationRepository: authenticationRepository,
+            userRepository: UserRepository()),
+        _companyProjectEditBloc = CompanyProjectBloc(
+            projectRepository: ProjectRepository(),
+            authenticationRepository: authenticationRepository,
+            userRepository: UserRepository()),
         _projectStudentBloc = ProjectStudentBloc(
             projectRepository: ProjectRepository(),
             authenticationRepository: authenticationRepository,
             userRepository: UserRepository()),
-        _studentProfileBloc =
-            StudentProfileBloc(studentRepository: StudentRepository());
+        _studentProfileBloc = StudentProfileBloc(
+            studentRepository: StudentRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
+        _companyProposalBloc = CompanyProposalBloc(
+            proposalRepository: ProposalRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository);
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       //Feature Authentication
       case SwitchAccountPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                value: _companyProfileBloc, child: const SwitchAccountPage()));
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(value: _companyProfileBloc),
+                  BlocProvider.value(value: _studentProfileBloc),
+                ], child: const SwitchAccountPage()));
 
       //Feature Login
       case HomePage.pageId:
@@ -112,17 +134,20 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _studentProfileBloc,
-                child: const StudentProfileInputStep1Page()));
+                child: const StudentProfileInputStep1Page()),
+            settings: settings);
       case StudentProfileInputStep2Page.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _studentProfileBloc,
-                child: const StudentProfileInputStep2Page()));
+                child: const StudentProfileInputStep2Page()),
+            settings: settings);
       case StudentProfileInputStep3Page.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                 value: _studentProfileBloc,
-                child: const StudentProfileInputStep3Page()));
+                child: const StudentProfileInputStep3Page()),
+            settings: settings);
       case WelcomePage.pageId:
         return MaterialPageRoute(builder: (_) => const WelcomePage());
 
@@ -144,13 +169,19 @@ class AppRouter {
                 child: const CompanyDashboardPage()));
       case CompanyProjectDetailPage.pageId:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                value: _companyProjectBloc,
-                child: const CompanyProjectDetailPage()));
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(
+                    value: _companyProjectDetailBloc,
+                  ),
+                  BlocProvider.value(
+                    value: _companyProposalBloc,
+                  ),
+                ], child: const CompanyProjectDetailPage()),
+            settings: settings);
       case CompanyPostProjectStep1Page.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                value: _companyProjectBloc,
+                value: _companyProjectEditBloc,
                 child: const CompanyPostProjectStep1Page()),
             settings: settings);
       case CompanyPostProjectStep2Page.pageId:

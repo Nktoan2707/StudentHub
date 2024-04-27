@@ -32,3 +32,41 @@ class CompanyProjectListFetch extends CompanyProjectEvent {
     return "[EVENT] CompanyProjectListFetch";
   }
 }
+
+class CompanyProjectGetDetail extends CompanyProjectEvent {
+  final int projectId;
+  CompanyProjectGetDetail({
+    required this.projectId
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectGetDetail";
+  }
+}
+
+class CompanyProjectUpdate extends CompanyProjectEvent {
+  Project projectUpdate;
+  CompanyProjectUpdate({
+    required this.projectUpdate
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectUpdate ${projectUpdate.toString()}";
+  }
+}
+
+class CompanyProjectDelete extends CompanyProjectEvent {
+  final int projectId;
+  CompanyProjectDelete({
+    required this.projectId
+  });
+  
+  @override
+  String toString() {
+    return "[EVENT] CompanyProjectDelete";
+  }
+}
+
+

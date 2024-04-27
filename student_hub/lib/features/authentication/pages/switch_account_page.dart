@@ -5,6 +5,7 @@ import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
+import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
 
 import '../../company_profile/bloc/company_profile_bloc.dart';
@@ -32,102 +33,97 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
         backgroundColor: Colors.grey,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is AuthenticationSwitchProfileSuccess) {
-                      return Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          );
-                    }
-
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildSwitchProfile(),
-                const Divider(
-                  thickness: 3,
-                  height: 10,
-                ),
-
-                // Vertical List
-                BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                  builder: (context, state) {
-                    
-                    return ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.account_circle),
-                          title: const Text("Profile"),
-                          onTap: () {
-                            if (state is AuthenticationAuthenticateSuccess) {
-                              switch (state.userRole) {
-                                case UserRole.student:
-                                  Navigator.of(context).pushReplacementNamed(
-                                      StudentProfileInputStep1Page.pageId);
-                                  break;
-                                case UserRole.company:
-                                  context
-                                      .read<CompanyProfileBloc>()
-                                      .add(CompanyProfileResetState());
-                                  Navigator.of(context).pushReplacementNamed(
-                                      CompanyProfileInputPage.pageId);
-                                  break;
-                              }
-                            }
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: const Text("Setting"),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Settings'),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
-                                      children: <Widget>[
-                                        SettingsWidget(), // Embedding the settings widget
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Close'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.logout),
-                          title: const Text("Log out"),
-                          onTap: () {
-                            context
-                                .read<AuthenticationBloc>()
-                                .add(AuthenticationLoggedOut());
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationSwitchProfileFailure) {
+            return Center(
+              child: Text(
+                "Logging Out...",
+                style: TextStyle(fontSize: 30),
+              ),
             );
-          },
-        ),
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, state) {
+                if (state is AuthenticationSwitchProfileSuccess) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  );
+                }
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildSwitchProfile(),
+                    const Divider(
+                      thickness: 3,
+                      height: 10,
+                    ),
+
+                    // Vertical List
+                    BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                      builder: (context, state) {
+                        return ListView(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.account_circle),
+                              title: const Text("Profile"),
+                              onTap: () {
+                                if (state
+                                    is AuthenticationAuthenticateSuccess) {
+                                  switch (state.userRole) {
+                                    case UserRole.student:
+                                      context
+                                          .read<StudentProfileBloc>()
+                                          .add(StudentProfileFetched());
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              StudentProfileInputStep1Page
+                                                  .pageId);
+                                      break;
+                                    case UserRole.company:
+                                      context
+                                          .read<CompanyProfileBloc>()
+                                          .add(CompanyProfileResetState());
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              CompanyProfileInputPage.pageId);
+                                      break;
+                                  }
+                                }
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.settings),
+                              title: const Text("Setting"),
+                              onTap: () {},
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.logout),
+                              title: const Text("Log out"),
+                              onTap: () {
+                                context
+                                    .read<AuthenticationBloc>()
+                                    .add(AuthenticationLoggedOut());
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -135,60 +131,65 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
   Widget _buildSwitchProfile() {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        UserRole currentUserRole =
-            (state as AuthenticationAuthenticateSuccess).userRole;
+        if (state is AuthenticationAuthenticateSuccess) {
+          UserRole currentUserRole = state.userRole;
 
-        List<UserRole> switchRoleFieldItems = UserRole.values.toList()
-          ..remove(currentUserRole);
+          List<UserRole> switchRoleFieldItems = UserRole.values.toList()
+            ..remove(currentUserRole);
 
-        return Column(
-          children: [
-            Ink(
-              child: ListTile(
-                leading: const Icon(Icons.account_box),
-                title: Text(state.user.fullname),
-                subtitle: Text(
-                  toBeginningOfSentenceCase(currentUserRole.name),
-                ),
-                onTap: () {},
-              ),
-            ),
-            const Divider(
-              thickness: 3,
-              height: 10,
-            ),
-            ListView.separated(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: switchRoleFieldItems.length,
-              itemBuilder: (context, index) {
-                return Ink(
-                  child: ListTile(
-                    leading: const Icon(Icons.switch_account),
-                    title: Text(state.user.fullname),
-                    subtitle: Text(
-                      toBeginningOfSentenceCase(
-                          switchRoleFieldItems[index].name),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        context.read<AuthenticationBloc>().add(
-                            AuthenticationProfileSwitched(
-                                userRole: switchRoleFieldItems[index]));
-                      });
-                    },
+          return Column(
+            children: [
+              Ink(
+                child: ListTile(
+                  leading: const Icon(Icons.account_box),
+                  title: Text(state.user.fullname),
+                  subtitle: Text(
+                    toBeginningOfSentenceCase(currentUserRole.name),
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  thickness: 3,
-                  height: 10,
-                );
-              },
-            ),
-          ],
+                  onTap: () {},
+                ),
+              ),
+              const Divider(
+                thickness: 3,
+                height: 10,
+              ),
+              ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: switchRoleFieldItems.length,
+                itemBuilder: (context, index) {
+                  return Ink(
+                    child: ListTile(
+                      leading: const Icon(Icons.switch_account),
+                      title: Text(state.user.fullname),
+                      subtitle: Text(
+                        toBeginningOfSentenceCase(
+                            switchRoleFieldItems[index].name),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          context.read<AuthenticationBloc>().add(
+                              AuthenticationProfileSwitched(
+                                  userRole: switchRoleFieldItems[index]));
+                        });
+                      },
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    thickness: 3,
+                    height: 10,
+                  );
+                },
+              ),
+            ],
+          );
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
         );
       },
     );

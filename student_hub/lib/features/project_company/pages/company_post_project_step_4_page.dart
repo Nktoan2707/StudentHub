@@ -36,11 +36,13 @@ class _CompanyPostProjectStep4PageState
       listener: (context, state) {
         if (state is CompanyProjectPostStateSuccess) {
           ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          const SnackBar(content: Text('Post Project Successful'),
-                          duration: Duration(seconds: 1),),
-                        );
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+               SnackBar(
+                content: Text('${postProject.projectId == 0 ? "Post": "Update"} Project Successful'),
+                duration: Duration(seconds: 1),
+              ),
+            );
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
       },
@@ -138,9 +140,15 @@ class _CompanyPostProjectStep4PageState
                           ),
                           PostJob(
                             onPressed: () {
-                              context.read<CompanyProjectBloc>().add(
-                                  CompanyProjectCreate(
-                                      projectCreate: postProject));
+                              if (postProject.projectId != 0) {
+                                context.read<CompanyProjectBloc>().add(
+                                    CompanyProjectUpdate(
+                                        projectUpdate: postProject));
+                              } else {
+                                context.read<CompanyProjectBloc>().add(
+                                    CompanyProjectCreate(
+                                        projectCreate: postProject));
+                              }
                             },
                           ),
                         ])
