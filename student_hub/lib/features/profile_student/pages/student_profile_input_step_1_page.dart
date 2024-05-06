@@ -46,6 +46,7 @@ class _StudentProfileInputStep1PageState
   List<SkillSet> _listSkillSet = List<SkillSet>.empty(growable: true);
   List<Language> _listLanguage = List<Language>.empty(growable: true);
   List<Education> _listEducation = List<Education>.empty(growable: true);
+  bool isFirstLoad = true;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +56,7 @@ class _StudentProfileInputStep1PageState
         listener: (context, state) {},
         builder: (context, state) {
           if (state is StudentProfileFetchInProgress) {
+            isFirstLoad = true;
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -63,18 +65,21 @@ class _StudentProfileInputStep1PageState
                 .map((skillSet) =>
                     MultiSelectItem<SkillSet>(skillSet, skillSet.name))
                 .toList();
-            _selectedTechStack = state.allTechStackList.firstWhere(
-                (element) => element.id == state.studentProfile.techStackId);
 
-            _listSkillSet =
-                state.allSkillSetList.where((allSkillSetListElement) {
-              return state.studentProfile.skillSets.any(
-                  (thisExperienceSkillSetElement) =>
-                      thisExperienceSkillSetElement.id ==
-                      allSkillSetListElement.id);
-            }).toList();
-            _listLanguage = state.studentProfile.languages;
-            _listEducation = state.studentProfile.educations;
+            if (isFirstLoad) {
+              _selectedTechStack = state.allTechStackList.firstWhere(
+                  (element) => element.id == state.studentProfile.techStackId);
+              _listSkillSet =
+                  state.allSkillSetList.where((allSkillSetListElement) {
+                return state.studentProfile.skillSets.any(
+                    (thisExperienceSkillSetElement) =>
+                        thisExperienceSkillSetElement.id ==
+                        allSkillSetListElement.id);
+              }).toList();
+              _listLanguage = state.studentProfile.languages.toList();
+              _listEducation = state.studentProfile.educations.toList();
+              isFirstLoad = false;
+            }
 
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -126,7 +131,9 @@ class _StudentProfileInputStep1PageState
                         items: skillSetItemList,
                         initialValue: _listSkillSet,
                         onConfirm: (values) {
-                          _listSkillSet = values.cast();
+                          setState(() {
+                            _listSkillSet = values.cast();
+                          });
                         },
                         chipDisplay: MultiSelectChipDisplay(
                           decoration: BoxDecoration(

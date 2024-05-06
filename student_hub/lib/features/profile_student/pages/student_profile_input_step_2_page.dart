@@ -42,6 +42,7 @@ class _StudentProfileInputStep2PageState
   };
 
   List<Experience> _listExperience = List.empty(growable: true);
+  bool isFirstLoad = true;
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +57,15 @@ class _StudentProfileInputStep2PageState
         listener: (context, state) {},
         builder: (context, state) {
           if (state is StudentProfileFetchInProgress) {
+            isFirstLoad = true;
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is StudentProfileFetchSuccess) {
-            _listExperience = state.studentProfile.experiences;
+            if (isFirstLoad) {
+              _listExperience = state.studentProfile.experiences.toList();
+              isFirstLoad = false;
+            }
 
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -189,6 +194,7 @@ class _StudentProfileInputStep2PageState
             text: experience == null ? "" : experience.description);
 
     List<SkillSet> _listSkillSet = List<SkillSet>.empty(growable: true);
+    bool isFirstLoad = true;
 
     String? getEndTimeErrorText() {
       if (startMonthTextFieldController.text.isEmpty) {
@@ -414,7 +420,7 @@ class _StudentProfileInputStep2PageState
                                   skillSet, skillSet.name))
                               .toList();
 
-                          if (experience != null) {
+                          if (isFirstLoad && experience != null) {
                             for (var allSkillSetListElement
                                 in state.allSkillSetList) {
                               if (experience.skillSets.any(
@@ -424,6 +430,7 @@ class _StudentProfileInputStep2PageState
                                 _listSkillSet.add(allSkillSetListElement);
                               }
                             }
+                            isFirstLoad = false;
                           }
 
                           return Column(
