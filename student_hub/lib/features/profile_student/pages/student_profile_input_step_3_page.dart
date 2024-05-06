@@ -117,7 +117,7 @@ class StudentProfileInputStep3State
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: _getNetworkImageFromUrl(state.resumeUrl!),
+                              image: _getNetworkImageFromUrl(state.resumeUrl),
                               fit: BoxFit.cover),
                         ),
                         child: FilePickerWidget(
@@ -134,7 +134,7 @@ class StudentProfileInputStep3State
                     Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: _getNetworkImageFromUrl(state.transcriptUrl!),
+                          image: _getNetworkImageFromUrl(state.transcriptUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -194,10 +194,10 @@ class StudentProfileInputStep3State
     transcriptUrl = filePath;
   }
 
-  NetworkImage _getNetworkImageFromUrl(String transcriptUrl) {
+  NetworkImage _getNetworkImageFromUrl(String? transcriptUrl) {
     NetworkImage result;
     try {
-      result = NetworkImage(transcriptUrl);
+      result = NetworkImage(transcriptUrl!);
     } catch (e) {
       result = NetworkImage(
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsm4S3V32BzChhNWdIc14k_R0BIdPnGNLQQ243iVrHAw&s');
