@@ -19,8 +19,8 @@ class ProposalRepository {
         },
       );
 
-      print("[NETWORK-GET PROPOSAL LIST] statusCode${response.statusCode}");
-      print("[NETWORK-GET PROPOSAL LIST] body${jsonDecode(response.body)}");
+      // print("[NETWORK-GET PROPOSAL LIST] statusCode${response.statusCode}");
+      // print("[NETWORK-GET PROPOSAL LIST] body${jsonDecode(response.body)}");
 
       if (response.statusCode == 200) {
         return List.from(jsonDecode(response.body)['result']['items'])

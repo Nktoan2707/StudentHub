@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
+import 'package:student_hub/data/data_providers/message_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
 import 'package:student_hub/data/data_providers/proposal_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
@@ -15,6 +18,7 @@ import 'package:student_hub/features/dashboard_student_accept_proposal/pages/das
 import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
+import 'package:student_hub/features/message/bloc/message_bloc.dart';
 import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
@@ -61,6 +65,7 @@ class AppRouter {
   final SubmitProposalStudentBloc _submitProposalStudent;
   final DashboardStudentBloc _dashboardStudentBloc;
   final DashboardStudentAcceptProposalBloc _dashboardStudentAcceptProposalBloc;
+  final MessageBloc _projectMessageList;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -107,7 +112,11 @@ class AppRouter {
             DashboardStudentAcceptProposalBloc(
                 proposalRepository: ProposalRepository(),
                 userRepository: UserRepository(),
-                authenticationRepository: authenticationRepository);
+                authenticationRepository: authenticationRepository),
+        _projectMessageList = MessageBloc(
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository,
+            messageRepository: MessageRepository());
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -198,6 +207,9 @@ class AppRouter {
                   ),
                   BlocProvider.value(
                     value: _companyProposalBloc,
+                  ),
+                  BlocProvider.value(
+                    value: _projectMessageList,
                   ),
                 ], child: const CompanyProjectDetailPage()),
             settings: settings);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/project_student/pages/student_searched_project_list_page.dart';
 
@@ -108,7 +109,7 @@ class _TabMessagePageState extends State<TabMessagePage> {
                 shrinkWrap: true,
                 itemCount: 4,
                 itemBuilder: (context, index) {
-                  return const TabMessageListItemView();
+                  return TabMessageListItemView(messageContent: MessageContent(),);
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider(

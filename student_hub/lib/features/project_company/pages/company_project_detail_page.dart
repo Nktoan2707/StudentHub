@@ -1,8 +1,14 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/data/models/domain/student_profile.dart';
+import 'package:student_hub/data/models/domain/user.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
+import 'package:student_hub/features/message/bloc/message_bloc.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_event.dart';
@@ -27,6 +33,8 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
   late final TabController _tabController;
   late Project project;
   late List<Proposal> proposals;
+  late List<MessageContent> messageLists;
+  late User userInfo;
   bool isFirstLoad = true;
 
   @override
@@ -55,13 +63,79 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
       context
           .read<CompanyProposalBloc>()
           .add(CompanyProposalListFetched(projectId: projectId));
+      context
+          .read<MessageBloc>()
+          .add(MessageProjectListFetchEvent(projectId: projectId));
       isFirstLoad = false;
     }
 
-    return BlocBuilder<CompanyProjectBloc, CompanyProjectState>(
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        if (state is CompanyProjectDetailFailure) {
+        if (state is! AuthenticationAuthenticateSuccess) {
           return Scaffold(
+                  appBar: AppBar(
+                    elevation: 0,
+                    title: const Text(
+                      'StudentHub',
+                      style: TextStyle(fontSize: 25, color: Colors.black),
+                    ),
+                    centerTitle: false,
+                    backgroundColor: Colors.grey,
+                    iconTheme: const IconThemeData(color: Colors.black),
+                  ),
+                  body: const Center(
+                    child: Text(
+                      "Error orcur. Please come back later",
+                      textAlign: TextAlign.center,
+                    ),
+                  ));
+        }
+
+        userInfo = state.user;
+        return BlocBuilder<CompanyProjectBloc, CompanyProjectState>(
+          builder: (context, state) {
+            if (state is CompanyProjectDetailFailure) {
+              return Scaffold(
+                  appBar: AppBar(
+                    elevation: 0,
+                    title: const Text(
+                      'StudentHub',
+                      style: TextStyle(fontSize: 25, color: Colors.black),
+                    ),
+                    centerTitle: false,
+                    backgroundColor: Colors.grey,
+                    iconTheme: const IconThemeData(color: Colors.black),
+                  ),
+                  body: const Center(
+                    child: Text(
+                      "Error orcur. Please come back later",
+                      textAlign: TextAlign.center,
+                    ),
+                  ));
+            }
+
+            if (state is! CompanyProjectDetailSuccess) {
+              return Scaffold(
+                  appBar: AppBar(
+                    elevation: 0,
+                    title: const Text(
+                      'StudentHub',
+                      style: TextStyle(fontSize: 25, color: Colors.black),
+                    ),
+                    centerTitle: false,
+                    backgroundColor: Colors.grey,
+                    iconTheme: const IconThemeData(color: Colors.black),
+                  ),
+                  body: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ));
+            }
+
+            project = state.project;
+            proposals = project.proposals!;
+            return Scaffold(
               appBar: AppBar(
                 elevation: 0,
                 title: const Text(
@@ -72,455 +146,477 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                 backgroundColor: Colors.grey,
                 iconTheme: const IconThemeData(color: Colors.black),
               ),
-              body: const Center(
-                child: Text(
-                  "Error orcur. Please come back later",
-                  textAlign: TextAlign.center,
-                ),
-              ));
-        }
-
-        if (state is! CompanyProjectDetailSuccess) {
-          return Scaffold(
-              appBar: AppBar(
-                elevation: 0,
-                title: const Text(
-                  'StudentHub',
-                  style: TextStyle(fontSize: 25, color: Colors.black),
-                ),
-                centerTitle: false,
-                backgroundColor: Colors.grey,
-                iconTheme: const IconThemeData(color: Colors.black),
-              ),
-              body: Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
-              ));
-        }
-
-        project = state.project;
-        proposals = project.proposals!;
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            title: const Text(
-              'StudentHub',
-              style: TextStyle(fontSize: 25, color: Colors.black),
-            ),
-            centerTitle: false,
-            backgroundColor: Colors.grey,
-            iconTheme: const IconThemeData(color: Colors.black),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-            child: Column(
-              children: [
-                HeaderText(title: project.title),
-                TabBar(
-                  controller: _tabController,
-                  tabs: const <Widget>[
-                    Tab(text: 'Proposals'), // Proposals
-                    Tab(text: 'Detail'), // Detail
-                    Tab(text: 'Message'), // Message
-                    Tab(text: 'Hired'), // Hired
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      if (proposals.length == 0)
-                        Center(
-                          child: Text("Currently have no proposal"),
-                        ),
-                      if (proposals.length != 0)
-                        BlocListener<CompanyProposalBloc, CompanyProposalState>(
-                          listener: (context, state) {
-                            if (state is CompanyProposalStateUpdateSuccess) {
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Update status proposal successfully'),
-                                    duration: Duration(seconds: 3),
-                                  ),
-                                );
-                            }
-
-                            if (state is CompanyProposalStateUpdateFailure) {
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Update status proposal fail'),
-                                    duration: Duration(seconds: 3),
-                                  ),
-                                );
-                            }
-                          },
-                          child: BlocBuilder<CompanyProposalBloc,
-                              CompanyProposalState>(
-                            builder: (contextProposal, state) {
-                              if (state is! CompanyProposalStateSuccess) {
-                                contextProposal.read<CompanyProposalBloc>().add(
-                                    CompanyProposalListFetched(
-                                        projectId: projectId));
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                );
-                                ;
-                              }
-
-                              List<Proposal> proposalList = [];
-                              state.proposalList.every((element) {
-                                if (element.statusFlag != 3) {
-                                  proposalList.add(element);
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                child: Column(
+                  children: [
+                    HeaderText(title: project.title),
+                    TabBar(
+                      controller: _tabController,
+                      tabs: const <Widget>[
+                        Tab(text: 'Proposals'), // Proposals
+                        Tab(text: 'Detail'), // Detail
+                        Tab(text: 'Message'), // Message
+                        Tab(text: 'Hired'), // Hired
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          //Proposal
+                          if (proposals.length == 0)
+                            Center(
+                              child: Text("Currently have no proposal"),
+                            ),
+                          if (proposals.length != 0)
+                            BlocListener<CompanyProposalBloc,
+                                CompanyProposalState>(
+                              listener: (context, state) {
+                                if (state
+                                    is CompanyProposalStateUpdateSuccess) {
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Update status proposal successfully'),
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
                                 }
-                                return true;
-                              });
 
-                              if (proposalList.isEmpty) {
-                                return Center(
-                                  child: Text("Currently have no hired"),
-                                );
-                              }
-                              return ListView.builder(
-                                itemCount: proposalList.length,
-                                itemBuilder: (context, index) {
-                                  Proposal proposal = proposalList[index];
+                                if (state
+                                    is CompanyProposalStateUpdateFailure) {
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(
+                                      SnackBar(
+                                        content:
+                                            Text('Update status proposal fail'),
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                }
+                              },
+                              child: BlocBuilder<CompanyProposalBloc,
+                                  CompanyProposalState>(
+                                builder: (contextProposal, state) {
+                                  if (state is! CompanyProposalStateSuccess) {
+                                    contextProposal
+                                        .read<CompanyProposalBloc>()
+                                        .add(CompanyProposalListFetched(
+                                            projectId: projectId));
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    );
+                                    ;
+                                  }
 
-                                  StudentProfile student =
-                                      proposal.studentProfile!;
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text(student.user!.fullname,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18)),
-                                          subtitle: Text(
-                                            student.educations.firstOrNull ==
-                                                    null
-                                                ? "Anonymous"
-                                                : student.educations
-                                                    .firstOrNull!.schoolName,
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                          leading: Image.network(
-                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
-                                        ),
-                                        Row(
+                                  List<Proposal> proposalList = [];
+                                  state.proposalList.every((element) {
+                                    if (element.statusFlag != 3) {
+                                      proposalList.add(element);
+                                    }
+                                    return true;
+                                  });
+
+                                  if (proposalList.isEmpty) {
+                                    return Center(
+                                      child: Text("Currently have no hired"),
+                                    );
+                                  }
+                                  return ListView.builder(
+                                    itemCount: proposalList.length,
+                                    itemBuilder: (context, index) {
+                                      Proposal proposal = proposalList[index];
+
+                                      StudentProfile student =
+                                          proposal.studentProfile!;
+                                      return Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 4, 0, 0),
+                                        child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(student.techStack.name,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14)),
-                                            Text('Excellent')
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(proposal.coverLetter),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text("Proposal Status:",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14)),
+                                            ListTile(
+                                              contentPadding: EdgeInsets.zero,
+                                              title: Text(
+                                                  student.user!.fullname,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18)),
+                                              subtitle: Text(
+                                                student.educations
+                                                            .firstOrNull ==
+                                                        null
+                                                    ? "Anonymous"
+                                                    : student
+                                                        .educations
+                                                        .firstOrNull!
+                                                        .schoolName,
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                              leading: Image.network(
+                                                  'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(student.techStack.name,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14)),
+                                                Text('Excellent')
+                                              ],
+                                            ),
                                             const SizedBox(
-                                              width: 4,
+                                              height: 8,
                                             ),
-                                            Text(getProposalStatusWithType(
-                                                proposal.statusFlag)),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            InkCustomButton(
-                                              title: 'Message',
-                                              width: proposal.statusFlag == 0
-                                                  ? MediaQuery.sizeOf(context)
-                                                          .width -
-                                                      48
-                                                  : MediaQuery.sizeOf(context)
-                                                              .width /
-                                                          2 -
-                                                      32,
-                                              onTap: () {
-                                                if (proposal.statusFlag == 0) {
-                                                  makeActiveProposal(proposal);
-                                                }
-                                              },
+                                            Text(proposal.coverLetter),
+                                            const SizedBox(
+                                              height: 8,
                                             ),
-                                            if (proposal.statusFlag != 0)
-                                              InkCustomButton(
-                                                title: proposal.statusFlag == 2
-                                                    ? 'Sent hire offer'
-                                                    : 'Hire',
-                                                width:
-                                                    MediaQuery.sizeOf(context)
+                                            Row(
+                                              children: [
+                                                Text("Proposal Status:",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14)),
+                                                const SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(getProposalStatusWithType(
+                                                    proposal.statusFlag)),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 16,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                InkCustomButton(
+                                                  title: 'Message',
+                                                  width: proposal.statusFlag ==
+                                                          0
+                                                      ? MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width -
+                                                          48
+                                                      : MediaQuery.sizeOf(
+                                                                      context)
+                                                                  .width /
+                                                              2 -
+                                                          32,
+                                                  onTap: () {
+                                                    if (proposal.statusFlag ==
+                                                        0) {
+                                                      makeActiveProposal(
+                                                          proposal);
+                                                    }
+                                                  },
+                                                ),
+                                                if (proposal.statusFlag != 0)
+                                                  InkCustomButton(
+                                                    title:
+                                                        proposal.statusFlag == 2
+                                                            ? 'Sent hire offer'
+                                                            : 'Hire',
+                                                    width: MediaQuery.sizeOf(
+                                                                    context)
                                                                 .width /
                                                             2 -
                                                         32,
-                                                onTap: () {
-                                                  sentHiredButtonDidTap(
-                                                      proposal);
-                                                },
-                                              )
+                                                    onTap: () {
+                                                      sentHiredButtonDidTap(
+                                                          proposal);
+                                                    },
+                                                  )
+                                              ],
+                                            ),
+                                            const Divider(
+                                                color: Colors.black,
+                                                height: 50,
+                                                thickness: 2),
                                           ],
                                         ),
-                                        const Divider(
-                                            color: Colors.black,
-                                            height: 50,
-                                            thickness: 2),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                          ),
-                        ),
-                      Column(
-                        children: [
-                          Divider(
-                              color: Colors.black, height: 50, thickness: 2),
-                          PrimaryText(title: project.description),
-                          Divider(
-                              color: Colors.black, height: 50, thickness: 2),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.lock_clock,
-                                size: 40,
                               ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Project scope:',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14)),
-                                  Text(
-                                    '\t- ${getTimeTextProjectScope(project.projectScopeFlag)} students',
-                                    textAlign: TextAlign.left,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.people,
-                                size: 40,
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Student required:',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  Text(
-                                      '\t- ${project.numberOfStudents} students',
-                                      textAlign: TextAlign.left)
-                                ],
-                              )
-                            ],
-                          ),
-                          // Expanded(
-                          //     child: Align(
-                          //         alignment: Alignment.bottomRight,
-                          //         child: Padding(
-                          //           padding: EdgeInsets.fromLTRB(0, 0, 0, 24),
-                          //           child: InkCustomButton(
-                          //             title: 'Post job',
-                          //             height: 40,
-                          //             width: 120,
-                          //           ),
-                          //         ))),
-                        ],
-                      ), // Detail content
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.separated(
-                              scrollDirection: Axis.vertical,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return const TabMessageListItemView();
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const Divider(
-                                  color: Colors.grey,
-                                  thickness: 3,
-                                );
-                              },
                             ),
-                          ],
-                        ),
-                      ),
-                      if (proposals.length == 0)
-                        Center(
-                          child: Text("Currently have no hired"),
-                        ),
-                      if (proposals.length != 0)
-                        BlocBuilder<CompanyProposalBloc, CompanyProposalState>(
-                          builder: (contextProposal, state) {
-                            if (state is! CompanyProposalStateSuccess) {
-                              contextProposal.read<CompanyProposalBloc>().add(
-                                  CompanyProposalListFetched(
-                                      projectId: projectId));
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              );
-                              ;
-                            }
-
-                            List<Proposal> proposalList = [];
-                            state.proposalList.every((element) {
-                              if (element.statusFlag == 3) {
-                                proposalList.add(element);
-                              }
-                              return true;
-                            });
-
-                            if (proposalList.isEmpty) {
-                              return Center(
-                                child: Text("Currently have no hired"),
-                              );
-                            }
-                            return ListView.builder(
-                              itemCount: proposalList.length,
-                              itemBuilder: (context, index) {
-                                Proposal proposal = proposalList[index];
-
-                                StudentProfile student =
-                                    proposal.studentProfile!;
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                                  child: Column(
+                          //Detail
+                          Column(
+                            children: [
+                              Divider(
+                                  color: Colors.black,
+                                  height: 50,
+                                  thickness: 2),
+                              PrimaryText(title: project.description),
+                              Divider(
+                                  color: Colors.black,
+                                  height: 50,
+                                  thickness: 2),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.lock_clock,
+                                    size: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(student.user!.fullname,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18)),
-                                        subtitle: Text(
-                                          student.educations.firstOrNull == null
-                                              ? "Anonymous"
-                                              : student.educations.firstOrNull!
-                                                  .schoolName,
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        leading: Image.network(
-                                            'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(student.techStack.name,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
-                                          Text('Excellent')
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(proposal.coverLetter),
-                                      const SizedBox(
-                                        height: 16,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          InkCustomButton(
-                                            title: 'Message',
-                                            width: MediaQuery.sizeOf(context)
-                                                        .width - 48
-                                              
-                                                ,
-                                            onTap: () {},
-                                          )
-                                        ],
-                                      ),
-                                      const Divider(
-                                          color: Colors.black,
-                                          height: 50,
-                                          thickness: 2),
+                                      Text('Project scope:',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14)),
+                                      Text(
+                                        '\t- ${getTimeTextProjectScope(project.projectScopeFlag)} students',
+                                        textAlign: TextAlign.left,
+                                      )
                                     ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.people,
+                                    size: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Student required:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                      Text(
+                                          '\t- ${project.numberOfStudents} students',
+                                          textAlign: TextAlign.left)
+                                    ],
+                                  )
+                                ],
+                              ),
+                              // Expanded(
+                              //     child: Align(
+                              //         alignment: Alignment.bottomRight,
+                              //         child: Padding(
+                              //           padding: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                              //           child: InkCustomButton(
+                              //             title: 'Post job',
+                              //             height: 40,
+                              //             width: 120,
+                              //           ),
+                              //         ))),
+                            ],
+                          ), // Detail content
+                          //Message
+                          BlocBuilder<MessageBloc, MessageState>(
+                            builder: (context, state) {
+                              if (state is! MessageProjectListFetchSuccess) {
+                                context.read<MessageBloc>().add(
+                                    MessageProjectListFetchEvent(
+                                        projectId: projectId));
+                                return const Center(
+                                  child: Text(
+                                    "Error orcur. Please come back later",
+                                    textAlign: TextAlign.center,
                                   ),
                                 );
+                              }
+
+                              messageLists = state.listMessage;
+                              if (messageLists.isEmpty) {
+                                return const Center(
+                                  child: Text(
+                                    "There is 0 message in this project",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              }
+                              return SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ListView.separated(
+                                      scrollDirection: Axis.vertical,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: messageLists.length,
+                                      itemBuilder: (context, index) {
+                                        MessageContent messageContent = messageLists[index];
+                                        return TabMessageListItemView(messageContent:messageContent) ;
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return const Divider(
+                                          color: Colors.grey,
+                                          thickness: 3,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          if (proposals.length == 0)
+                            Center(
+                              child: Text("Currently have no hired"),
+                            ),
+                          if (proposals.length != 0)
+                            BlocBuilder<CompanyProposalBloc,
+                                CompanyProposalState>(
+                              builder: (contextProposal, state) {
+                                if (state is! CompanyProposalStateSuccess) {
+                                  contextProposal
+                                      .read<CompanyProposalBloc>()
+                                      .add(CompanyProposalListFetched(
+                                          projectId: projectId));
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  );
+                                  ;
+                                }
+
+                                List<Proposal> proposalList = [];
+                                state.proposalList.every((element) {
+                                  if (element.statusFlag == 3) {
+                                    proposalList.add(element);
+                                  }
+                                  return true;
+                                });
+
+                                if (proposalList.isEmpty) {
+                                  return Center(
+                                    child: Text("Currently have no hired"),
+                                  );
+                                }
+                                return ListView.builder(
+                                  itemCount: proposalList.length,
+                                  itemBuilder: (context, index) {
+                                    Proposal proposal = proposalList[index];
+
+                                    StudentProfile student =
+                                        proposal.studentProfile!;
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            title: Text(student.user!.fullname,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18)),
+                                            subtitle: Text(
+                                              student.educations.firstOrNull ==
+                                                      null
+                                                  ? "Anonymous"
+                                                  : student.educations
+                                                      .firstOrNull!.schoolName,
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                            leading: Image.network(
+                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png'),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(student.techStack.name,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14)),
+                                              Text('Excellent')
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(proposal.coverLetter),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              InkCustomButton(
+                                                title: 'Message',
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width -
+                                                        48,
+                                                onTap: () {},
+                                              )
+                                            ],
+                                          ),
+                                          const Divider(
+                                              color: Colors.black,
+                                              height: 50,
+                                              thickness: 2),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                               },
-                            );
-                          },
-                        ),
-                    ],
-                  ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -529,8 +625,15 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
   void makeActiveProposal(Proposal proposal) {
     showDialog(
       context: context,
-      builder: (contextDialog) => BlocProvider.value(
-        value: BlocProvider.of<CompanyProposalBloc>(context),
+      builder: (contextDialog) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: BlocProvider.of<CompanyProposalBloc>(context),
+          ),
+          BlocProvider.value(
+            value: BlocProvider.of<MessageBloc>(context),
+          ),
+        ],
         child: SimpleDialog(
           title: const HeaderText(title: 'Make contact'),
           contentPadding: const EdgeInsets.all(20.0),
@@ -553,6 +656,14 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                       proposal.statusFlag = 1;
                       context.read<CompanyProposalBloc>().add(
                           CompanyProposalUpdated(updatedProposal: proposal));
+                      context.read<MessageBloc>().add(MessageSentEvent(
+                          messageSent: MessageSent(
+                              projectId: 851,
+                              content:
+                                  "Hey, i want to make contact to you with project \"${project.title}\"",
+                              senderId: userInfo.id,
+                              receiverId: proposal.studentProfile!.userId,
+                              messageFlag: 0)));
                       Navigator.of(contextDialog).pop();
                     },
                     child: const Text('Send')),

@@ -123,9 +123,9 @@ class ProjectRepository {
         },
       );
 
-      print(
-          "[NETWORK-GET PROJECT DETAIL] statusCode${response.statusCode}");
-      print("[NETWORK-GET PROJECT DETAIL] body${response.body}");
+      // print(
+      //     "[NETWORK-GET PROJECT DETAIL] statusCode${response.statusCode}");
+      // print("[NETWORK-GET PROJECT DETAIL] body${response.body}");
 
       if (response.statusCode == 200) {
         return Project.fromJson(jsonDecode(response.body)['result']);
@@ -159,9 +159,9 @@ class ProjectRepository {
         },
       );
 
-      print(
-          "[NETWORK-GET LIST COMPANY PROJECT] statusCode${response.statusCode}");
-      print("[NETWORK-GET LIST COMPANY PROJECT] body${response.body}");
+      // print(
+      //     "[NETWORK-GET LIST COMPANY PROJECT] statusCode${response.statusCode}");
+      // print("[NETWORK-GET LIST COMPANY PROJECT] body${response.body}");
 
       if (response.statusCode == 200) {
         return List.from(jsonDecode(response.body)['result'])
