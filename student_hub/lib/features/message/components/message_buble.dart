@@ -10,7 +10,7 @@ class MessageBubble extends StatelessWidget {
     required this.messageDetail,
   });
 
-  final MessageDetail messageDetail;
+  final MessageContent messageDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class MessageBubble extends StatelessWidget {
               ),
             ),
             child: Text(
-              messageDetail.message,
+              messageDetail.content!,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: textColor,
                   ),

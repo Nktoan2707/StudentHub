@@ -28,6 +28,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         super(MessageInitial()) {
     on<MessageProjectListFetchEvent>(_onMessageProjectListFetchEventd);
     on<MessageSentEvent>(_onMessageSentEvent);
+    on<MessageGetListOfUserEvent>(_onMessageGetListOfUserEvent);
   }
 
   FutureOr<void> _onMessageProjectListFetchEventd(
@@ -72,6 +73,31 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     } catch (e) {
       print(e);
       emit(MessageProjectMakeContactFail());
+    }
+  }
+
+  FutureOr<void> _onMessageGetListOfUserEvent(
+      MessageGetListOfUserEvent event, Emitter<MessageState> emit) async {
+    User currentUser =
+        await _userRepository.getCurrentUser(_authenticationRepository.token);
+
+    try {
+      await _messageRepository
+          .getListMessageOfUser(
+              userid: event.userId,
+              me: currentUser,
+              projectId: event.projectId,
+              token: _authenticationRepository.token)
+          .then((value) {
+        if (value is! List) {
+          emit(MessageProjectListFetchFail());
+          return;
+        }
+        emit(MessageProjectListFetchSuccess(listMessage: value!));
+      });
+    } catch (e) {
+      print(e);
+      emit(MessageProjectListFetchFail());
     }
   }
 }

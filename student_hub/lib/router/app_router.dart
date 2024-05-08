@@ -66,6 +66,7 @@ class AppRouter {
   final DashboardStudentBloc _dashboardStudentBloc;
   final DashboardStudentAcceptProposalBloc _dashboardStudentAcceptProposalBloc;
   final MessageBloc _projectMessageList;
+  final AuthenticationRepository _authenticationRepository;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -116,7 +117,8 @@ class AppRouter {
         _projectMessageList = MessageBloc(
             userRepository: UserRepository(),
             authenticationRepository: authenticationRepository,
-            messageRepository: MessageRepository());
+            messageRepository: MessageRepository()),
+        _authenticationRepository = authenticationRepository;
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -280,9 +282,24 @@ class AppRouter {
 
       //Feature Message
       case TabMessagePage.pageId:
-        return MaterialPageRoute(builder: (_) => const TabMessagePage());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => (MessageBloc(
+                      userRepository: UserRepository(),
+                      authenticationRepository: _authenticationRepository,
+                      messageRepository: MessageRepository())),
+                  child: TabMessagePage(),
+                ),
+            settings: settings);
       case TabMessageDetailPage.pageId:
-        return MaterialPageRoute(builder: (_) => const TabMessageDetailPage());
+        return MaterialPageRoute(builder: (_) => BlocProvider(
+                  create: (context) => (MessageBloc(
+                      userRepository: UserRepository(),
+                      authenticationRepository: _authenticationRepository,
+                      messageRepository: MessageRepository())),
+                  child: const TabMessageDetailPage(),
+                ),
+            settings: settings);
       case VideoCallPage.pageId:
         return MaterialPageRoute(builder: (_) => const VideoCallPage());
 

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/data/models/domain/user.dart';
 
 enum BubbleMessageType { sender, receiver } //sender: mình là người gửi, receiver: mình là người nhận
@@ -61,6 +62,7 @@ class MessageContent {
     Interview? interview;
     BubbleMessageType? messageType;
     User? me;
+    Project? project;
 
     MessageContent({
         this.id,
@@ -70,7 +72,8 @@ class MessageContent {
         this.receiver,
         this.interview,
         this.messageType,
-        this.me
+        this.me,
+        this.project
     });
 
     factory MessageContent.fromJson(Map<String, dynamic> json) => MessageContent(
@@ -82,7 +85,8 @@ class MessageContent {
         interview: json["interview"] == null ? null : Interview.fromJson(json["interview"]),
         messageType: json["sender"] == null ? BubbleMessageType.receiver : 
         User.fromMap(json["sender"]).id ==  json["me"].id ?  BubbleMessageType.sender :  BubbleMessageType.receiver,
-        me: json["me"]
+        me: json["me"],
+        project: json["project"] == null ? null : Project.fromMap(json["project"])
     );
 
     Map<String, dynamic> toJson() => {

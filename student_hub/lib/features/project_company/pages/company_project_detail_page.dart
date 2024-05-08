@@ -10,6 +10,7 @@ import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/message/bloc/message_bloc.dart';
 import 'package:student_hub/features/message/components/tab_message_list_item_view.dart';
+import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_event.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_state.dart';
@@ -36,7 +37,7 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
   late List<MessageContent> messageLists;
   late User userInfo;
   bool isFirstLoad = true;
-
+  late MessageContent messageForNavigate;
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
@@ -73,22 +74,22 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
       builder: (context, state) {
         if (state is! AuthenticationAuthenticateSuccess) {
           return Scaffold(
-                  appBar: AppBar(
-                    elevation: 0,
-                    title: const Text(
-                      'StudentHub',
-                      style: TextStyle(fontSize: 25, color: Colors.black),
-                    ),
-                    centerTitle: false,
-                    backgroundColor: Colors.grey,
-                    iconTheme: const IconThemeData(color: Colors.black),
-                  ),
-                  body: const Center(
-                    child: Text(
-                      "Error orcur. Please come back later",
-                      textAlign: TextAlign.center,
-                    ),
-                  ));
+              appBar: AppBar(
+                elevation: 0,
+                title: const Text(
+                  'StudentHub',
+                  style: TextStyle(fontSize: 25, color: Colors.black),
+                ),
+                centerTitle: false,
+                backgroundColor: Colors.grey,
+                iconTheme: const IconThemeData(color: Colors.black),
+              ),
+              body: const Center(
+                child: Text(
+                  "Error orcur. Please come back later",
+                  textAlign: TextAlign.center,
+                ),
+              ));
         }
 
         userInfo = state.user;
@@ -305,51 +306,93 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                             const SizedBox(
                                               height: 16,
                                             ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                InkCustomButton(
-                                                  title: 'Message',
-                                                  width: proposal.statusFlag ==
-                                                          0
-                                                      ? MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width -
-                                                          48
-                                                      : MediaQuery.sizeOf(
+                                            BlocBuilder<AuthenticationBloc,
+                                                AuthenticationState>(
+                                              builder: (context, state) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    InkCustomButton(
+                                                      title: 'Message',
+                                                      width: proposal.statusFlag ==
+                                                              0
+                                                          ? MediaQuery.sizeOf(
                                                                       context)
-                                                                  .width /
-                                                              2 -
-                                                          32,
-                                                  onTap: () {
-                                                    if (proposal.statusFlag ==
-                                                        0) {
-                                                      makeActiveProposal(
-                                                          proposal);
-                                                    }
-                                                  },
-                                                ),
-                                                if (proposal.statusFlag != 0)
-                                                  InkCustomButton(
-                                                    title:
-                                                        proposal.statusFlag == 2
+                                                                  .width -
+                                                              48
+                                                          : MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width /
+                                                                  2 -
+                                                              32,
+                                                      onTap: () {
+                                                        if (proposal
+                                                                .statusFlag ==
+                                                            0) {
+                                                          makeActiveProposal(
+                                                              proposal);
+                                                        } else {
+                                                          if (state
+                                                              is AuthenticationAuthenticateSuccess) {
+                                                            messageForNavigate =
+                                                                MessageContent(
+                                                              project: project,
+                                                              me: state.user,
+                                                              sender: User(
+                                                                  id: proposal
+                                                                      .studentProfile!
+                                                                      .userId,
+                                                                  fullname: proposal
+                                                                      .studentProfile!
+                                                                      .user!
+                                                                      .fullname),
+                                                              receiver: User(
+                                                                  id: proposal
+                                                                      .studentProfile!
+                                                                      .userId,
+                                                                  fullname: proposal
+                                                                      .studentProfile!
+                                                                      .user!
+                                                                      .fullname),
+                                                            );
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pushNamed(
+                                                                    TabMessageDetailPage
+                                                                        .pageId,
+                                                                    arguments: {
+                                                                  "messageInit":
+                                                                      messageForNavigate
+                                                                });
+                                                          }
+                                                        }
+                                                      },
+                                                    ),
+                                                    if (proposal.statusFlag !=
+                                                        0)
+                                                      InkCustomButton(
+                                                        title: proposal
+                                                                    .statusFlag ==
+                                                                2
                                                             ? 'Sent hire offer'
                                                             : 'Hire',
-                                                    width: MediaQuery.sizeOf(
-                                                                    context)
-                                                                .width /
-                                                            2 -
-                                                        32,
-                                                    onTap: () {
-                                                      sentHiredButtonDidTap(
-                                                          proposal);
-                                                    },
-                                                  )
-                                              ],
+                                                        width: MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width /
+                                                                2 -
+                                                            32,
+                                                        onTap: () {
+                                                          sentHiredButtonDidTap(
+                                                              proposal);
+                                                        },
+                                                      )
+                                                  ],
+                                                );
+                                              },
                                             ),
                                             const Divider(
                                                 color: Colors.black,
@@ -451,12 +494,9 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                 context.read<MessageBloc>().add(
                                     MessageProjectListFetchEvent(
                                         projectId: projectId));
-                                return const Center(
-                                  child: Text(
-                                    "Error orcur. Please come back later",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
+                                return Center(
+                                    child: const CircularProgressIndicator());
+                                ;
                               }
 
                               messageLists = state.listMessage;
@@ -478,8 +518,10 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                       shrinkWrap: true,
                                       itemCount: messageLists.length,
                                       itemBuilder: (context, index) {
-                                        MessageContent messageContent = messageLists[index];
-                                        return TabMessageListItemView(messageContent:messageContent) ;
+                                        MessageContent messageContent =
+                                            messageLists[index];
+                                        return TabMessageListItemView(
+                                            messageContent: messageContent);
                                       },
                                       separatorBuilder:
                                           (BuildContext context, int index) {

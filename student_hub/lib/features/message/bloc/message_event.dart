@@ -28,4 +28,15 @@ class MessageSentEvent extends MessageEvent {
   }
 }
 
+class MessageGetListOfUserEvent extends MessageEvent {
+  final int projectId;
+  final int userId;
+
+  MessageGetListOfUserEvent({required this.projectId, required this.userId});
+
+  @override
+  String toString() {
+    return "[EVENT] MessageGetListOfUserEvent userId $userId}";
+  }
+}
 

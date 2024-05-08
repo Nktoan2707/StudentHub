@@ -19,11 +19,15 @@ class TabMessageListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String date = formatter.format(messageContent.createdAt!);
-    String prefix = messageContent.messageType == BubbleMessageType.sender ? "You: " : "";
+    String prefix =
+        messageContent.messageType == BubbleMessageType.sender ? "You: " : "";
     String content = prefix + messageContent.content!;
+    String titleName = messageContent.me!.id == messageContent.sender!.id
+        ? messageContent.receiver!.fullname
+        : messageContent.sender!.fullname;
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(TabMessageDetailPage.pageId);
+        Navigator.of(context).pushNamed(TabMessageDetailPage.pageId, arguments: {"messageInit" : messageContent});
       },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -54,7 +58,7 @@ class TabMessageListItemView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  messageContent.me!.id == messageContent.sender!.id ? messageContent.receiver!.fullname : messageContent.sender!.fullname,
+                                  titleName,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 24),
