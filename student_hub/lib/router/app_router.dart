@@ -195,6 +195,12 @@ class AppRouter {
                   BlocProvider.value(
                     value: _dashboardStudentBloc,
                   ),
+                  BlocProvider.value(
+                    value: MessageBloc(
+                        userRepository: UserRepository(),
+                        authenticationRepository: _authenticationRepository,
+                        messageRepository: MessageRepository()),
+                  ),
                 ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:
         return MaterialPageRoute(
@@ -292,7 +298,8 @@ class AppRouter {
                 ),
             settings: settings);
       case TabMessageDetailPage.pageId:
-        return MaterialPageRoute(builder: (_) => BlocProvider(
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
                   create: (context) => (MessageBloc(
                       userRepository: UserRepository(),
                       authenticationRepository: _authenticationRepository,

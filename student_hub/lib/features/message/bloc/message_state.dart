@@ -10,6 +10,10 @@ class MessageInitial extends MessageState {
 
 }
 
+class MessageInprogress extends MessageState {
+
+}
+
 class MessageProjectListFetchSuccess extends MessageState {
   final List<MessageContent> listMessage;
 
@@ -32,3 +36,4 @@ class MessageProjectMakeContactSuccess extends MessageState {
 class MessageProjectMakeContactFail extends MessageState {
 
 }
+

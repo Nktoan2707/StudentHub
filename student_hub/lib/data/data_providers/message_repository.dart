@@ -99,4 +99,37 @@ class MessageRepository {
       rethrow;
     }
   }
+
+  Future<List<MessageContent>> getListMessageOfMe(
+      {required String token, required User me}) async {
+    try {
+      final Uri uri =
+          Uri.https(Constants.apiBaseURL, '/api/message');
+
+      final response = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print('[NETWORK]Get List Message of ME ${response.body}');
+      print(response.statusCode);
+      
+      List listMessageJson = jsonDecode(response.body)['result'];
+      List<MessageContent> listMessageContent = [];
+      listMessageJson.forEach((element) {
+        element["me"] = me;
+        listMessageContent.add(MessageContent.fromJson(element));
+      });
+      if (response.statusCode == 200) {
+        return listMessageContent;
+      } else {
+        throw Exception('[FAIL - NETWORK]Get message of ME');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

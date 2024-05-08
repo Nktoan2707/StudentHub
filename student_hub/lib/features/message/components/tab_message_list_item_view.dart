@@ -57,11 +57,17 @@ class TabMessageListItemView extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  titleName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24),
+                                SizedBox(
+                                  width: 160,
+                                  height: 30,
+                                  child: Text(
+                                    titleName,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24),
+                                      
+                                  ),
                                 ),
                                 Text(date),
                               ],

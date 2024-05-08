@@ -40,3 +40,6 @@ class MessageGetListOfUserEvent extends MessageEvent {
   }
 }
 
+class MessageGetListOfMeEvent extends MessageEvent {
+}
+

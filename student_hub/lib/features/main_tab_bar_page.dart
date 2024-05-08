@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
+import 'package:student_hub/features/message/bloc/message_bloc.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
@@ -25,7 +28,20 @@ class MainTabBarPage extends StatefulWidget {
 class _MainTabBarPageState extends State<MainTabBarPage> {
   int itemCount = 1;
   int _currentIndex = 0;
-
+  Timer? timer;
+  @override
+  void initState() {
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+      context.read<MessageBloc>().add(MessageGetListOfMeEvent());
+    });
+    super.initState();
+  }
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +59,9 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
           if (state is AuthenticationAuthenticateSuccess) {
             context.read<DashboardStudentBloc>().add(DashboardStudentFetched());
             context
-        .read<CompanyProjectBloc>()
-        .add(CompanyProjectListFetch(typeFlag: -1));
+                .read<CompanyProjectBloc>()
+                .add(CompanyProjectListFetch(typeFlag: -1));
+            context.read<MessageBloc>().add(MessageGetListOfMeEvent());
             return IndexedStack(
               index: _currentIndex,
               children: [

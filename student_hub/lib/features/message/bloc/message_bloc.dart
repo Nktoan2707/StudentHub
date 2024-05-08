@@ -29,6 +29,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<MessageProjectListFetchEvent>(_onMessageProjectListFetchEventd);
     on<MessageSentEvent>(_onMessageSentEvent);
     on<MessageGetListOfUserEvent>(_onMessageGetListOfUserEvent);
+    on<MessageGetListOfMeEvent>(_onMessageGetListOfMeEvent);
   }
 
   FutureOr<void> _onMessageProjectListFetchEventd(
@@ -78,6 +79,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   FutureOr<void> _onMessageGetListOfUserEvent(
       MessageGetListOfUserEvent event, Emitter<MessageState> emit) async {
+    emit(MessageInprogress());
     User currentUser =
         await _userRepository.getCurrentUser(_authenticationRepository.token);
 
@@ -88,6 +90,28 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
               me: currentUser,
               projectId: event.projectId,
               token: _authenticationRepository.token)
+          .then((value) {
+        if (value is! List) {
+          emit(MessageProjectListFetchFail());
+          return;
+        }
+        emit(MessageProjectListFetchSuccess(listMessage: value!));
+      });
+    } catch (e) {
+      print(e);
+      emit(MessageProjectListFetchFail());
+    }
+  }
+
+  FutureOr<void> _onMessageGetListOfMeEvent(
+      MessageGetListOfMeEvent event, Emitter<MessageState> emit) async {
+    emit(MessageInprogress());
+    User currentUser =
+        await _userRepository.getCurrentUser(_authenticationRepository.token);
+    try {
+      await _messageRepository
+          .getListMessageOfMe(
+              me: currentUser, token: _authenticationRepository.token)
           .then((value) {
         if (value is! List) {
           emit(MessageProjectListFetchFail());

@@ -26,10 +26,10 @@ class TabMessageDetailPage extends StatefulWidget {
 
 class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
   Timer? timer;
-  late MessageContent initMessageContent ;
+  late MessageContent initMessageContent;
   final messageController = TextEditingController();
   final PanelController panelController = PanelController();
-
+  final ScrollController _scrollController = ScrollController();
   // final List messages = [
   //   MessageDetail(
   //       senderID: '12',
@@ -77,17 +77,14 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
   }
 
   void _sendMessage() async {
-    setState(() {
-      // final message = MessageContent(
-      //     senderID: '14',
-      //     senderName: 'Hai pham',
-      //     message: messageController.text,
-      //     messageType: BubbleMessageType.sender,
-      //     date: DateTime.now());
-
-      messageController.clear();
-      // messages.add(message);
-    });
+    context.read<MessageBloc>().add(MessageSentEvent(
+        messageSent: MessageSent(
+            projectId: initMessageContent.project!.projectId,
+            content: messageController.text,
+            senderId: initMessageContent.me!.id,
+            receiverId: chatUser.id,
+            messageFlag: 0)));
+    messageController.clear();
   }
 
   @override
@@ -95,7 +92,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
     Map<String, dynamic> messageInfo =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     initMessageContent = messageInfo['messageInit'];
-  
+
     chatUser = initMessageContent.me!.id == initMessageContent.sender!.id
         ? initMessageContent.receiver!
         : initMessageContent.sender!;
@@ -161,163 +158,166 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                 ),
                 child: Column(
                   children: [
-                    if (state is! MessageProjectListFetchSuccess)
-                      Expanded(child: Center(child: const CircularProgressIndicator())),
-                    if (state is MessageProjectListFetchSuccess)
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) {
-                            final message = messages[index];
-                            var showImage = false;
-                            if (messages.length == 1) {
+                    // if (state is! MessageProjectListFetchSuccess)
+                    //   Expanded(
+                    //       child:
+                    //           Center(child: const CircularProgressIndicator())),
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent,
+                            duration: Duration(milliseconds: 200),
+                            curve: Curves.fastOutSlowIn,
+                          );
+                          final message = messages[index];
+                          var showImage = false;
+                          if (messages.length == 1) {
+                            showImage = true;
+                          } else {
+                            if (index == 0) {
                               showImage = true;
                             } else {
-                              if (index == 0) {
-                                showImage = true;
-                              } else {
-                                showImage = messages[index - 1].sender!.id !=
-                                    message.sender!.id;
+                              showImage = messages[index - 1].sender!.id !=
+                                  message.sender!.id;
 
-                                if (!showImage) {
-                                  DateTime lastMessageTime =
-                                      messages[index - 1].createdAt!;
-                                  DateTime curMessageTime = message.createdAt!;
-                                  showImage =
-                                      curMessageTime.millisecondsSinceEpoch -
-                                              lastMessageTime
-                                                  .millisecondsSinceEpoch >=
-                                          86400000;
-                                }
-                              }
-
-                              if (message is MessageContent) {
-                                return Column(
-                                  mainAxisAlignment: (message.messageType ==
-                                          BubbleMessageType.receiver)
-                                      ? MainAxisAlignment.start
-                                      : MainAxisAlignment.end,
-                                  children: [
-                                    if (showImage &&
-                                        message.messageType ==
-                                            BubbleMessageType.receiver)
-                                      Row(
-                                        mainAxisAlignment:
-                                            (message.messageType ==
-                                                    BubbleMessageType.receiver)
-                                                ? MainAxisAlignment.start
-                                                : MainAxisAlignment.end,
-                                        children: [
-                                          const Avatar(
-                                            imageUrl:
-                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                            radius: 12,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(message.sender!.fullname.length >
-                                                  20
-                                              ? '${message.sender!.fullname.substring(0, 20)}...'
-                                              : message.sender!.fullname),
-                                          const SizedBox(width: 16),
-                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                              .format(message.createdAt!)),
-                                        ],
-                                      ),
-                                    if (showImage &&
-                                        message.messageType ==
-                                            BubbleMessageType.sender)
-                                      Row(
-                                        mainAxisAlignment:
-                                            (message.messageType ==
-                                                    BubbleMessageType.receiver)
-                                                ? MainAxisAlignment.start
-                                                : MainAxisAlignment.end,
-                                        children: [
-                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                              .format(message.createdAt!)),
-                                          const SizedBox(width: 16),
-                                          Text(message.sender!.fullname.length >
-                                                  20
-                                              ? '${message.sender!.fullname.substring(0, 20)}...'
-                                              : message.sender!.fullname),
-                                          const SizedBox(width: 8),
-                                          const Avatar(
-                                            imageUrl:
-                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                            radius: 12,
-                                          ),
-                                        ],
-                                      ),
-                                    MessageBubble(messageDetail: message),
-                                  ],
-                                );
-                              }
-
-                              if (message is ScheduleDetail) {
-                                return Column(
-                                  mainAxisAlignment: (message.messageType ==
-                                          BubbleMessageType.receiver)
-                                      ? MainAxisAlignment.start
-                                      : MainAxisAlignment.end,
-                                  children: [
-                                    if (showImage &&
-                                        message.messageType ==
-                                            BubbleMessageType.receiver)
-                                      Row(
-                                        mainAxisAlignment:
-                                            (message.messageType ==
-                                                    BubbleMessageType.receiver)
-                                                ? MainAxisAlignment.start
-                                                : MainAxisAlignment.end,
-                                        children: [
-                                          const Avatar(
-                                            imageUrl:
-                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                            radius: 12,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          // Text(message.sender!.fullname.length > 20
-                                          //     ? '${message.sender!.fullname.substring(0, 20)}...'
-                                          //     : message.sender!.fullname),
-                                          const SizedBox(width: 16),
-                                          // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                          //     .format(message.createdAt!)),
-                                        ],
-                                      ),
-                                    if (showImage &&
-                                        message.messageType ==
-                                            BubbleMessageType.sender)
-                                      Row(
-                                        mainAxisAlignment:
-                                            (message.messageType ==
-                                                    BubbleMessageType.receiver)
-                                                ? MainAxisAlignment.start
-                                                : MainAxisAlignment.end,
-                                        children: [
-                                          // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                          //     .format(message.createdAt!)),
-                                          const SizedBox(width: 16),
-                                          // Text(message.sender!.fullname.length >
-                                          //         20
-                                          //     ? '${message.sender!.fullname.substring(0, 20)}...'
-                                          //     : message.sender!.fullname),
-                                          const SizedBox(width: 8),
-                                          const Avatar(
-                                            imageUrl:
-                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                            radius: 12,
-                                          ),
-                                        ],
-                                      ),
-                                    MessageSchedule(scheduleDetail: message),
-                                  ],
-                                );
+                              if (!showImage) {
+                                DateTime lastMessageTime =
+                                    messages[index - 1].createdAt!;
+                                DateTime curMessageTime = message.createdAt!;
+                                showImage =
+                                    curMessageTime.millisecondsSinceEpoch -
+                                            lastMessageTime
+                                                .millisecondsSinceEpoch >=
+                                        86400000;
                               }
                             }
-                            return null;
-                          },
-                        ),
+
+                            if (message is MessageContent) {
+                              return Column(
+                                mainAxisAlignment: (message.messageType ==
+                                        BubbleMessageType.receiver)
+                                    ? MainAxisAlignment.start
+                                    : MainAxisAlignment.end,
+                                children: [
+                                  if (showImage &&
+                                      message.messageType ==
+                                          BubbleMessageType.receiver)
+                                    Row(
+                                      mainAxisAlignment: (message.messageType ==
+                                              BubbleMessageType.receiver)
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end,
+                                      children: [
+                                        const Avatar(
+                                          imageUrl:
+                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                          radius: 12,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(message.sender!.fullname.length >
+                                                20
+                                            ? '${message.sender!.fullname.substring(0, 20)}...'
+                                            : message.sender!.fullname),
+                                        const SizedBox(width: 16),
+                                        Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                            .format(message.createdAt!)),
+                                      ],
+                                    ),
+                                  if (showImage &&
+                                      message.messageType ==
+                                          BubbleMessageType.sender)
+                                    Row(
+                                      mainAxisAlignment: (message.messageType ==
+                                              BubbleMessageType.receiver)
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end,
+                                      children: [
+                                        Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                            .format(message.createdAt!)),
+                                        const SizedBox(width: 16),
+                                        Text(message.sender!.fullname.length >
+                                                20
+                                            ? '${message.sender!.fullname.substring(0, 20)}...'
+                                            : message.sender!.fullname),
+                                        const SizedBox(width: 8),
+                                        const Avatar(
+                                          imageUrl:
+                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                          radius: 12,
+                                        ),
+                                      ],
+                                    ),
+                                  MessageBubble(messageDetail: message),
+                                ],
+                              );
+                            }
+
+                            if (message is ScheduleDetail) {
+                              return Column(
+                                mainAxisAlignment: (message.messageType ==
+                                        BubbleMessageType.receiver)
+                                    ? MainAxisAlignment.start
+                                    : MainAxisAlignment.end,
+                                children: [
+                                  if (showImage &&
+                                      message.messageType ==
+                                          BubbleMessageType.receiver)
+                                    Row(
+                                      mainAxisAlignment: (message.messageType ==
+                                              BubbleMessageType.receiver)
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end,
+                                      children: [
+                                        const Avatar(
+                                          imageUrl:
+                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                          radius: 12,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        // Text(message.sender!.fullname.length > 20
+                                        //     ? '${message.sender!.fullname.substring(0, 20)}...'
+                                        //     : message.sender!.fullname),
+                                        const SizedBox(width: 16),
+                                        // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                        //     .format(message.createdAt!)),
+                                      ],
+                                    ),
+                                  if (showImage &&
+                                      message.messageType ==
+                                          BubbleMessageType.sender)
+                                    Row(
+                                      mainAxisAlignment: (message.messageType ==
+                                              BubbleMessageType.receiver)
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end,
+                                      children: [
+                                        // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                        //     .format(message.createdAt!)),
+                                        const SizedBox(width: 16),
+                                        // Text(message.sender!.fullname.length >
+                                        //         20
+                                        //     ? '${message.sender!.fullname.substring(0, 20)}...'
+                                        //     : message.sender!.fullname),
+                                        const SizedBox(width: 8),
+                                        const Avatar(
+                                          imageUrl:
+                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                          radius: 12,
+                                        ),
+                                      ],
+                                    ),
+                                  MessageSchedule(scheduleDetail: message),
+                                ],
+                              );
+                            }
+                          }
+                          return null;
+                        },
                       ),
+                    ),
                     SizedBox(
                       height: 100,
                       child: Row(

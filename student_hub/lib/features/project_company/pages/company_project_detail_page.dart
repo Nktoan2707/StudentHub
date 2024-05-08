@@ -700,7 +700,7 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                           CompanyProposalUpdated(updatedProposal: proposal));
                       context.read<MessageBloc>().add(MessageSentEvent(
                           messageSent: MessageSent(
-                              projectId: 851,
+                              projectId: project.projectId,
                               content:
                                   "Hey, i want to make contact to you with project \"${project.title}\"",
                               senderId: userInfo.id,
