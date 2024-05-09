@@ -22,6 +22,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
         children: [
           Container(
             color: Colors.grey[200],
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
