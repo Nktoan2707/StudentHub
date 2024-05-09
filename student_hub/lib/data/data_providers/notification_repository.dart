@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'package:student_hub/common/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:student_hub/data/models/domain/notification_detail.dart';
+import 'package:student_hub/data/models/domain/user.dart';
 
 class NotificationRepository {
   Future<List<NotificationDetail>> getNotificationListByUserId({
     required String token,
-    required int userId,
+    required User user,
   }) async {
     try {
       final Uri uri = Uri.https(
-          Constants.apiBaseURL, '/api/notification/getByReceiverId/${userId}');
+          Constants.apiBaseURL, '/api/notification/getByReceiverId/${user.id}');
       final http.Response response = await http.get(
         uri,
         headers: <String, String>{
@@ -29,6 +30,13 @@ class NotificationRepository {
             List.from(jsonDecode(response.body)["result"])
                 .map((e) => NotificationDetail.fromJson(e))
                 .toList();
+
+        result.sort((a, b) {
+          return a.createdAt.millisecondsSinceEpoch <=
+                  b.createdAt.millisecondsSinceEpoch
+              ? 1
+              : 0;
+        });
 
         return result;
       } else if (response.statusCode == 500) {

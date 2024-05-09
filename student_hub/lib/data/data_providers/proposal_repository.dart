@@ -36,7 +36,7 @@ class ProposalRepository {
 
   Future<bool> updateStatusProposal(
       {required Proposal proposal, required String token}) async {
-    try {
+    try { 
       final Uri uri =
           Uri.https(Constants.apiBaseURL, '/api/proposal/${proposal.id}');
 
@@ -46,7 +46,7 @@ class ProposalRepository {
             'Authorization': 'Bearer $token',
           },
           body: json.encode(proposal.toJson()));
-
+           print("[NETWORK-GET PROPOSAL LIST] proposal${proposal.toJson()}");
       print("[NETWORK-GET PROPOSAL LIST] statusCode${response.statusCode}");
       print("[NETWORK-GET PROPOSAL LIST] body${jsonDecode(response.body)}");
 

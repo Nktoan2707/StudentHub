@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:student_hub/data/models/domain/message_detail.dart';
+
 class NotificationDetail {
   int id;
   DateTime createdAt;
@@ -7,7 +9,7 @@ class NotificationDetail {
   dynamic deletedAt;
   int receiverId;
   int senderId;
-  int messageId;
+  int? messageId;
   String title;
   String notifyFlag;
   String typeNotifyFlag;
@@ -49,7 +51,7 @@ class NotificationDetail {
     notifyFlag: json["notifyFlag"],
     typeNotifyFlag: json["typeNotifyFlag"],
     content: json["content"],
-    message: Message.fromJson(json["message"]),
+    message: json["message"] == null ? null : Message.fromJson(json["message"]),
     sender: Receiver.fromJson(json["sender"]),
     receiver: Receiver.fromJson(json["receiver"]),
   );
@@ -125,58 +127,6 @@ class Message {
     "interview": interview?.toJson(),
     "content": content,
     "messageFlag": messageFlag,
-  };
-}
-
-class Interview {
-  int id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  DateTime deletedAt;
-  String title;
-  DateTime startTime;
-  DateTime endTime;
-  int disableFlag;
-  MeetingRoom meetingRoom;
-
-  Interview({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.title,
-    required this.startTime,
-    required this.endTime,
-    required this.disableFlag,
-    required this.meetingRoom,
-  });
-
-  factory Interview.fromRawJson(String str) => Interview.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Interview.fromJson(Map<String, dynamic> json) => Interview(
-    id: json["id"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    deletedAt: DateTime.parse(json["deletedAt"]),
-    title: json["title"],
-    startTime: DateTime.parse(json["startTime"]),
-    endTime: DateTime.parse(json["endTime"]),
-    disableFlag: json["disableFlag"],
-    meetingRoom: MeetingRoom.fromJson(json["meetingRoom"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "deletedAt": deletedAt.toIso8601String(),
-    "title": title,
-    "startTime": startTime.toIso8601String(),
-    "endTime": endTime.toIso8601String(),
-    "disableFlag": disableFlag,
-    "meetingRoom": meetingRoom.toJson(),
   };
 }
 

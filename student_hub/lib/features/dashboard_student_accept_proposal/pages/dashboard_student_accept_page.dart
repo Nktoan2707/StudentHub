@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/dashboard_student_accept_proposal/bloc/dashboard_student_accept_proposal_bloc.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
@@ -39,77 +40,84 @@ class _DashboardStudentAcceptPageState
           Navigator.of(context).pop();
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          elevation: 0,
-          title: const Text(
-            'Offer Project',
-            style: TextStyle(fontSize: 25, color: Colors.black),
-          ),
-          centerTitle: false,
-          backgroundColor: Colors.grey,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
-        bottomNavigationBar: proposal.statusFlag == 2
-            ? Container(
-                margin: const EdgeInsets.all(30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkCustomButton(
-                      onTap: () {
-                        _onAcceptButtonClicked();
-                      },
-                      title: "Accept Offer",
-                      height: 50,
-                      width: (MediaQuery.of(context).size.width / 3),
-                    ),
-                  ],
-                ),
-              )
-            : null,
-        body: Container(
-          margin: const EdgeInsets.all(30),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(proposal.project!.title),
-                    const Divider(
-                      thickness: 3,
-                      height: 30,
-                    ),
-                    Text(proposal.project!.description),
-                    const Divider(
-                      thickness: 3,
-                      height: 30,
-                    ),
-                    ListTile(
-                      title: Text(
-                          "Project Scope: \n \t \t - ${proposal.project!.projectScopeFlag}"),
-                      leading: const Icon(Icons.timer_outlined),
-                      minLeadingWidth: 0,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    ListTile(
-                      title: Text(
-                          "Student Required: \n \t \t - ${proposal.project!.numberOfStudents} students"),
-                      leading: const Icon(Icons.people_rounded),
-                      minLeadingWidth: 0,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ],
-                ),
+      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+           if (state is AuthenticationAuthenticateSuccess) {
+            proposal.studentProfile = state.user.studentProfile;
+           }
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-            ],
-          ),
-        ),
+              elevation: 0,
+              title: const Text(
+                'Offer Project',
+                style: TextStyle(fontSize: 25, color: Colors.black),
+              ),
+              centerTitle: false,
+              backgroundColor: Colors.grey,
+              iconTheme: const IconThemeData(color: Colors.black),
+            ),
+            bottomNavigationBar: proposal.statusFlag == 2
+                ? Container(
+                    margin: const EdgeInsets.all(30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkCustomButton(
+                          onTap: () {
+                            _onAcceptButtonClicked();
+                          },
+                          title: "Accept Offer",
+                          height: 50,
+                          width: (MediaQuery.of(context).size.width / 3),
+                        ),
+                      ],
+                    ),
+                  )
+                : null,
+            body: Container(
+              margin: const EdgeInsets.all(30),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(proposal.project!.title),
+                        const Divider(
+                          thickness: 3,
+                          height: 30,
+                        ),
+                        Text(proposal.project!.description),
+                        const Divider(
+                          thickness: 3,
+                          height: 30,
+                        ),
+                        ListTile(
+                          title: Text(
+                              "Project Scope: \n \t \t - ${proposal.project!.projectScopeFlag}"),
+                          leading: const Icon(Icons.timer_outlined),
+                          minLeadingWidth: 0,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        ListTile(
+                          title: Text(
+                              "Student Required: \n \t \t - ${proposal.project!.numberOfStudents} students"),
+                          leading: const Icon(Icons.people_rounded),
+                          minLeadingWidth: 0,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

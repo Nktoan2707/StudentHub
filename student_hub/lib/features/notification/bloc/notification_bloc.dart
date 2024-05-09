@@ -37,9 +37,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       final List<NotificationDetail> notificationList = await
       _notificationRepository.getNotificationListByUserId(
           token: _authenticationRepository.token,
-          userId: await _userRepository
-              .getCurrentUser(_authenticationRepository.token)
-              .then((value) => value.id));
+          user: await _userRepository
+              .getCurrentUser(_authenticationRepository.token));
 
       emit(NotificationFetchSuccess(notificationList: notificationList));
     } catch (e) {

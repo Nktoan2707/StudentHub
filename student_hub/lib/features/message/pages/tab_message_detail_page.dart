@@ -97,6 +97,8 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
   Widget build(BuildContext context) {
     Map<String, dynamic> messageInfo =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    print (messageInfo);
+    print ("dasd;ajkwkldjalkdjakldjlka");
     initMessageContent = messageInfo['messageInit'];
 
     chatUser = initMessageContent.me!.id == initMessageContent.sender!.id
@@ -605,7 +607,7 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                     interview.endTime = endDateTime;
                     interview.projectId = widget.initMessageContent.project!.projectId;
                     interview.senderId = widget.initMessageContent.me!.id;
-                    interview.receiverId = widget.initMessageContent.receiver!.id;
+                    interview.receiverId = widget.initMessageContent.me!.id == widget.initMessageContent.receiver!.id ? widget.initMessageContent.sender!.id : widget.initMessageContent.receiver!.id;
                     interview.meetingRoomCode = DateTime.now().toString();
                     interview.meetingRoomId = DateTime.now().toString();
                     interview.content =  DateTime.now().toString();

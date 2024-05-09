@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/enums.dart';
+import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/data/models/domain/notification_detail.dart';
+import 'package:student_hub/data/models/domain/project.dart';
+import 'package:student_hub/data/models/domain/user.dart';
+import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
 import 'package:student_hub/features/notification/bloc/notification_bloc.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -76,6 +81,38 @@ class _NotificationListViewItem extends StatelessWidget {
         context
             .read<NotificationBloc>()
             .add(NotificationUpdated(notificationId: notification.id));
+
+        if (notification.message != null) {
+          Navigator.of(context)
+              .pushNamed(TabMessageDetailPage.pageId, arguments: {
+            "messageInit": MessageContent(
+              project: Project(
+                  projectId: notification.message!.projectId,
+                  createdAt: "",
+                  updatedAt: "",
+                  deletedAt: "",
+                  companyId: "",
+                  projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
+                  title: "",
+                  description: "description",
+                  numberOfStudents: 0,
+                  typeFlag: 1,
+                  countProposals: 1,
+                  isFavorite: true,
+                  countHired: 0,
+                  countMessages: 0),
+              me: User(
+                  id: notification.receiverId,
+                  fullname: ""),
+              sender: User(
+                  id: notification.senderId,
+                  fullname: notification.sender!.fullname),
+              receiver: User(
+                  id: notification.receiverId,
+                  fullname: ""),
+            )
+          });
+        }
       },
       child: Container(
         color: notification.notifyFlag == "0" ? Colors.grey : null,
