@@ -56,6 +56,7 @@ class MessageRepository {
       );
 
       print('[NETWORK]Sent Message ${messageSent.toJson()}');
+      print('[NETWORK]Sent Message BODY ${response.body}');
       print(response.statusCode);
       if (response.statusCode == 201) {
         return true;
@@ -81,8 +82,8 @@ class MessageRepository {
         },
       );
 
-      print('[NETWORK]Get List Message of User ProjectID:$projectId User:$userid ${response.body}');
-      print(response.statusCode);
+      // print('[NETWORK]Get List Message of User ProjectID:$projectId User:$userid ${response.body}');
+      // print(response.statusCode);
       
       List listMessageJson = jsonDecode(response.body)['result'];
       List<MessageContent> listMessageContent = [];
@@ -114,8 +115,8 @@ class MessageRepository {
         },
       );
 
-      print('[NETWORK]Get List Message of ME ${response.body}');
-      print(response.statusCode);
+      // print('[NETWORK]Get List Message of ME ${response.body}');
+      // print(response.statusCode);
       
       List listMessageJson = jsonDecode(response.body)['result'];
       List<MessageContent> listMessageContent = [];
@@ -127,6 +128,34 @@ class MessageRepository {
         return listMessageContent;
       } else {
         throw Exception('[FAIL - NETWORK]Get message of ME');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+   Future<bool> sendInterview(
+      {required InterviewSent interviewSent, required String token}) async {
+    try {
+      final Uri uri =
+          Uri.https(Constants.apiBaseURL, '/api/interview');
+
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(interviewSent.toJson())
+      );
+
+      print('[NETWORK]Sent Interview ${interviewSent.toJson()}');
+      print('[NETWORK]Sent Interview BODY ${response.body}');
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        throw Exception('[FAIL - NETWORK]Sent Interview Fail');
       }
     } catch (e) {
       rethrow;

@@ -30,6 +30,7 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
   final messageController = TextEditingController();
   final PanelController panelController = PanelController();
   final ScrollController _scrollController = ScrollController();
+  bool isFirstLoadMsg = false;
   // final List messages = [
   //   MessageDetail(
   //       senderID: '12',
@@ -87,6 +88,11 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
     messageController.clear();
   }
 
+  void _sendInterview(InterviewSent interviewSent) async {
+    context.read<MessageBloc>().add(MessageInterviewSentEvent(
+        interviewSent: interviewSent));
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> messageInfo =
@@ -131,6 +137,19 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
       body: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {
           if (state is MessageProjectListFetchSuccess) {
+            if (messages.isEmpty) {
+              isFirstLoadMsg = true;
+            }
+            if (messages.isNotEmpty &&
+                messages.length != state.listMessage.length) {
+              Timer(Duration(milliseconds: 500), () {
+                _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.fastOutSlowIn,
+                );
+              });
+            }
             messages = state.listMessage;
           }
 
@@ -145,7 +164,10 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
             controller: panelController,
             panelBuilder: (scrollController) => _ScheduleFloatingPanel(
               panelController: panelController,
-              messages: messages,
+              initMessageContent: initMessageContent,
+              didSendInterview: (interview) {
+                _sendInterview(interview);
+              },
             ),
             collapsed: null,
             body: SafeArea(
@@ -158,166 +180,178 @@ class _TabMessageDetailPageState extends State<TabMessageDetailPage> {
                 ),
                 child: Column(
                   children: [
-                    // if (state is! MessageProjectListFetchSuccess)
-                    //   Expanded(
-                    //       child:
-                    //           Center(child: const CircularProgressIndicator())),
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) {
-                          _scrollController.animateTo(
-                            _scrollController.position.maxScrollExtent,
-                            duration: Duration(milliseconds: 200),
-                            curve: Curves.fastOutSlowIn,
-                          );
-                          final message = messages[index];
-                          var showImage = false;
-                          if (messages.length == 1) {
-                            showImage = true;
-                          } else {
-                            if (index == 0) {
+                    if (state is! MessageProjectListFetchSuccess &&
+                        messages.isEmpty)
+                      Expanded(
+                          child:
+                              Center(child: const CircularProgressIndicator())),
+                    if (messages.isNotEmpty)
+                      Expanded(
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            if (isFirstLoadMsg) {
+                              print("ADasdawea");
+                              isFirstLoadMsg = false;
+                              Timer(Duration(seconds: 1), () {
+                                _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn,
+                                );
+                              });
+                            }
+                            final message = messages[index];
+                            var showImage = false;
+                            if (messages.length == 1) {
                               showImage = true;
                             } else {
-                              showImage = messages[index - 1].sender!.id !=
-                                  message.sender!.id;
+                              if (index == 0) {
+                                showImage = true;
+                              } else {
+                                showImage = messages[index - 1].sender!.id !=
+                                    message.sender!.id;
 
-                              if (!showImage) {
-                                DateTime lastMessageTime =
-                                    messages[index - 1].createdAt!;
-                                DateTime curMessageTime = message.createdAt!;
-                                showImage =
-                                    curMessageTime.millisecondsSinceEpoch -
-                                            lastMessageTime
-                                                .millisecondsSinceEpoch >=
-                                        86400000;
+                                if (!showImage) {
+                                  DateTime lastMessageTime =
+                                      messages[index - 1].createdAt!;
+                                  DateTime curMessageTime = message.createdAt!;
+                                  showImage =
+                                      curMessageTime.millisecondsSinceEpoch -
+                                              lastMessageTime
+                                                  .millisecondsSinceEpoch >=
+                                          86400000;
+                                }
+                              }
+
+                              if (message is MessageContent && message.interview == null) {
+                                return Column(
+                                  mainAxisAlignment: (message.messageType ==
+                                          BubbleMessageType.receiver)
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
+                                  children: [
+                                    if (showImage &&
+                                        message.messageType ==
+                                            BubbleMessageType.receiver)
+                                      Row(
+                                        mainAxisAlignment:
+                                            (message.messageType ==
+                                                    BubbleMessageType.receiver)
+                                                ? MainAxisAlignment.start
+                                                : MainAxisAlignment.end,
+                                        children: [
+                                          const Avatar(
+                                            imageUrl:
+                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                            radius: 12,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(message.sender!.fullname.length >
+                                                  20
+                                              ? '${message.sender!.fullname.substring(0, 20)}...'
+                                              : message.sender!.fullname),
+                                          const SizedBox(width: 16),
+                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                              .format(message.createdAt!)),
+                                        ],
+                                      ),
+                                    if (showImage &&
+                                        message.messageType ==
+                                            BubbleMessageType.sender)
+                                      Row(
+                                        mainAxisAlignment:
+                                            (message.messageType ==
+                                                    BubbleMessageType.receiver)
+                                                ? MainAxisAlignment.start
+                                                : MainAxisAlignment.end,
+                                        children: [
+                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                              .format(message.createdAt!)),
+                                          const SizedBox(width: 16),
+                                          Text(message.sender!.fullname.length >
+                                                  20
+                                              ? '${message.sender!.fullname.substring(0, 20)}...'
+                                              : message.sender!.fullname),
+                                          const SizedBox(width: 8),
+                                          const Avatar(
+                                            imageUrl:
+                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                            radius: 12,
+                                          ),
+                                        ],
+                                      ),
+                                    MessageBubble(messageDetail: message),
+                                  ],
+                                );
+                              }
+
+                              if (message is MessageContent && message.interview != null) {
+                                return Column(
+                                  mainAxisAlignment: (message.messageType ==
+                                          BubbleMessageType.receiver)
+                                      ? MainAxisAlignment.start
+                                      : MainAxisAlignment.end,
+                                  children: [
+                                    if (showImage &&
+                                        message.messageType ==
+                                            BubbleMessageType.receiver)
+                                      Row(
+                                        mainAxisAlignment:
+                                            (message.messageType ==
+                                                    BubbleMessageType.receiver)
+                                                ? MainAxisAlignment.start
+                                                : MainAxisAlignment.end,
+                                        children: [
+                                          const Avatar(
+                                            imageUrl:
+                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                            radius: 12,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(message.sender!.fullname.length > 20
+                                              ? '${message.sender!.fullname.substring(0, 20)}...'
+                                              : message.sender!.fullname),
+                                          const SizedBox(width: 16),
+                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                              .format(message.createdAt!)),
+                                        ],
+                                      ),
+                                    if (showImage &&
+                                        message.messageType ==
+                                            BubbleMessageType.sender)
+                                      Row(
+                                        mainAxisAlignment:
+                                            (message.messageType ==
+                                                    BubbleMessageType.receiver)
+                                                ? MainAxisAlignment.start
+                                                : MainAxisAlignment.end,
+                                        children: [
+                                          Text(DateFormat('hh:mm:ss dd/MM/yyyy')
+                                              .format(message.createdAt!)),
+                                          const SizedBox(width: 16),
+                                          Text(message.sender!.fullname.length >
+                                                  20
+                                              ? '${message.sender!.fullname.substring(0, 20)}...'
+                                              : message.sender!.fullname),
+                                          const SizedBox(width: 8),
+                                          const Avatar(
+                                            imageUrl:
+                                                'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
+                                            radius: 12,
+                                          ),
+                                        ],
+                                      ),
+                                    MessageSchedule(scheduleDetail: message.interview!),
+                                  ],
+                                );
                               }
                             }
-
-                            if (message is MessageContent) {
-                              return Column(
-                                mainAxisAlignment: (message.messageType ==
-                                        BubbleMessageType.receiver)
-                                    ? MainAxisAlignment.start
-                                    : MainAxisAlignment.end,
-                                children: [
-                                  if (showImage &&
-                                      message.messageType ==
-                                          BubbleMessageType.receiver)
-                                    Row(
-                                      mainAxisAlignment: (message.messageType ==
-                                              BubbleMessageType.receiver)
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.end,
-                                      children: [
-                                        const Avatar(
-                                          imageUrl:
-                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                          radius: 12,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(message.sender!.fullname.length >
-                                                20
-                                            ? '${message.sender!.fullname.substring(0, 20)}...'
-                                            : message.sender!.fullname),
-                                        const SizedBox(width: 16),
-                                        Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                            .format(message.createdAt!)),
-                                      ],
-                                    ),
-                                  if (showImage &&
-                                      message.messageType ==
-                                          BubbleMessageType.sender)
-                                    Row(
-                                      mainAxisAlignment: (message.messageType ==
-                                              BubbleMessageType.receiver)
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.end,
-                                      children: [
-                                        Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                            .format(message.createdAt!)),
-                                        const SizedBox(width: 16),
-                                        Text(message.sender!.fullname.length >
-                                                20
-                                            ? '${message.sender!.fullname.substring(0, 20)}...'
-                                            : message.sender!.fullname),
-                                        const SizedBox(width: 8),
-                                        const Avatar(
-                                          imageUrl:
-                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                          radius: 12,
-                                        ),
-                                      ],
-                                    ),
-                                  MessageBubble(messageDetail: message),
-                                ],
-                              );
-                            }
-
-                            if (message is ScheduleDetail) {
-                              return Column(
-                                mainAxisAlignment: (message.messageType ==
-                                        BubbleMessageType.receiver)
-                                    ? MainAxisAlignment.start
-                                    : MainAxisAlignment.end,
-                                children: [
-                                  if (showImage &&
-                                      message.messageType ==
-                                          BubbleMessageType.receiver)
-                                    Row(
-                                      mainAxisAlignment: (message.messageType ==
-                                              BubbleMessageType.receiver)
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.end,
-                                      children: [
-                                        const Avatar(
-                                          imageUrl:
-                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                          radius: 12,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        // Text(message.sender!.fullname.length > 20
-                                        //     ? '${message.sender!.fullname.substring(0, 20)}...'
-                                        //     : message.sender!.fullname),
-                                        const SizedBox(width: 16),
-                                        // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                        //     .format(message.createdAt!)),
-                                      ],
-                                    ),
-                                  if (showImage &&
-                                      message.messageType ==
-                                          BubbleMessageType.sender)
-                                    Row(
-                                      mainAxisAlignment: (message.messageType ==
-                                              BubbleMessageType.receiver)
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.end,
-                                      children: [
-                                        // Text(DateFormat('hh:mm:ss dd/MM/yyyy')
-                                        //     .format(message.createdAt!)),
-                                        const SizedBox(width: 16),
-                                        // Text(message.sender!.fullname.length >
-                                        //         20
-                                        //     ? '${message.sender!.fullname.substring(0, 20)}...'
-                                        //     : message.sender!.fullname),
-                                        const SizedBox(width: 8),
-                                        const Avatar(
-                                          imageUrl:
-                                              'https://cdn3.iconfinder.com/data/icons/incognito-avatars/154/incognito-face-user-man-avatar-512.png',
-                                          radius: 12,
-                                        ),
-                                      ],
-                                    ),
-                                  MessageSchedule(scheduleDetail: message),
-                                ],
-                              );
-                            }
-                          }
-                          return null;
-                        },
+                            return null;
+                          },
+                        ),
                       ),
-                    ),
                     SizedBox(
                       height: 100,
                       child: Row(
@@ -405,8 +439,9 @@ class _ScheduleFloatingPanel extends StatefulWidget {
   final PanelController panelController;
 
   const _ScheduleFloatingPanel(
-      {required this.panelController, required this.messages});
-  final List messages;
+      {required this.panelController, required this.didSendInterview, required this.initMessageContent});
+  final Function(InterviewSent interview) didSendInterview;
+  final MessageContent initMessageContent;
   @override
   State<_ScheduleFloatingPanel> createState() => _ScheduleFloatingPanelState();
 }
@@ -415,6 +450,11 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
   TextEditingController titleController = TextEditingController();
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
+
+  DateTime startDateTime = DateTime.now();
+  DateTime endDateTime = DateTime.now();
+
+  late InterviewSent interview = InterviewSent();
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -480,7 +520,14 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                 ),
                 IconButton(
                   onPressed: () {
-                    dateTimePickerWidget(context, startTimeController);
+                    dateTimePickerWidget(context, (date) {
+                      setState(() {
+                        startDateTime = date;
+                        startTimeController.text =
+                            DateFormat('HH:mm:ss dd/MM/yyyy')
+                                .format(startDateTime);
+                      });
+                    });
                   },
                   icon: const Icon(Icons.calendar_month),
                 ),
@@ -509,14 +556,30 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                 ),
                 IconButton(
                   onPressed: () {
-                    dateTimePickerWidget(context, endTimeController);
+                    dateTimePickerWidget(context, (date) {
+                      setState(() {
+                        endDateTime = date;
+                        endTimeController.text =
+                            DateFormat('HH:mm:ss dd/MM/yyyy')
+                                .format(endDateTime);
+
+                      });
+                    });
                   },
                   icon: const Icon(Icons.calendar_month),
                 ),
               ],
             ),
-            const Text(
-              "Duration: 60 minutes",
+            Row(
+              children: [
+                const Text(
+                  "Duration: ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "${((endDateTime.millisecondsSinceEpoch - startDateTime.millisecondsSinceEpoch) / 1000 / 60).round()} minutes",
+                ),
+              ],
             ),
             const SizedBox(
               height: 36,
@@ -528,12 +591,27 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
                   title: "Cancel",
                   padding: 4,
                   width: MediaQuery.of(context).size.width * 0.4,
+                  onTap: () {
+                     widget.panelController.close();
+                  },
                 ),
                 InkCustomButton(
                   title: "Send Invite",
                   padding: 4,
                   width: MediaQuery.of(context).size.width * 0.4,
-                  onTap: () {},
+                  onTap: () {
+                    interview.title = titleController.text;
+                    interview.startTime = startDateTime;
+                    interview.endTime = endDateTime;
+                    interview.projectId = widget.initMessageContent.project!.projectId;
+                    interview.senderId = widget.initMessageContent.me!.id;
+                    interview.receiverId = widget.initMessageContent.receiver!.id;
+                    interview.meetingRoomCode = DateTime.now().toString();
+                    interview.meetingRoomId = DateTime.now().toString();
+                    interview.content =  DateTime.now().toString();
+                    widget.didSendInterview(interview);
+                    widget.panelController.close();
+                  },
                 ),
               ],
             )
@@ -544,7 +622,7 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
   }
 
   dateTimePickerWidget(
-      BuildContext context, TextEditingController textController) {
+      BuildContext context, Function(DateTime date) onSelected) {
     return DatePicker.showDatePicker(
       context,
       dateFormat: 'dd MMMM yyyy HH:mm',
@@ -553,10 +631,7 @@ class _ScheduleFloatingPanelState extends State<_ScheduleFloatingPanel> {
       maxDateTime: DateTime(3000),
       onMonthChangeStartWithFirstDate: true,
       onConfirm: (dateTime, List<int> index) {
-        setState(() {
-          textController.text =
-              DateFormat('hh:mm:ss dd/MM/yyyy').format(dateTime);
-        });
+        onSelected(dateTime);
       },
     );
   }

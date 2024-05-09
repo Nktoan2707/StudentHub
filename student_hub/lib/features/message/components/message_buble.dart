@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:student_hub/data/models/domain/message_detail.dart';
 import 'package:student_hub/data/models/domain/schedule_detail.dart';
 import 'package:student_hub/features/message/pages/video_call_page.dart';
@@ -61,7 +62,7 @@ class MessageSchedule extends StatelessWidget {
     required this.scheduleDetail,
   });
 
-  final ScheduleDetail scheduleDetail;
+  final Interview scheduleDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -87,18 +88,19 @@ class MessageSchedule extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    scheduleDetail.title,
+                    scheduleDetail.title!,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text(scheduleDetail.duration)
+                  Text( "${((scheduleDetail.endTime!.millisecondsSinceEpoch - scheduleDetail.startTime!.millisecondsSinceEpoch) / 1000 / 60).round()} minutes")
                 ],
               ),
               const Text(
                 'Start time:',
               ),
               Text(
-                ' ${scheduleDetail.startTime}',
+                ' ${DateFormat('HH:mm:ss dd/MM/yyyy')
+                                .format(scheduleDetail.startTime!)}',
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
@@ -106,7 +108,8 @@ class MessageSchedule extends StatelessWidget {
                 'End time:',
               ),
               Text(
-                ' ${scheduleDetail.endTime}',
+                ' ${DateFormat('HH:mm:ss dd/MM/yyyy')
+                                .format(scheduleDetail.endTime!)}',
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
@@ -123,11 +126,6 @@ class MessageSchedule extends StatelessWidget {
                       Navigator.of(context).pushNamed(VideoCallPage.pageId);
                     },
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit),
-                    padding: EdgeInsets.zero,
-                  )
                 ],
               ),
             ],

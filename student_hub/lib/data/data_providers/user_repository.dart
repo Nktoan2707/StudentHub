@@ -25,9 +25,9 @@ class UserRepository {
     print(response.body);
     if (response.statusCode == 200) {
       doesNeedUpdate = false;
-      print("[GET-User] Inprogress");
+      // print("[GET-User] Inprogress");
       User user = User.fromMap(json.decode(response.body)["result"]);
-      print("[GET-User] Success");
+      // print("[GET-User] Success");
       _currentUser = user;
       return _currentUser;
     } else {

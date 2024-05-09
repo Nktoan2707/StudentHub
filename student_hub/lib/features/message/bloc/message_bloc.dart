@@ -30,6 +30,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     on<MessageSentEvent>(_onMessageSentEvent);
     on<MessageGetListOfUserEvent>(_onMessageGetListOfUserEvent);
     on<MessageGetListOfMeEvent>(_onMessageGetListOfMeEvent);
+    on<MessageInterviewSentEvent>(_onMessageInterviewSentEvent);
   }
 
   FutureOr<void> _onMessageProjectListFetchEventd(
@@ -58,7 +59,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   FutureOr<void> _onMessageSentEvent(
       MessageSentEvent event, Emitter<MessageState> emit) async {
-    print(event.messageSent.toJson());
     try {
       await _messageRepository
           .sendMessage(
@@ -122,6 +122,25 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     } catch (e) {
       print(e);
       emit(MessageProjectListFetchFail());
+    }
+  }
+
+  FutureOr<void> _onMessageInterviewSentEvent(MessageInterviewSentEvent event, Emitter<MessageState> emit) async {
+    try {
+      await _messageRepository
+          .sendInterview(
+              interviewSent: event.interviewSent,
+              token: _authenticationRepository.token)
+          .then((value) {
+        if (value is! List) {
+          emit(MessageProjectMakeContactFail());
+          return;
+        }
+        emit(MessageProjectMakeContactSuccess());
+      });
+    } catch (e) {
+      print(e);
+      emit(MessageProjectMakeContactFail());
     }
   }
 }

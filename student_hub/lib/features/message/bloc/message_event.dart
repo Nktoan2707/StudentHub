@@ -43,3 +43,14 @@ class MessageGetListOfUserEvent extends MessageEvent {
 class MessageGetListOfMeEvent extends MessageEvent {
 }
 
+class MessageInterviewSentEvent extends MessageEvent {
+  final InterviewSent interviewSent;
+
+  MessageInterviewSentEvent({required this.interviewSent});
+
+  @override
+  String toString() {
+    return "[EVENT] MessageInterviewSentEvent $interviewSent}";
+  }
+}
+

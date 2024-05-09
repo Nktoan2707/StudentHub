@@ -244,3 +244,51 @@ class MessageSent {
 }
 
 
+class InterviewSent {
+    String? title;
+    String? content;
+    DateTime? startTime;
+    DateTime? endTime;
+    int? projectId;
+    int? senderId;
+    int? receiverId;
+    String? meetingRoomCode;
+    String? meetingRoomId;
+
+    InterviewSent({
+        this.title,
+        this.content,
+        this.startTime,
+        this.endTime,
+        this.projectId,
+        this.senderId,
+        this.receiverId,
+        this.meetingRoomCode,
+        this.meetingRoomId,
+    });
+
+    factory InterviewSent.fromJson(Map<String, dynamic> json) => InterviewSent(
+        title: json["title"],
+        content: json["content"],
+        startTime: json["startTime"] == null ? null : DateTime.parse(json["startTime"]),
+        endTime: json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
+        projectId: json["projectId"],
+        senderId: json["senderId"],
+        receiverId: json["receiverId"],
+        meetingRoomCode: json["meeting_room_code"],
+        meetingRoomId: json["meeting_room_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "title": title,
+        "content": content,
+        "startTime": startTime?.toIso8601String(),
+        "endTime": endTime?.toIso8601String(),
+        "projectId": projectId,
+        "senderId": senderId,
+        "receiverId": receiverId,
+        "meeting_room_code": meetingRoomCode,
+        "meeting_room_id": meetingRoomId,
+    };
+}
+
