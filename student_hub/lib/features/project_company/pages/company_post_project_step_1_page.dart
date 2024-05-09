@@ -128,6 +128,7 @@ class _CompanyPostProjectStep1PageState
                     ),
                     const Text(
                         "This helps your post stand out to the right students. It's the first thing they'll see, so make it impressive!"),
+                    SizedBox(height: 10,),
                     _title(
                       initialText: postProject.title,
                       onChanged: (p0) {

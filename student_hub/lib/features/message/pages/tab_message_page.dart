@@ -25,7 +25,7 @@ class _TabMessagePageState extends State<TabMessagePage> {
           child: Column(
             children: [
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +80,7 @@ class _TabMessagePageState extends State<TabMessagePage> {
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.search),
                             hintText: 'Search...',
-                            hintStyle: TextStyle(color: Colors.black),
+                            hintStyle: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30))),
@@ -97,10 +97,6 @@ class _TabMessagePageState extends State<TabMessagePage> {
               ),
               const SizedBox(
                 height: 20,
-              ),
-              const Divider(
-                color: Colors.grey,
-                thickness: 3,
               ),
               ListView.separated(
                 scrollDirection: Axis.vertical,

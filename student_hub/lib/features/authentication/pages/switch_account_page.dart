@@ -17,9 +17,21 @@ class SwitchAccountPage extends StatefulWidget {
 
   @override
   State<SwitchAccountPage> createState() => _SwitchAccountPageState();
+
+  static _SwitchAccountPageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_SwitchAccountPageState>();
 }
 
 class _SwitchAccountPageState extends State<SwitchAccountPage> {
+  bool showSettings = false;
+  Brightness brightness = Brightness.light;
+
+  void updateBrightness(Brightness newBrightness) {
+    setState(() {
+      brightness = newBrightness;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,8 +115,13 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                             ListTile(
                               leading: const Icon(Icons.settings),
                               title: const Text("Setting"),
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  showSettings = !showSettings; 
+                                });
+                              },
                             ),
+                            if (showSettings) SettingsWidget(),
                             ListTile(
                               leading: const Icon(Icons.logout),
                               title: const Text("Log out"),
@@ -218,6 +235,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           onChanged: (bool value) {
             setState(() {
               isDarkMode = value;
+              _applyDarkMode(value);
             });
           },
         ),
@@ -241,5 +259,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ),
       ],
     );
+  }
+
+  void _applyDarkMode(bool value) {
+    final Brightness newBrightness = value ? Brightness.dark : Brightness.light;
+    SwitchAccountPage.of(context)!.updateBrightness(newBrightness);
   }
 }

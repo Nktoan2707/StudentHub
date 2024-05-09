@@ -39,7 +39,7 @@ class _StudentDashboardPageState extends State<StudentDashboardPage>
       },
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -23,28 +23,33 @@ class _CompanyAlreadyHaveProfileInputPageState extends State<CompanyAlreadyHaveP
           children: [
             const SizedBox(height: 10,),
             const Center(
-              child: Text('Welcome to Student Hub'),
+              child: Text(
+                'Welcome to Student Hub',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+                ),
             ),
             const SizedBox(height: 20,),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Company name"),
-                _TextBox(),
+                _TextBox(hintText: "Enter your company name"),
             ],),
             const SizedBox(height: 20,),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Website"),
-                _TextBox(),
+                _TextBox(hintText: "http://"),
             ],),
             const SizedBox(height: 20,),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Description"),
-                _TextBox(),
+                _TextBox(hintText: "Describe your company"),
             ],),
             const SizedBox(height: 20,),
             Column(
@@ -112,7 +117,9 @@ class _CompanyAlreadyHaveProfileInputPageState extends State<CompanyAlreadyHaveP
 }
 
 class _TextBox extends StatefulWidget {
-  const _TextBox();
+  final String hintText; 
+
+  const _TextBox({Key? key, required this.hintText}) : super(key: key);
 
   @override
   State<_TextBox> createState() => _TextBoxState();
@@ -126,6 +133,11 @@ class _TextBoxState extends State<_TextBox> {
       maxLines: null,
       decoration: InputDecoration(
         labelText: "",
+        hintText: widget.hintText,
+        hintStyle: TextStyle(
+          fontStyle: FontStyle.italic, // Making the hint text italic
+          color: Colors.grey[500], // Setting a light grey color for the hint
+        ),
         errorText: false ?'invalid': null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -133,7 +145,7 @@ class _TextBoxState extends State<_TextBox> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ), 
-        contentPadding: const EdgeInsets.symmetric(vertical: 20),
+        contentPadding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
       ),
     );
   }

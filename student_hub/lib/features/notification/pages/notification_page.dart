@@ -22,11 +22,11 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget _buildAlertsScreen() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(height: 20,),
           const Row(
             children: [
               Icon(Icons.accessibility),

@@ -82,12 +82,18 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(project.title),
+                    Text(
+                      project.title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const Divider(
                       thickness: 3,
                       height: 30,
                     ),
-                    Text(project.description),
+                    Text(
+                      project.description,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const Divider(
                       thickness: 3,
                       height: 30,
