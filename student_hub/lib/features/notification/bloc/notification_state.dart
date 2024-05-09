@@ -12,21 +12,13 @@ class NotificationInitial extends NotificationState {}
 class NotificationFetchInProgress extends NotificationState {}
 
 class NotificationFetchSuccess extends NotificationState {
-  final StudentProfile studentProfile;
-  final String? resumeUrl;
-  final String? transcriptUrl;
-  final List<TechStack> allTechStackList;
-  final List<SkillSet> allSkillSetList;
+  final List<NotificationDetail> notificationList;
 
-  NotificationFetchSuccess(
-      {required this.studentProfile,
-      required this.resumeUrl,
-      required this.transcriptUrl,
-      required this.allTechStackList,
-      required this.allSkillSetList});
+  NotificationFetchSuccess({required this.notificationList});
+
 
   @override
-  List<Object> get props => [studentProfile];
+  List<Object> get props => [];
 }
 
 class NotificationFetchFailure extends NotificationState {}

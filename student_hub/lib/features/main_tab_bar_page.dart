@@ -7,6 +7,7 @@ import 'package:student_hub/features/authentication/bloc/authentication_bloc.dar
 import 'package:student_hub/features/dashboard_student/bloc/dashboard_student_bloc.dart';
 import 'package:student_hub/features/message/bloc/message_bloc.dart';
 import 'package:student_hub/features/message/pages/tab_message_page.dart';
+import 'package:student_hub/features/notification/bloc/notification_bloc.dart';
 import 'package:student_hub/features/notification/pages/notification_page.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_bloc.dart';
 import 'package:student_hub/features/project_company/bloc/company_project_event.dart';
@@ -29,6 +30,7 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
   int itemCount = 1;
   int _currentIndex = 0;
   Timer? timer;
+
   @override
   void initState() {
     timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
@@ -36,12 +38,13 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
     });
     super.initState();
   }
+
   @override
   void dispose() {
     timer!.cancel();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +65,7 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
                 .read<CompanyProjectBloc>()
                 .add(CompanyProjectListFetch(typeFlag: -1));
             context.read<MessageBloc>().add(MessageGetListOfMeEvent());
+            context.read<NotificationBloc>().add(NotificationFetched());
             return IndexedStack(
               index: _currentIndex,
               children: [

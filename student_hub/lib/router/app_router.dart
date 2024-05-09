@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/data/data_providers/authentication_repository.dart';
 import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/message_repository.dart';
+import 'package:student_hub/data/data_providers/notification_repository.dart';
 import 'package:student_hub/data/data_providers/project_repository.dart';
 import 'package:student_hub/data/data_providers/proposal_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
@@ -19,6 +20,7 @@ import 'package:student_hub/features/login/bloc/login_bloc.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/features/login/pages/login_page.dart';
 import 'package:student_hub/features/message/bloc/message_bloc.dart';
+import 'package:student_hub/features/notification/bloc/notification_bloc.dart';
 import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 
 import 'package:student_hub/features/profile_student/pages/welcome_page.dart';
@@ -67,6 +69,7 @@ class AppRouter {
   final DashboardStudentAcceptProposalBloc _dashboardStudentAcceptProposalBloc;
   final MessageBloc _projectMessageList;
   final AuthenticationRepository _authenticationRepository;
+  final NotificationBloc _notificationBloc;
 
   AppRouter(AuthenticationRepository authenticationRepository)
       : _loginBloc =
@@ -118,6 +121,10 @@ class AppRouter {
             userRepository: UserRepository(),
             authenticationRepository: authenticationRepository,
             messageRepository: MessageRepository()),
+        _notificationBloc = NotificationBloc(
+            notificationRepository: NotificationRepository(),
+            userRepository: UserRepository(),
+            authenticationRepository: authenticationRepository),
         _authenticationRepository = authenticationRepository;
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -200,6 +207,9 @@ class AppRouter {
                         userRepository: UserRepository(),
                         authenticationRepository: _authenticationRepository,
                         messageRepository: MessageRepository()),
+                  ),
+                  BlocProvider.value(
+                    value: _notificationBloc,
                   ),
                 ], child: const MainTabBarPage()));
       case CompanyDashboardPage.pageId:

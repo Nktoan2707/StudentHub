@@ -13,9 +13,9 @@ class NotificationFetched extends NotificationEvent {
 }
 
 class NotificationUpdated extends NotificationEvent {
-  final StudentProfile studentProfile;
+  final int notificationId;
 
-  const NotificationUpdated({required this.studentProfile});
+  const NotificationUpdated({required this.notificationId});
 
   @override
   String toString() => 'NotificationUpdated';
