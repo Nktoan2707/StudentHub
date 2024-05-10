@@ -81,50 +81,48 @@ class _NotificationListViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (notification.message != null) {
-          Navigator.of(context)
-              .pushNamed(TabMessageDetailPage.pageId, arguments: {
-            "messageInit": MessageContent(
-              project: Project(
-                  projectId: notification.message!.projectId,
-                  createdAt: "",
-                  updatedAt: "",
-                  deletedAt: "",
-                  companyId: "",
-                  projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
-                  title: "",
-                  description: "description",
-                  numberOfStudents: 0,
-                  typeFlag: 1,
-                  countProposals: 1,
-                  isFavorite: true,
-                  countHired: 0,
-                  countMessages: 0),
-              me: User(
-                  id: notification.receiverId,
-                  fullname: ""),
-              sender: User(
-                  id: notification.senderId,
-                  fullname: notification.sender!.fullname),
-              receiver: User(
-                  id: notification.receiverId,
-                  fullname: ""),
-            )
-          });
-          if (notification.notifyFlag == "0") {
-            context
-                .read<NotificationBloc>()
-                .add(NotificationUpdated(notificationId: notification.id));
+        if (notification.notifyFlag == "0") {
+          context
+              .read<NotificationBloc>()
+              .add(NotificationUpdated(notificationId: notification.id));
+        }
+        if (notification.typeNotifyFlag == "0") {
+          MainTabBarPage.myStreamController.add(1);
+        } else if (notification.typeNotifyFlag == "1") {
+          MainTabBarPage.myStreamController.add(2);
+        } else if (notification.typeNotifyFlag == "2") {
+          MainTabBarPage.myStreamController.add(1);
+        } else if (notification.typeNotifyFlag == "3") {
+          MainTabBarPage.myStreamController.add(2);
+          if (notification.message != null) {
+            Navigator.of(context)
+                .pushNamed(TabMessageDetailPage.pageId, arguments: {
+              "messageInit": MessageContent(
+                project: Project(
+                    projectId: notification.message!.projectId,
+                    createdAt: "",
+                    updatedAt: "",
+                    deletedAt: "",
+                    companyId: "",
+                    projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
+                    title: "",
+                    description: "description",
+                    numberOfStudents: 0,
+                    typeFlag: 1,
+                    countProposals: 1,
+                    isFavorite: true,
+                    countHired: 0,
+                    countMessages: 0),
+                me: User(id: notification.receiverId, fullname: ""),
+                sender: User(
+                    id: notification.senderId,
+                    fullname: notification.sender!.fullname),
+                receiver: User(id: notification.receiverId, fullname: ""),
+              )
+            });
           }
-          if (notification.typeNotifyFlag == "0") {
-            MainTabBarPage.myStreamController.add(1);
-          } else if (notification.typeNotifyFlag == "1") {} else
-          if (notification.typeNotifyFlag == "2") {
-            MainTabBarPage.myStreamController.add(1);
-          } else if (notification.typeNotifyFlag == "3") {} else
-          if (notification.typeNotifyFlag == "4") {
-            MainTabBarPage.myStreamController.add(1);
-          };
+        } else if (notification.typeNotifyFlag == "4") {
+          MainTabBarPage.myStreamController.add(1);
         }
       },
       child: Container(
