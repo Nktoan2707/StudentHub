@@ -211,7 +211,7 @@ class AppRouter {
                   BlocProvider.value(
                     value: _notificationBloc,
                   ),
-                ], child: const MainTabBarPage()));
+                ], child: MainTabBarPage()));
       case CompanyDashboardPage.pageId:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:student_hub/common/enums.dart';
@@ -6,6 +8,7 @@ import 'package:student_hub/data/models/domain/notification_detail.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/data/models/domain/user.dart';
 import 'package:student_hub/features/message/pages/tab_message_detail_page.dart';
+import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/notification/bloc/notification_bloc.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -78,10 +81,6 @@ class _NotificationListViewItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context
-            .read<NotificationBloc>()
-            .add(NotificationUpdated(notificationId: notification.id));
-
         if (notification.message != null) {
           Navigator.of(context)
               .pushNamed(TabMessageDetailPage.pageId, arguments: {
@@ -112,6 +111,20 @@ class _NotificationListViewItem extends StatelessWidget {
                   fullname: ""),
             )
           });
+          if (notification.notifyFlag == "0") {
+            context
+                .read<NotificationBloc>()
+                .add(NotificationUpdated(notificationId: notification.id));
+          }
+          if (notification.typeNotifyFlag == "0") {
+            MainTabBarPage.myStreamController.add(1);
+          } else if (notification.typeNotifyFlag == "1") {} else
+          if (notification.typeNotifyFlag == "2") {
+            MainTabBarPage.myStreamController.add(1);
+          } else if (notification.typeNotifyFlag == "3") {} else
+          if (notification.typeNotifyFlag == "4") {
+            MainTabBarPage.myStreamController.add(1);
+          };
         }
       },
       child: Container(
@@ -158,15 +171,15 @@ class _NotificationListViewItem extends StatelessWidget {
 
   Widget getNotificationIcon(String typeNotifyFlag) {
     if (typeNotifyFlag == "0") {
-      return const Icon(Icons.settings);
+      return const Icon(Icons.waving_hand);
     } else if (typeNotifyFlag == "1") {
-      return const Icon(Icons.settings);
+      return const Icon(Icons.video_call_outlined);
     } else if (typeNotifyFlag == "2") {
-      return const Icon(Icons.settings);
+      return const Icon(Icons.touch_app_rounded);
     } else if (typeNotifyFlag == "3") {
-      return const Icon(Icons.accessibility);
+      return const Icon(Icons.message_outlined);
     } else if (typeNotifyFlag == "4") {
-      return const Icon(Icons.settings);
+      return const Icon(Icons.handshake_sharp);
     }
 
     return Icon(Icons.error);
@@ -174,16 +187,16 @@ class _NotificationListViewItem extends StatelessWidget {
 
   Widget _buildContent() {
     if (notification.typeNotifyFlag == "0") {
-      return const Icon(Icons.settings);
+      return Text(notification.content);
     } else if (notification.typeNotifyFlag == "1") {
-      return const Icon(Icons.settings);
+      return Text(notification.content);
     } else if (notification.typeNotifyFlag == "2") {
-      return const Icon(Icons.settings);
+      return Text(notification.content);
     } else if (notification.typeNotifyFlag == "3") {
       return Text(
           "Message content: ${notification.message?.content ?? notification.content}");
     } else if (notification.typeNotifyFlag == "4") {
-      return const Icon(Icons.settings);
+      return Text(notification.content);
     }
 
     return Placeholder(

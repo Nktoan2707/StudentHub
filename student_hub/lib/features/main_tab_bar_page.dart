@@ -19,6 +19,7 @@ import 'package:student_hub/widgets/components/ui_extension.dart';
 
 class MainTabBarPage extends StatefulWidget {
   static const String pageId = "/MainTabBarPage";
+  static StreamController myStreamController = StreamController<int>();
 
   const MainTabBarPage({super.key});
 
@@ -27,14 +28,23 @@ class MainTabBarPage extends StatefulWidget {
 }
 
 class _MainTabBarPageState extends State<MainTabBarPage> {
-  int itemCount = 1;
   int _currentIndex = 0;
+  int itemCount = 1;
   Timer? timer;
+  late StreamSubscription<int> _currentIndexStreamSubscription;
 
   @override
   void initState() {
     timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
       context.read<MessageBloc>().add(MessageGetListOfMeEvent());
+    });
+
+    _currentIndexStreamSubscription =
+        (MainTabBarPage.myStreamController.stream as Stream<int>)
+            .listen((index) {
+      setState(() {
+        _currentIndex = index;
+      });
     });
     super.initState();
   }
