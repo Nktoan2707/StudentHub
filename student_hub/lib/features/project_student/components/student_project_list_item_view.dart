@@ -25,7 +25,7 @@ class StudentProjectListItemView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Created ${project.createdAt}",
+                  "Created ${DateTime.parse(project.createdAt).toLocal().toLocal().toString().substring(0, 19)}",
                   style: TextStyle(
                     fontSize: 12,
                   ),

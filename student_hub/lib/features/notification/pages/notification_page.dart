@@ -132,7 +132,7 @@ class _NotificationListViewItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "At ${notification.createdAt}",
+                              "At ${notification.createdAt.toLocal().toString().substring(0, 19)}",
                               style: TextStyle(
                                 fontSize: 12,
                               ),

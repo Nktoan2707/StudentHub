@@ -25,7 +25,7 @@ class StudentProposalListItemView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Created ${proposal.createdAt}",
+                  "Created ${proposal.createdAt.toLocal().toString().substring(0, 19)}",
                   style: TextStyle(
                     fontSize: 12,
                   ),
