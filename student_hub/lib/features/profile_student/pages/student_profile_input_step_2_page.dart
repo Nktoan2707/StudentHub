@@ -94,7 +94,7 @@ class _StudentProfileInputStep2PageState
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Projects"),
+                            Text("Projects", style: TextStyle(fontWeight: FontWeight.bold),),
                             Spacer(),
                             Container(
                               margin: EdgeInsets.only(right: 15),
@@ -119,13 +119,25 @@ class _StudentProfileInputStep2PageState
                             ),
                           ],
                         ),
+                        SizedBox(height: 10,),
                         ListView.separated(
                           scrollDirection: Axis.vertical,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: _listExperience.length,
                           itemBuilder: (context, index) {
-                            return _ListItemViewExperience(
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white, // Nền màu trắng cho từng mục
+                                border: Border.all(
+                                  color: Colors.grey, // Màu của viền
+                                  width: 1.0, // Độ dày của viền
+                                ),
+                                borderRadius: BorderRadius.circular(10), // Làm tròn góc của Container
+                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12), // Khoảng cách từng mục
+                              padding: const EdgeInsets.all(8), // Khoảng cách từ viền của Container tới nội dung bên trong
+                              child: _ListItemViewExperience(
                                 experience: _listExperience[index],
                                 onDeletePressed: () {
                                   setState(() {
@@ -140,13 +152,12 @@ class _StudentProfileInputStep2PageState
                                       _listExperience[index] = experience;
                                     });
                                   });
-                                });
+                                }
+                              ),
+                            );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              color: Colors.grey,
-                              thickness: 3,
-                            );
+                            return SizedBox(height: 8); // Khoảng cách giữa các mục
                           },
                         ),
                       ],
