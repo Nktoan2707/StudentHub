@@ -42,10 +42,18 @@ class _WelcomePageState extends State<WelcomePage> {
               const SizedBox(
                 height: 20,
               ),
+              Text(
+                'Welcome!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24, // Chỉnh kích thước phù hợp
+                ),
+                textAlign: TextAlign.center,
+              ),
               const PrimaryText(
                   textAlign: TextAlign.center,
                   title:
-                      'Welcome! \n Let\'s start with your first project post'),
+                      'Let\'s start with your first project post'),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

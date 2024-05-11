@@ -17,9 +17,21 @@ class SwitchAccountPage extends StatefulWidget {
 
   @override
   State<SwitchAccountPage> createState() => _SwitchAccountPageState();
+
+  static _SwitchAccountPageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_SwitchAccountPageState>();
 }
 
 class _SwitchAccountPageState extends State<SwitchAccountPage> {
+  bool showSettings = false;
+  Brightness brightness = Brightness.light;
+
+  void updateBrightness(Brightness newBrightness) {
+    setState(() {
+      brightness = newBrightness;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,8 +115,13 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
                             ListTile(
                               leading: const Icon(Icons.settings),
                               title: const Text("Setting"),
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  showSettings = !showSettings; 
+                                });
+                              },
                             ),
+                            if (showSettings) SettingsWidget(),
                             ListTile(
                               leading: const Icon(Icons.logout),
                               title: const Text("Log out"),
@@ -193,5 +210,59 @@ class _SwitchAccountPageState extends State<SwitchAccountPage> {
         );
       },
     );
+  }
+}
+
+class SettingsWidget extends StatefulWidget {
+  const SettingsWidget({super.key});
+
+  @override
+  State<SettingsWidget> createState() => _SettingsWidgetState();
+}
+
+class _SettingsWidgetState extends State<SettingsWidget> {
+  bool isDarkMode = false; 
+  String currentLanguage = 'English';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SwitchListTile(
+          title: Text('Dark Mode'),
+          value: isDarkMode,
+          onChanged: (bool value) {
+            setState(() {
+              isDarkMode = value;
+              _applyDarkMode(value);
+            });
+          },
+        ),
+        ListTile(
+          title: Text('Language'),
+          trailing: DropdownButton<String>(
+            value: currentLanguage,
+            onChanged: (String? newValue) {
+              setState(() {
+                currentLanguage = newValue!;
+              });
+            },
+            items: <String>['English', 'French', 'Vietnamese']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _applyDarkMode(bool value) {
+    final Brightness newBrightness = value ? Brightness.dark : Brightness.light;
+    SwitchAccountPage.of(context)!.updateBrightness(newBrightness);
   }
 }

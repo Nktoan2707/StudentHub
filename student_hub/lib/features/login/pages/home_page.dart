@@ -13,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isCompanySelected = false;
+  bool _isStudentSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,9 @@ class _HomePageState extends State<HomePage> {
                 boxShadow: [
                   BoxShadow(
                     offset: const Offset(4, 6),
-                    color: Colors.black.withOpacity(1),
+                    color: _isCompanySelected
+                          ? Colors.blue.withOpacity(0.5)
+                          : Colors.black.withOpacity(1),
                   ),
                 ],
                 border: Border.all(
@@ -62,6 +67,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
+                  setState(() {
+                    _isCompanySelected = true;
+                    _isStudentSelected = false;
+                  });
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
                 },
                 child: Container(
@@ -88,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                 boxShadow: [
                   BoxShadow(
                     offset: const Offset(4, 6),
-                    color: Colors.black.withOpacity(1),
+                    color: _isStudentSelected
+                        ? Colors.blue.withOpacity(0.5)
+                        : Colors.black.withOpacity(1),
                   ),
                 ],
                 border: Border.all(
@@ -99,6 +110,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: InkWell(
                 onTap: () {
+                  setState(() {
+                    _isStudentSelected = true;
+                    _isCompanySelected = false;
+                  });
                   Navigator.of(context).pushReplacementNamed(LoginPage.pageId);
                 },
                 child: Container(

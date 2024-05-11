@@ -81,26 +81,52 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(project.title),
+                    Text(
+                      project.title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const Divider(
                       thickness: 3,
                       height: 30,
                     ),
-                    Text(project.description),
+                    Text(
+                      project.description,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const Divider(
                       thickness: 3,
                       height: 30,
                     ),
                     ListTile(
-                      title: Text(
-                          "Project Scope: \n \t \t - ${project.projectScopeFlag}"),
+                      title: RichText(
+                        text: TextSpan(
+                          text: 'Project Scope: ',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\n \t \t - ${project.projectScopeFlag}',
+                              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
                       leading: const Icon(Icons.timer_outlined),
                       minLeadingWidth: 0,
                       contentPadding: EdgeInsets.zero,
                     ),
                     ListTile(
-                      title: Text(
-                          "Student Required: \n \t \t - ${project.numberOfStudents} students"),
+                      title: RichText(
+                        text: TextSpan(
+                          text: 'Student Required: ',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\n \t \t - ${project.numberOfStudents} students',
+                              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
                       leading: const Icon(Icons.people_rounded),
                       minLeadingWidth: 0,
                       contentPadding: EdgeInsets.zero,

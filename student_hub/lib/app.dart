@@ -5,6 +5,7 @@ import 'package:student_hub/data/data_providers/company_repository.dart';
 import 'package:student_hub/data/data_providers/student_repository.dart';
 import 'package:student_hub/data/data_providers/user_repository.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
+import 'package:student_hub/features/authentication/pages/switch_account_page.dart';
 import 'package:student_hub/features/login/pages/home_page.dart';
 import 'package:student_hub/router/app_router.dart';
 import 'package:student_hub/widgets/pages/splash_page.dart';
