@@ -31,13 +31,6 @@ class NotificationRepository {
                 .map((e) => NotificationDetail.fromJson(e))
                 .toList();
 
-        result.sort((a, b) {
-          return a.createdAt.millisecondsSinceEpoch <=
-                  b.createdAt.millisecondsSinceEpoch
-              ? 1
-              : 0;
-        });
-
         return result;
       } else if (response.statusCode == 500) {
         throw Exception(jsonDecode(response.body)["errorDetails"]);

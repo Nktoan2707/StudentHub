@@ -45,6 +45,7 @@ class _DashboardStudentAcceptPageState
            if (state is AuthenticationAuthenticateSuccess) {
             proposal.studentProfile = state.user.studentProfile;
            }
+           
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(

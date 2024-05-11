@@ -38,9 +38,9 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
     timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
       context.read<MessageBloc>().add(MessageGetListOfMeEvent());
     });
-
+    MainTabBarPage.myStreamController  = StreamController<int>();
     _currentIndexStreamSubscription =
-        (MainTabBarPage.myStreamController.stream as Stream<int>)
+        (MainTabBarPage.myStreamController.stream.asBroadcastStream() as Stream<int>)
             .listen((index) {
       setState(() {
         _currentIndex = index;
@@ -51,7 +51,9 @@ class _MainTabBarPageState extends State<MainTabBarPage> {
 
   @override
   void dispose() {
+    print("_MainTabBarPageState dispose");
     timer!.cancel();
+    MainTabBarPage.myStreamController.close();
     super.dispose();
   }
 

@@ -332,6 +332,8 @@ class _StudentProfileInputStep1PageState
     final TextEditingController languageLevelTextFieldController =
         TextEditingController(text: language == null ? "" : language.level);
 
+    String test = "a";   
+
     String? getLanguageNameErrorText() {
       if (languageNameTextFieldController.text.isEmpty) {
         return "This field can not be empty";
@@ -465,7 +467,11 @@ class _StudentProfileInputStep1PageState
                         ));
                         Navigator.pop(context);
                       }
-                    : null,
+                    : () {
+                      setState(() {
+                        FocusScope.of(context).unfocus();
+                      });
+                    },
               ),
             ],
           ),

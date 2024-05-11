@@ -37,7 +37,6 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
 
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<CompanyProjectBloc, CompanyProjectState>(
       listener: (context, state) {
         if (state is CompanyProjectDeleteStateSuccess) {
@@ -79,8 +78,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
           List<Project> listWorkingProject = [], listArchiveProject = [];
 
           for (var project in listProject) {
-            if (project.typeFlag == 0) listWorkingProject.add(project);
-            if (project.typeFlag == 1) listArchiveProject.add(project);
+            if (project.typeFlag == 1) listWorkingProject.add(project);
+            if (project.typeFlag == 2) listArchiveProject.add(project);
           }
 
           return Scaffold(
@@ -154,7 +153,6 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                 child: Column(
                                   children: [
                                     Container(
-                              
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.black,
@@ -185,8 +183,9 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                           0));
                                                 },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.fromLTRB(
-                                          16, 0, 16, 8),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          16, 0, 16, 8),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
@@ -206,8 +205,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                             maxLines: 2,
                                                           ),
                                                           IconButton(
-                                                            icon: Icon(
-                                                                Icons.more_horiz),
+                                                            icon: Icon(Icons
+                                                                .more_horiz),
                                                             onPressed: () {
                                                               actionMenuButtonDidTap(
                                                                   project);
@@ -271,7 +270,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                             style: BorderStyle.solid),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                        padding:
+                                            EdgeInsets.fromLTRB(16, 0, 16, 8),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -290,7 +290,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                 if (project.typeFlag != 0) {
                                                   return null;
                                                 }
-                                        
+
                                                 return GestureDetector(
                                                   onTap: () {
                                                     Navigator.of(context).pushNamed(
@@ -320,7 +320,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                           ),
                                                           IconButton(
                                                             icon: const Icon(
-                                                                Icons.more_horiz),
+                                                                Icons
+                                                                    .more_horiz),
                                                             onPressed: () {
                                                               actionMenuButtonDidTap(
                                                                   project);
@@ -384,7 +385,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                             style: BorderStyle.solid),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                        padding:
+                                            EdgeInsets.fromLTRB(16, 0, 16, 8),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -401,7 +403,7 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                               itemBuilder: (context, index) {
                                                 Project project =
                                                     listProject[index];
-                                        
+
                                                 return GestureDetector(
                                                   onTap: () {
                                                     Navigator.of(context).pushNamed(
@@ -431,7 +433,8 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                                                           ),
                                                           IconButton(
                                                             icon: const Icon(
-                                                                Icons.more_horiz),
+                                                                Icons
+                                                                    .more_horiz),
                                                             onPressed: () {
                                                               actionMenuButtonDidTap(
                                                                   project);
@@ -632,7 +635,22 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage>
                           ),
                         ),
                       );
+                    } else {
+                      project.typeFlag = 1;
+                      context
+                          .read<CompanyProjectBloc>()
+                          .add(CompanyProjectUpdate(projectUpdate: project));
                     }
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.archive),
+                  title: Text('Archive Project'),
+                  onTap: () {
+                    project.typeFlag = 2;
+                    context
+                        .read<CompanyProjectBloc>()
+                        .add(CompanyProjectUpdate(projectUpdate: project));
                   },
                 ),
               ],

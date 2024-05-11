@@ -39,6 +39,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             );
           }
@@ -90,6 +91,33 @@ class _NotificationListViewItem extends StatelessWidget {
           MainTabBarPage.myStreamController.add(1);
         } else if (notification.typeNotifyFlag == "1") {
           MainTabBarPage.myStreamController.add(2);
+          if (notification.message != null) {
+            Navigator.of(context)
+                .pushNamed(TabMessageDetailPage.pageId, arguments: {
+              "messageInit": MessageContent(
+                project: Project(
+                    projectId: notification.message!.projectId,
+                    createdAt: "",
+                    updatedAt: "",
+                    deletedAt: "",
+                    companyId: "",
+                    projectScopeFlag: ProjectScopeFlag.LessThanOneMonth,
+                    title: "",
+                    description: "description",
+                    numberOfStudents: 0,
+                    typeFlag: 1,
+                    countProposals: 1,
+                    isFavorite: true,
+                    countHired: 0,
+                    countMessages: 0),
+                me: User(id: notification.receiverId, fullname: ""),
+                sender: User(
+                    id: notification.senderId,
+                    fullname: notification.sender!.fullname),
+                receiver: User(id: notification.receiverId, fullname: ""),
+              )
+            });
+          }
         } else if (notification.typeNotifyFlag == "2") {
           MainTabBarPage.myStreamController.add(1);
         } else if (notification.typeNotifyFlag == "3") {

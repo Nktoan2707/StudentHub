@@ -522,7 +522,7 @@ class _CompanyProjectDetailPageState extends State<CompanyProjectDetailPage>
                                             messageLists[index];
                                         return TabMessageListItemView(
                                             messageContent: messageContent);
-                                      },
+                                      }, 
                                       separatorBuilder:
                                           (BuildContext context, int index) {
                                         return const Divider(

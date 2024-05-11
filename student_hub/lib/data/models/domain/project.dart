@@ -83,6 +83,7 @@ class Project {
     data['title'] = title;
     data['numberOfStudents'] = numberOfStudents;
     data['description'] = description;
+    data['typeFlag'] = typeFlag;
     return data;
   }
 
