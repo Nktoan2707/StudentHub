@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/project_student/bloc/project_student_bloc.dart';
 import 'package:student_hub/features/project_student/pages/student_project_list_page.dart';
@@ -104,7 +105,7 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
                           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '\n \t \t - ${project.projectScopeFlag}',
+                              text: '\n \t \t - ${getTimeTextProjectScope(project.projectScopeFlag)}',
                               style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                             ),
                           ],
@@ -144,5 +145,25 @@ class _StudentProjectDetailPageState extends State<StudentProjectDetailPage> {
   void _onApplyButtonClicked() {
     Navigator.of(context).pushNamed(StudentSubmitProposalPage.pageId,
         arguments: project.projectId);
+  }
+
+
+  String getTimeTextProjectScope(ProjectScopeFlag projectScopeFlag) {
+    switch (projectScopeFlag) {
+      case ProjectScopeFlag.LessThanOneMonth:
+        return "< 1 month";
+
+      case ProjectScopeFlag.OneToThreeMonth:
+        return "1 - 3 months";
+
+      case ProjectScopeFlag.ThreeToSixMonth:
+        return "3 - 6 months";
+
+      case ProjectScopeFlag.MoreThanSixMOnth:
+        return "> 6 months";
+
+      default:
+        return 'Unknown';
+    }
   }
 }

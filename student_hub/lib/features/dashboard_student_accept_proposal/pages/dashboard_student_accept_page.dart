@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/data/models/domain/project.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/dashboard_student_accept_proposal/bloc/dashboard_student_accept_proposal_bloc.dart';
@@ -87,30 +88,56 @@ class _DashboardStudentAcceptPageState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(proposal.project!.title),
-                        const Divider(
-                          thickness: 3,
-                          height: 30,
+                        Text(
+                      proposal.project!.title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const Divider(
+                      thickness: 3,
+                      height: 30,
+                    ),
+                    Text(
+                      proposal.project!.description,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const Divider(
+                      thickness: 3,
+                      height: 30,
+                    ),
+                    ListTile(
+                      title: RichText(
+                        text: TextSpan(
+                          text: 'Project Scope: ',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\n \t \t - ${getTimeTextProjectScope(proposal.project!.projectScopeFlag)}',
+                              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+                            ),
+                          ],
                         ),
-                        Text(proposal.project!.description),
-                        const Divider(
-                          thickness: 3,
-                          height: 30,
+                      ),
+                      leading: const Icon(Icons.timer_outlined),
+                      minLeadingWidth: 0,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    ListTile(
+                      title: RichText(
+                        text: TextSpan(
+                          text: 'Student Required: ',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '\n \t \t - ${proposal.project!.numberOfStudents} students',
+                              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+                            ),
+                          ],
                         ),
-                        ListTile(
-                          title: Text(
-                              "Project Scope: \n \t \t - ${proposal.project!.projectScopeFlag}"),
-                          leading: const Icon(Icons.timer_outlined),
-                          minLeadingWidth: 0,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        ListTile(
-                          title: Text(
-                              "Student Required: \n \t \t - ${proposal.project!.numberOfStudents} students"),
-                          leading: const Icon(Icons.people_rounded),
-                          minLeadingWidth: 0,
-                          contentPadding: EdgeInsets.zero,
-                        ),
+                      ),
+                      leading: const Icon(Icons.people_rounded),
+                      minLeadingWidth: 0,
+                      contentPadding: EdgeInsets.zero,
+                    ),
                       ],
                     ),
                   ),
@@ -128,5 +155,25 @@ class _DashboardStudentAcceptPageState
     context
         .read<DashboardStudentAcceptProposalBloc>()
         .add(DashboardStudentAcceptProposalAccepted(proposal: proposal));
+  }
+
+
+  String getTimeTextProjectScope(ProjectScopeFlag projectScopeFlag) {
+    switch (projectScopeFlag) {
+      case ProjectScopeFlag.LessThanOneMonth:
+        return "< 1 month";
+
+      case ProjectScopeFlag.OneToThreeMonth:
+        return "1 - 3 months";
+
+      case ProjectScopeFlag.ThreeToSixMonth:
+        return "3 - 6 months";
+
+      case ProjectScopeFlag.MoreThanSixMOnth:
+        return "> 6 months";
+
+      default:
+        return 'Unknown';
+    }
   }
 }
