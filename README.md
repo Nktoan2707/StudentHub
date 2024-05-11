@@ -11,3 +11,5 @@ Video Demo:
 - link video phase 2: https://www.youtube.com/watch?v=vbDjwYS6ThI
 - link video phase 3: https://www.youtube.com/watch?v=scn3ehQ117E
 - link video phase 4: https://www.youtube.com/watch?v=w2paD-TauSc
+
+Link phiếu tự đánh giá: https://docs.google.com/document/d/1IC2RFfXgx734fVaSl1_yTzGz42gv2Yq8/edit
