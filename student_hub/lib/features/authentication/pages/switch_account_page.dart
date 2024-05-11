@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/common/enums.dart';
 import 'package:student_hub/features/authentication/bloc/authentication_bloc.dart';
 import 'package:student_hub/features/company_profile/pages/company_profile_input_page.dart';
 import 'package:student_hub/features/main_tab_bar_page.dart';
 import 'package:student_hub/features/profile_student/bloc/student_profile_bloc.dart';
 import 'package:student_hub/features/profile_student/pages/student_profile_input_step_1_page.dart';
+import 'package:student_hub/widgets/components/themeModel.dart';
 
 import '../../company_profile/bloc/company_profile_bloc.dart';
 
@@ -221,28 +223,26 @@ class SettingsWidget extends StatefulWidget {
 }
 
 class _SettingsWidgetState extends State<SettingsWidget> {
-  bool isDarkMode = false; 
   String currentLanguage = 'English';
 
   @override
   Widget build(BuildContext context) {
+    var theme = Provider.of<ThemeModel>(context, listen: false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SwitchListTile(
           title: Text('Dark Mode'),
-          value: isDarkMode,
+          value: theme.isDark,
           onChanged: (bool value) {
-            setState(() {
-              isDarkMode = value;
-              _applyDarkMode(value);
-            });
+            theme.toggleTheme();
           },
         ),
         ListTile(
           title: Text('Language'),
           trailing: DropdownButton<String>(
-            value: currentLanguage,
+            value: currentLanguage, 
             onChanged: (String? newValue) {
               setState(() {
                 currentLanguage = newValue!;
