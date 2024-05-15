@@ -10,7 +10,7 @@ class MessageRepository {
       {required int projectId, required String token, required User user}) async {
     try {
       final Uri uri =
-          Uri.https(Constants.apiBaseURL, '/api/message');
+          Uri.https(Constants.apiBaseURL, '/api/message/${projectId}');
 
       final response = await http.get(
         uri,

@@ -221,13 +221,22 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => MultiBlocProvider(providers: [
                   BlocProvider.value(
-                    value: _companyProjectDetailBloc,
+                    value: CompanyProjectBloc(
+                        projectRepository: ProjectRepository(),
+                        authenticationRepository: _authenticationRepository,
+                        userRepository: UserRepository()),
                   ),
                   BlocProvider.value(
-                    value: _companyProposalBloc,
+                    value: CompanyProposalBloc(
+                        proposalRepository: ProposalRepository(),
+                        userRepository: UserRepository(),
+                        authenticationRepository: _authenticationRepository),
                   ),
                   BlocProvider.value(
-                    value: _projectMessageList,
+                    value: MessageBloc(
+                        userRepository: UserRepository(),
+                        authenticationRepository: _authenticationRepository,
+                        messageRepository: MessageRepository()),
                   ),
                 ], child: const CompanyProjectDetailPage()),
             settings: settings);
