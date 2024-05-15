@@ -78,6 +78,7 @@ class _AppState extends State<App> {
                 child: child,
               );
             },
+            
             initialRoute: SplashPage.pageId,
             onGenerateRoute: _appRouter.onGenerateRoute,
           );

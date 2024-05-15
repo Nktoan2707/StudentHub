@@ -248,7 +248,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 currentLanguage = newValue!;
               });
             },
-            items: <String>['English', 'French', 'Vietnamese']
+            items: <String>['English', 'Vietnamese']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
